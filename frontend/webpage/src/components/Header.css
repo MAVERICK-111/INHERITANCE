@@ -1,0 +1,17 @@
+.Top_section {
+
+    display: flex;
+    flex-direction: row;
+    gap: 1335px;
+    background-color: #333;
+    color: white;
+    font-size: 20px;
+    height: 75px;
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    text-align: center;
+}
