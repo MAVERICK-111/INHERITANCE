@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #262626;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0 20px; /* Add padding to avoid edges */
+}
+.container {
+    background-color: rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.286);
+    max-width: 400px; /* Limit the max width */
+    max-height: 320px;
+    width: 100%; /* Make it responsive */
+    height: 100%;
+    text-align-last: center; /* Center align all text in the container */
+}
+
+h2 {
+    color: #ffffff;
+    font-size: xx-large;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    margin-top: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 80%; /* Set the width for both input fields */
+    padding: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 30px;
+    margin: 0 auto; /* Center the input fields */
+}
+
+button {
+    padding: 10px 20px; /* Reduce button size */
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px; /* Space above the button */
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#message {
+    margin-top: 15px;
+    color: rgb(49, 142, 74);
+}

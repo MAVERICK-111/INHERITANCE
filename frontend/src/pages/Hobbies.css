@@ -1,0 +1,40 @@
+.Hobbies_container {
+    padding: 20px;
+    text-align: center;
+}
+
+.hobby-input-container {
+    margin-bottom: 20px;
+}
+
+.hobby-input {
+    padding: 8px;
+    width: 200px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-hobby-button {
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.hobbies-list {
+    display: flex;
+    flex-wrap: wrap;
+    color: black;
+    gap: 10px;
+    justify-content: center;
+}
+
+.hobby-box {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
