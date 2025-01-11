@@ -1,0 +1,58 @@
+.landingpage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top {
+    height: 500px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.landingheader {
+    position: absolute;
+    top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.landingheader h2 {
+    color: white;
+    margin: 0;
+}
+
+.mainbox {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.loginbox {
+    width: 200px;
+    height: 50px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.homepage {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.homepage a {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+}

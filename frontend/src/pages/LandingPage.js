@@ -1,70 +1,36 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import './Page.css'; 
+import "./LandingPage.css";
 
 
-const LandingPage = () => {
-  return (
-    <div>
-      <div className="Landing_page">
+const Landingpage = () =>{
+    return (
+        <div className="landingpage">
+            <div className="top">
 
-        
+                <div className="landingheader">
+                    <h2>AboutUs Contactus Reportissue</h2>
+                </div>
 
-        <div className="Left_section">
-
-          <div className="Left_container">
-            <div className="AMA">
-              <Link to="/AMA">AMA</Link>
-            </div>
-            <div className="Hobbies">
-              <Link to="/Hobbies">Hobbies</Link>
-            </div>
-            <div className="Alumni">
-              <Link to="/Alumni">Alumni</Link>
+                <div className="mainbox">
+                    <div className="loginbox">
+                        <Link to= "">login
+                        </Link>
+                        
+                    </div>
+                </div>
 
             </div>
-            <div className="Leaderboard">
-              <Link to="/Leaderboard">Leaderboard</Link>
+
+            <div className="bottom">
 
             </div>
-            <div className="Request">
-              <Link to="/Request">Request</Link>
- 
-            </div>         
-          </div>
+
+
+            <div className="homepage">
+            <Link to="/homepage">AMA</Link>
+            </div>
         </div>
-
-
-
-        
-
-
-
-        <div className="Center_section">
-          {/* <Link to="/home">Go to Home Page</Link>  */}
-          <div className="Post">
-            Yo chat
-
-          </div>
-        </div>
-
-        <div className="Right_section">
-          <div className="Right_container">
-            <div className="Messages">
-              <Link to="/Messages">Messages</Link>
-
-            </div>
-            <div className="Noticeboard">
-              <Link to="/Noticeboard">Noticeboard</Link>
-
-            </div>         
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  );
-};
-
-export default LandingPage;
+    )
+}
+export default Landingpage
