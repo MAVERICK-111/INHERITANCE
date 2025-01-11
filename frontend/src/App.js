@@ -22,12 +22,11 @@ function AppContent() {
   return (
     <div>
       {/* Only show Header on pages other than Landingpage */}
-      {location.pathname !== "/" && <Header />}
-      
+      {location.pathname !== "/" && location.pathname !== "/login" && <Header />}
       <Routes>
         <Route path="/" element={<Landingpage />} /> {/* Landing-page Page */}
         <Route path="/homepage" element={<Homepage />} />
-        {/* <Route path="/login" element={<LoginPage />} /> */}
+        <Route path="/login" element={<LoginPage />} />
 
         <Route path="/home" element={<Home />} />
         <Route path="/AMA" element={<AMA />} />

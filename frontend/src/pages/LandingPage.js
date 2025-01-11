@@ -14,7 +14,7 @@ const Landingpage = () =>{
 
                 <div className="mainbox">
                     <div className="loginbox">
-                        <Link to= "">login
+                        <Link to= "/login">login
                         </Link>
                         
                     </div>
