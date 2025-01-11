@@ -1,13 +1,15 @@
-import React, { useState } from "react"; 
-import './Page.css'; 
+import React, { useState } from "react";
+import './Page.css';
 import './Hobbies.css';
+import ChatSystem from '../components/ChatSystem';  // Import the ChatSystem component
 
 const Hobbies = () => {
-    //hobbies is an empty array that stores the strings
+    // Store hobbies
     const [hobbies, setHobbies] = useState([]);
-
-    //stores the typed string
+    // Store the typed string for a new hobby
     const [newHobby, setNewHobby] = useState("");
+    // Store the selected hobby for chat
+    const [selectedHobby, setSelectedHobby] = useState(null);
 
     // Function to handle input value changes
     const handleInputChange = (e) => {
@@ -22,11 +24,17 @@ const Hobbies = () => {
         }
     };
 
+    // Handle selecting a hobby to start the chat
+    const selectHobbyForChat = (hobby) => {
+        setSelectedHobby(hobby);
+    };
+
     return (
         <div className="Hobbies_container">
             <div>LOGO</div>
             <br />
 
+            {/* Input for new hobby */}
             <div className="hobby-input-container">
                 <input 
                     type="text" 
@@ -43,11 +51,18 @@ const Hobbies = () => {
             {/* List of hobbies */}
             <div className="hobbies-list">
                 {hobbies.map((hobby, index) => (
-                    <div key={index} className="hobby-box">
+                    <div 
+                        key={index} 
+                        className="hobby-box" 
+                        onClick={() => selectHobbyForChat(hobby)}
+                    >
                         {hobby}
                     </div>
                 ))}
             </div>
+
+            {/* Display the ChatSystem component when a hobby is selected */}
+            {selectedHobby && <ChatSystem selectedHobby={selectedHobby} />}
         </div>
     );
 };
