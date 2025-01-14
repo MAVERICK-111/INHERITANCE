@@ -1,19 +1,72 @@
-import React from "react";
-import './Page.css'; 
+import React, { useState } from "react";
+import './Page.css';
+import './Hobbies.css';
+import ChatSystem from '../components/ChatSystem';  // Import the ChatSystem component
 
-const AMA = () => {
+//the following code is same as hobbies :(((
+
+const Hobbies = () => {
+    // Store hobbies
+    const [hobbies, setHobbies] = useState([]);
+    // Store the typed string for a new hobby
+    const [newHobby, setNewHobby] = useState("");
+    // Store the selected hobby for chat
+    const [selectedHobby, setSelectedHobby] = useState(null);
+
+    // Function to handle input value changes
+    const handleInputChange = (e) => {
+        setNewHobby(e.target.value);
+    };
+
+    // Function to add a new hobby
+    const addHobby = () => {
+        if (newHobby.trim() !== "") { 
+            setHobbies([...hobbies, newHobby]); // Add new hobby to hobbies array
+            setNewHobby(""); // Clear the input field
+        }
+    };
+
+    // Handle selecting a hobby to start the chat
+    const selectHobbyForChat = (hobby) => {
+        setSelectedHobby(hobby);
+    };
+
     return (
-        <div className="AMA_container">
-            <div className="contacts_container">
-                <div className="person">person1</div>
-                <div className="person">person2</div>
-                <div className="person">person3</div>
+        <div className="Hobbies_container">
+            <div>LOGO</div>
+            <br />
 
+            {/* Input for new hobby */}
+            <div className="hobby-input-container">
+                <input 
+                    type="text" 
+                    value={newHobby} 
+                    onChange={handleInputChange} 
+                    placeholder="Enter a new question" 
+                    className="hobby-input"
+                />
+                <button onClick={addHobby} className="add-hobby-button">
+                    Add query
+                </button>
             </div>
-            <div className="chats_container">Chats,.....<br></br>dont know how to add??</div> 
-        
-        </div>
-    )
-}
 
-export default AMA
+            {/* List of hobbies */}
+            <div className="hobbies-list">
+                {hobbies.map((hobby, index) => (
+                    <div 
+                        key={index} 
+                        className="hobby-box" 
+                        onClick={() => selectHobbyForChat(hobby)}
+                    >
+                        {hobby}
+                    </div>
+                ))}
+            </div>
+
+            {/* Display the ChatSystem component when a hobby is selected */}
+            {selectedHobby && <ChatSystem selectedHobby={selectedHobby} />}
+        </div>
+    );
+};
+
+export default Hobbies;

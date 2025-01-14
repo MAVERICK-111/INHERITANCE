@@ -23,10 +23,7 @@ const Homepage = () => {
               <Link to="/Alumni">Alumni</Link>
 
             </div>
-            <div className="Leaderboard">
-              <Link to="/Leaderboard">Leaderboard</Link>
-
-            </div>
+            
             <div className="Request">
               <Link to="/Request">Request</Link>
  

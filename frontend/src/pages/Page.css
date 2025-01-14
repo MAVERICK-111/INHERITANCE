@@ -19,7 +19,7 @@
     gap:30px;
 }
 
-.AMA, .Hobbies, .Alumni, .Leaderboard, .Request {
+.AMA, .Hobbies, .Alumni, .Request {
     
     display: flex;
     align-items: center;
@@ -112,20 +112,6 @@
     text-align: center;
 }
 
-.Leaderboard_container {
-    margin-top: 95px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    background-color: #53ba64;
-    color: white;
-    font-size: 26px;
-    text-align: center;
-    padding: 10px;
-    gap: 0.px;
-}
 
 .Person {
     padding: 10px;

@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import AMA from "./pages/AMA";
 import Hobbies from "./pages/Hobbies";
 import Alumni from "./pages/Alumni";
-import Leaderboard from "./pages/Leaderboard";
 import Request from "./pages/Request";
 import Messages from "./pages/Messages";
 import Noticeboard from "./pages/Noticeboard";
@@ -32,7 +31,6 @@ function AppContent() {
         <Route path="/AMA" element={<AMA />} />
         <Route path="/Hobbies" element={<Hobbies />} />
         <Route path="/Alumni" element={<Alumni />} />
-        <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/Request" element={<Request />} />
         <Route path="/Messages" element={<Messages />} />
         <Route path="/Noticeboard" element={<Noticeboard />} />
