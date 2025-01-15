@@ -12,6 +12,7 @@ import Request from "./pages/Request";
 import Messages from "./pages/Messages";
 import Noticeboard from "./pages/Noticeboard";
 import HobbyManager from "./components/HobbyManager"; // Import HobbyManager
+import Profile from "./pages/Profile";
 
 import './App.css';
 
@@ -21,11 +22,12 @@ function AppContent() {
   return (
     <div>
       {/* Only show Header on pages other than Landingpage */}
-      {location.pathname !== "/" && location.pathname !== "/login" && <Header />}
+      {location.pathname !== "/" && location.pathname !== "/login" && location.pathname != "/profile" && <Header />}
       <Routes>
         <Route path="/" element={<Landingpage />} /> {/* Landing-page Page */}
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<Profile />} />
 
         <Route path="/home" element={<Home />} />
         <Route path="/AMA" element={<AMA />} />
