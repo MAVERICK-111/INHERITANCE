@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Hobby = require('./models/hobby');  // Hobby model for storing groups
 const Message = require('./models/Message');  // Message model for storing chat messages
+require("dotenv").config();
+
+const authRoutes = require("./routes/authRoutes");
+const chatRoutes = require("./routes/chat");
 
 const app = express();
 const server = http.createServer(app);
@@ -58,6 +62,8 @@ app.delete('/deleteHobby/:id', async (req, res) => {
     res.status(500).send({ success: false, message: 'Failed to delete hobby' });
   }
 });
+// Routes for auth
+app.use("/api/auth", authModules);
 
 // Socket setup for chat messages
 io.on('connection', (socket) => {
