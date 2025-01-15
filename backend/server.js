@@ -3,11 +3,12 @@ const { Server } = require('socket.io');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Hobby = require('./models/hobby');  // Hobby model for storing groups
-const Message = require('./models/Message');  // Message model for storing chat messages
+const Hobby = require('./models/hobby'); // Hobby model for storing groups
+const Message = require('./models/Message'); // Message model for storing chat messages
 require("dotenv").config();
 
-const authRoutes = require("./routes/authRoutes");
+const authRoutes = require("./routes/authRoutes"); // Auth routes module
+// Removed `authModules` since it's undefined and not required
 const chatRoutes = require("./routes/chat");
 
 const app = express();
@@ -62,8 +63,9 @@ app.delete('/deleteHobby/:id', async (req, res) => {
     res.status(500).send({ success: false, message: 'Failed to delete hobby' });
   }
 });
+
 // Routes for auth
-app.use("/api/auth", authModules);
+app.use("/api/auth", authRoutes); // Use `authRoutes` instead of undefined `authModules`
 
 // Socket setup for chat messages
 io.on('connection', (socket) => {
@@ -71,7 +73,7 @@ io.on('connection', (socket) => {
 
   socket.on('message', async (data) => {
     const { room, sender, text } = data;
-    
+
     // Save the message to the database
     const newMessage = new Message({ room, sender, text });
     await newMessage.save();
@@ -91,7 +93,7 @@ io.on('connection', (socket) => {
       .exec();
 
     // Send the messages to the user
-    socket.emit('previousMessages', messages.reverse());  // Send messages in chronological order
+    socket.emit('previousMessages', messages.reverse()); // Send messages in chronological order
   });
 
   socket.on('disconnect', () => {
