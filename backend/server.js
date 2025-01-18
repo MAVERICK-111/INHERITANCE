@@ -5,17 +5,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { check, validationResult } = require('express-validator');
-
-// Models
-const Hobby = require('./models/hobby');
-const Message = require('./models/message');
-const Thread = require('./models/thread');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs'); // For checking and creating the 'uploads' directory
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:3000', 'http://localhost:3001'], // Allow both origins
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
   },
@@ -25,15 +23,48 @@ const io = new Server(server, {
 app.use(bodyParser.json());
 app.use(cors());
 
+// Create 'uploads' directory if it doesn't exist
+const uploadDir = './uploads';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/amaApp', { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true, 
+mongoose.connect('mongodb://localhost:27017/amaApp', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
-// Hobbies Routes
+// Models
+const Hobby = require('./models/hobby');
+const Message = require('./models/message');
+const Thread = require('./models/thread');
+
+// Alumni Schema
+const alumniSchema = new mongoose.Schema({
+  photo: { type: String, required: true },
+  info: { type: String, required: true }, // You can set info as required if it's critical
+});
+
+const Alumni = mongoose.model('Alumni', alumniSchema);
+
+// Middleware for handling multipart/form-data
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Store with timestamp
+  },
+});
+const upload = multer({ storage: storage });
+
+// Serve static files for image upload
+app.use('/uploads', express.static(uploadDir));
+
+// Routes for hobbies
 app.post('/createHobby',
   [check('name').notEmpty().withMessage('Hobby name is required')],
   async (req, res) => {
@@ -84,6 +115,7 @@ app.post('/createThread',
   }
 );
 
+// Fetching threads
 app.get('/threads', async (req, res) => {
   try {
     const threads = await Thread.find();
@@ -93,6 +125,7 @@ app.get('/threads', async (req, res) => {
   }
 });
 
+// Delete thread
 app.delete('/deleteThread/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -107,11 +140,46 @@ app.delete('/deleteThread/:id', async (req, res) => {
   }
 });
 
-// Routes for messages
+// Routes for alumni (handle file upload and information)
+app.post('/alumni', upload.single('photo'), (req, res) => {
+  console.log('File:', req.file);   // Log the uploaded file
+  console.log('Info:', req.body.info);   // Log the information about the alumni
+
+  if (!req.file) {
+    return res.status(400).send('No photo uploaded.');
+  }
+
+  const newAlumni = new Alumni({
+    photo: req.file.path, // Store the path of the uploaded file
+    info: req.body.info,
+  });
+
+  newAlumni.save((err) => {
+    if (err) {
+      console.error('Error details:', err); // This will log the full error in the backend console
+      return res.status(500).send('Error saving alumni data.');
+    }
+    res.status(200).send('Alumni data saved successfully!');
+  });
+});
+
+
+
+// Route to fetch all alumni
+app.get('/alumni', async (req, res) => {
+  try {
+    const alumni = await Alumni.find();
+    res.status(200).send({ success: true, alumni });
+  } catch (err) {
+    res.status(500).send({ success: false, message: 'Failed to fetch alumni data' });
+  }
+});
+
+// Routes for sending messages
 app.post('/sendMessage',
   [check('threadId').notEmpty().withMessage('Thread ID is required'),
-  check('sender').notEmpty().withMessage('Sender is required'),
-  check('text').notEmpty().withMessage('Text is required')],
+   check('sender').notEmpty().withMessage('Sender is required'),
+   check('text').notEmpty().withMessage('Text is required')],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -136,44 +204,36 @@ app.post('/sendMessage',
   }
 );
 
-
 // Route to fetch messages for a specific thread
 app.get('/messages/:threadId', async (req, res) => {
   const { threadId } = req.params;
-  console.log('Fetching messages for thread ID:', threadId);
-
   try {
     const messages = await Message.find({ thread: threadId })
       .sort({ timestamp: -1 })  // Sort messages by timestamp, descending
       .exec();
 
     if (!messages.length) {
-      console.log('No messages found for this thread');
       return res.status(404).send({ success: false, message: 'No messages found for this thread' });
     }
 
     res.status(200).send({ success: true, messages: messages.reverse() });
   } catch (err) {
-    console.error('Error fetching messages:', err);
     res.status(500).send({ success: false, message: 'Failed to fetch messages' });
   }
 });
-
 
 // Socket.IO Setup
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
   socket.on('joinThread', async (threadId) => {
-    console.log(`User joined thread: ${threadId}`);
     socket.join(threadId);
 
-    // Fetch the last 10 messages for the thread and emit to the client
     const messages = await Message.find({ thread: threadId })
       .sort({ timestamp: -1 })
       .limit(10)
       .exec();
-    socket.emit('previousMessages', messages.reverse());  // Send messages in chronological order
+    socket.emit('previousMessages', messages.reverse());
   });
 
   socket.on('sendMessage', async (data) => {
@@ -184,7 +244,6 @@ io.on('connection', (socket) => {
       await newMessage.save();
       io.to(threadId).emit('message', data);
     } catch (err) {
-      console.error('Error saving message:', err);
       socket.emit('error', { message: 'Failed to save message' });
     }
   });
