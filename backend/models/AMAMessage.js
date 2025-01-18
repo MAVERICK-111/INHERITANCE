@@ -1,10 +1,31 @@
+// AMAMessage.js
 const mongoose = require('mongoose');
 
-const messageSchema = new mongoose.Schema({
-  room: { type: String, required: true },
-  sender: { type: String, required: true },
-  text: { type: String, required: true },
-  timestamp: { type: Date, default: Date.now },
-});
+// Define the message schema
+const messageSchema = new mongoose.Schema(
+  {
+    thread: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Thread', // reference to the Thread model
+      required: true,
+    },
+    sender: {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      required: true,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Message', messageSchema);
+// Create the Message model
+const AMAMessage = mongoose.model('AMAMessage', messageSchema);
+
+module.exports = AMAMessage;
