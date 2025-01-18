@@ -1,72 +1,166 @@
-import React, { useState } from "react";
-import './Page.css';
-import './Hobbies.css';
-import ChatSystem from '../components/ChatSystem';  // Import the ChatSystem component
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
+import axios from 'axios';
 
-//the following code is same as hobbies :(((
+const socket = io('http://localhost:5000');  // Socket.io server URL
 
-const Hobbies = () => {
-    // Store hobbies
-    const [hobbies, setHobbies] = useState([]);
-    // Store the typed string for a new hobby
-    const [newHobby, setNewHobby] = useState("");
-    // Store the selected hobby for chat
-    const [selectedHobby, setSelectedHobby] = useState(null);
+const AMA = () => {
+  const [threads, setThreads] = useState([]);
+  const [newThreadTitle, setNewThreadTitle] = useState('');
+  const [newThreadCreator, setNewThreadCreator] = useState('');
+  const [selectedThread, setSelectedThread] = useState(null);
+  const [newMessage, setNewMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  
+  // Fetch existing threads from the backend
+  useEffect(() => {
+    axios.get('http://localhost:5000/threads')
+      .then(response => {
+        setThreads(response.data.threads);
+      })
+      .catch(error => {
+        console.error('Error fetching threads:', error);
+      });
+  }, []);
 
-    // Function to handle input value changes
-    const handleInputChange = (e) => {
-        setNewHobby(e.target.value);
+  // Join a specific thread (Socket.IO)
+  const joinThread = (threadId) => {
+    socket.emit('joinRoom', threadId);
+    setSelectedThread(threadId);
+    
+    // Fetch existing messages for the thread
+    axios.get(`http://localhost:5000/messages/${threadId}`)
+      .then(response => {
+        setMessages(response.data.messages);
+      })
+      .catch(error => {
+        console.error('Error fetching messages:', error);
+      });
+  };
+
+  // Handle the creation of a new thread
+  const handleCreateThread = () => {
+    if (!newThreadTitle || !newThreadCreator) {
+      alert('Please provide both title and creator name');
+      return;
+    }
+
+    axios.post('http://localhost:5000/createThread', {
+      title: newThreadTitle,
+      creator: newThreadCreator
+    })
+      .then(response => {
+        setThreads([...threads, response.data.thread]); // Add new thread to the list
+        setNewThreadTitle('');
+        setNewThreadCreator('');
+      })
+      .catch(error => {
+        console.error('Error creating thread:', error);
+      });
+  };
+
+  // Handle sending a new message in the selected thread
+  const handleSendMessage = () => {
+    if (!newMessage) {
+      alert('Please enter a message');
+      return;
+    }
+  
+    const messageData = {
+      threadId: selectedThread,  // Ensure the correct threadId is used
+      sender: 'User',  // Replace with actual user info
+      text: newMessage
     };
+  
+    // Log the message data before sending to the backend
+    console.log(messageData);
+  
+    axios.post('http://localhost:5000/sendMessage', messageData)
+      .then(response => {
+        setMessages([...messages, response.data.message]);  // Add message to chat
+        setNewMessage('');
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+      });
+  };
+  
 
-    // Function to add a new hobby
-    const addHobby = () => {
-        if (newHobby.trim() !== "") { 
-            setHobbies([...hobbies, newHobby]); // Add new hobby to hobbies array
-            setNewHobby(""); // Clear the input field
-        }
+  // Listen for new messages via Socket.IO
+  useEffect(() => {
+    socket.on('message', (data) => {
+      if (data.room === selectedThread) {
+        setMessages([...messages, data]);
+      }
+    });
+
+    return () => {
+      socket.off('message');
     };
+  }, [messages, selectedThread]);
 
-    // Handle selecting a hobby to start the chat
-    const selectHobbyForChat = (hobby) => {
-        setSelectedHobby(hobby);
-    };
+  return (
+    <div>
+      <h1>AMA Threads</h1>
+      
+      {/* Thread creation form */}
+      <div>
+        <h2>Create a new thread</h2>
+        <input 
+          type="text" 
+          placeholder="Thread Title" 
+          value={newThreadTitle} 
+          onChange={(e) => setNewThreadTitle(e.target.value)} 
+        />
+        <input 
+          type="text" 
+          placeholder="Creator Name" 
+          value={newThreadCreator} 
+          onChange={(e) => setNewThreadCreator(e.target.value)} 
+        />
+        <button onClick={handleCreateThread}>Create Thread</button>
+      </div>
 
-    return (
-        <div className="Hobbies_container">
-            <div>LOGO</div>
-            <br />
+      {/* Display list of threads */}
+      <div>
+        <h2>Existing Threads</h2>
+        {threads.length > 0 ? (
+          <ul>
+            {threads.map(thread => (
+              <li key={thread._id}>
+                <button onClick={() => joinThread(thread._id)}>{thread.title}</button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No threads available</p>
+        )}
+      </div>
 
-            {/* Input for new hobby */}
-            <div className="hobby-input-container">
-                <input 
-                    type="text" 
-                    value={newHobby} 
-                    onChange={handleInputChange} 
-                    placeholder="Enter a new question" 
-                    className="hobby-input"
-                />
-                <button onClick={addHobby} className="add-hobby-button">
-                    Add query
-                </button>
-            </div>
+      {/* Messages section for the selected thread */}
+      {selectedThread && (
+        <div>
+          <h3>Messages in this Thread</h3>
+          <div>
+            {messages.map((message, index) => (
+              <div key={index}>
+                <strong>{message.sender}:</strong> {message.text}
+              </div>
+            ))}
+          </div>
 
-            {/* List of hobbies */}
-            <div className="hobbies-list">
-                {hobbies.map((hobby, index) => (
-                    <div 
-                        key={index} 
-                        className="hobby-box" 
-                        onClick={() => selectHobbyForChat(hobby)}
-                    >
-                        {hobby}
-                    </div>
-                ))}
-            </div>
-
-            {/* Display the ChatSystem component when a hobby is selected */}
-            {selectedHobby && <ChatSystem selectedHobby={selectedHobby} />}
+          {/* Send a new message */}
+          <textarea
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Type your message"
+          />
+          <button onClick={handleSendMessage}>Send Message</button>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
-export default Hobbies;
+export default AMA;
+
