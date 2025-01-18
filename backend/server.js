@@ -3,11 +3,21 @@ const http = require('http');
 const { Server } = require('socket.io');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
 const cors = require('cors');
 const { check, validationResult } = require('express-validator');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs'); // For checking and creating the 'uploads' directory
+
+const Hobby = require('./models/hobby'); // Hobby model for storing groups
+const Message = require('./models/Message'); // Message model for storing chat messages
+require("dotenv").config();
+
+const authRoutes = require("./routes/authRoutes"); // Auth routes module
+// Removed `authModules` since it's undefined and not required
+const chatRoutes = require("./routes/chat");
+
 
 const app = express();
 const server = http.createServer(app);
@@ -140,6 +150,7 @@ app.delete('/deleteThread/:id', async (req, res) => {
   }
 });
 
+
 // Routes for alumni (handle file upload and information)
 app.post('/alumni', upload.single('photo'), (req, res) => {
   console.log('File:', req.file);   // Log the uploaded file
@@ -153,6 +164,21 @@ app.post('/alumni', upload.single('photo'), (req, res) => {
     photo: req.file.path, // Store the path of the uploaded file
     info: req.body.info,
   });
+
+// Routes for auth
+app.use("/api/auth", authRoutes); // Use `authRoutes` instead of undefined `authModules`
+
+// Socket setup for chat messages
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  socket.on('message', async (data) => {
+    const { room, sender, text } = data;
+
+    // Save the message to the database
+    const newMessage = new Message({ room, sender, text });
+    await newMessage.save();
+
 
   newAlumni.save((err) => {
     if (err) {
@@ -239,6 +265,7 @@ io.on('connection', (socket) => {
   socket.on('sendMessage', async (data) => {
     const { threadId, sender, text } = data;
 
+
     try {
       const newMessage = new Message({ thread: threadId, sender, text });
       await newMessage.save();
@@ -246,12 +273,17 @@ io.on('connection', (socket) => {
     } catch (err) {
       socket.emit('error', { message: 'Failed to save message' });
     }
+
+    // Send the messages to the user
+    socket.emit('previousMessages', messages.reverse()); // Send messages in chronological order
+
   });
 
   socket.on('disconnect', () => {
     console.log('A user disconnected:', socket.id);
   });
 });
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -262,3 +294,8 @@ app.use((err, req, res, next) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+server.listen(5000, () => {
+  console.log('Server is running on port 5000');
+});
+

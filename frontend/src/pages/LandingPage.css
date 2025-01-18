@@ -1,4 +1,4 @@
-.landingpage {
+/* .landingpage {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -55,4 +55,52 @@
     color: #000;
     text-decoration: none;
     font-size: 18px;
+} */
+
+/* LandingPage.css */
+.landingpage {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.landingheader {
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.mainbox {
+  margin-top: 50px;
+}
+
+.loginbox {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.homepage {
+  margin-top: 50px;
+}
+
+.homepage a {
+  color: #007bff;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.homepage a:hover {
+  text-decoration: underline;
 }
