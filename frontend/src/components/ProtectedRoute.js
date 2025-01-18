@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (!isAuthenticated) {
     // Redirect to the landing page if not authenticated
-    return <Navigate to="/landingpage" />;
+    return <Navigate to="/" />;
   }
 
   // If authenticated, render the children (the protected page)
