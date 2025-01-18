@@ -1,108 +1,132 @@
-.ama-container {
+.AMA-container {
+  margin-top: 45px;
+  background-image: url('cloud-4058_512.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
   display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
   padding: 20px;
-  gap: 20px;
-  flex-wrap: wrap; /* Allow the sections to wrap on small screens */
+  overflow: auto;
+  
+  /* Ensures content can scroll */
 }
 
-.threads-section,
-.chat-section {
-  width: 50%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.new-thread {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  background-color: #fff;
+  width: 80%;
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-h2, h3 {
+.new-thread input {
+  width: 95%;
+  padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  background-color: #eaeaeb;
+  color:black
+}
+.heading{
+  color:black;
+  font-size: 30px;
+}
+.new-thread button {
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 45px;
+  cursor: pointer;
+  background-color: #3da6db;
+  width: 20%;
 }
 
-ul {
+.new-thread button:hover {
+  background-color: #3291b8;
+}
+
+.Threads {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: black;
+  width: 85%;
+}
+
+.Threads ul {
   list-style-type: none;
   padding: 0;
 }
 
-li {
-  padding: 10px;
-  border: 1px solid #ddd;
-  margin-bottom: 5px;
-  cursor: pointer;
-  border-radius: 4px;
+.Threads li {
+  margin: 5px 0;
 }
 
-li.active {
-  background-color: #f0f0f0;
+.Threads button {
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #3da6db;
+  width: 100%;
+}
+
+.Threads button:hover {
+  background-color: #3291b8;
+}
+
+.Thread-messages {
+  width: 85%;
+  background-color: #f1f1f1;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.Thread-messages div {
+  margin-bottom: 10px;
+}
+
+.Thread-messages strong {
   font-weight: bold;
 }
 
-.new-thread,
-.new-message {
+textarea {
+  width: 85%;
+  padding: 10px;
   margin-top: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-input {
-  flex: 1;
-  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: vertical;
 }
 
 button {
-  padding: 8px 12px;
-  background-color: #007bff;
+  padding: 10px;
+  font-size: 16px;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  background-color: #3da6db;
 }
 
 button:hover {
-  background-color: #0056b3;
-}
-
-.messages {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-}
-
-.message {
-  margin-bottom: 8px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .ama-container {
-    flex-direction: column; /* Stack sections vertically on small screens */
-    gap: 10px;
-  }
-
-  .threads-section,
-  .chat-section {
-    width: 100%; /* Make sections full-width on small screens */
-  }
-
-  .new-thread,
-  .new-message {
-    flex-direction: column; /* Stack input and button vertically */
-  }
-
-  input {
-    padding: 10px; /* Increase input padding for touch-friendly devices */
-  }
-
-  button {
-    padding: 10px 15px; /* Increase button padding for touch-friendly devices */
-  }
-}
-
-/* For threads section scroll */
-.threads-section ul {
-  max-height: 400px; /* Limit height of the thread list */
-  overflow-y: auto; /* Add scrolling if there are too many threads */
+  background-color: #3291b8;
 }

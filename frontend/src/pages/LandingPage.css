@@ -1,106 +1,90 @@
-/* .landingpage {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
-.top {
-    height: 500px;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.landingheader {
-    position: absolute;
-    top: 20px;
-    text-align: center;
-    width: 100%;
-}
-
-.landingheader h2 {
-    color: white;
-    margin: 0;
-}
-
-.mainbox {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-}
-
-.loginbox {
-    width: 200px;
-    height: 50px;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-.homepage {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.homepage a {
-    color: #000;
-    text-decoration: none;
-    font-size: 18px;
-} */
-
-/* LandingPage.css */
 .landingpage {
-  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: flex-start;
+  /* Align items at the top */
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #000;
+  padding: 20px;
   text-align: center;
 }
 
-.landingheader {
-  background-color: #f4f4f4;
-  padding: 20px;
+
+.top {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  align-items: center;
+  /* height: 50%; */
 }
 
+/* Header section inside the top */
+.landingheader {
+ 
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  
+}
+
+
 .mainbox {
-  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.logobox{
+  background-color: white;
+  height:200px;
+  width:100%;
 }
 
 .loginbox {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
+  margin-top: 10050px;
+  width: 30%;
+  margin: 20px 0;
+  border-radius: 100px;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
+/* Buttons */
+.landingpage button {
+  background-color: #0a74da;
   color: white;
+  padding: 12px 24px;
+  font-size: 1rem;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.landingpage button:hover {
+  background-color: #005f99;
 }
 
-.homepage {
-  margin-top: 50px;
+/* Logout and Profile */
+.landingpage .logout-profile {
+  margin-top: 20px;
 }
 
-.homepage a {
-  color: #007bff;
-  font-size: 18px;
-  text-decoration: none;
+/* Profile section styling */
+.landingpage .profile {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #333;
 }
 
-.homepage a:hover {
-  text-decoration: underline;
+.landingpage .profile img {
+  border-radius: 50%;
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
 }

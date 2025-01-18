@@ -60,6 +60,9 @@ const LandingPage = () => {
           </div>
 
           <div className="mainbox">
+            <div className="logobox">
+              LOGO
+            </div>
             <div className="loginbox">
               {/* Link to login page */}
               {!isAuthenticated ? (
@@ -72,16 +75,14 @@ const LandingPage = () => {
               )}
             </div>
           </div>
+          <div className="bottom">
+
+          </div>
         </div>
 
-        <div className="bottom">
-          {/* Add any footer or additional content */}
-        </div>
+        
 
-        <div className="homepage">
-          {/* Link to homepage */}
-          <Link to="/AMA">Go to AMA</Link>
-        </div>
+        
       </div>
     </Auth0Provider>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
+import './AMA.css'
 
 const socket = io('http://localhost:5000');  // Socket.io server URL
 
@@ -85,7 +86,7 @@ const AMA = () => {
       });
   };
   
-
+// e0f2fb
   // Listen for new messages via Socket.IO
   useEffect(() => {
     socket.on('message', (data) => {
@@ -100,12 +101,12 @@ const AMA = () => {
   }, [messages, selectedThread]);
 
   return (
-    <div>
+    <div className='AMA-container'>
       <h1>AMA Threads</h1>
       
       {/* Thread creation form */}
-      <div>
-        <h2>Create a new thread</h2>
+      <div className='new-thread'>
+        <div className='heading'>Ask Something!</div>
         <input 
           type="text" 
           placeholder="Thread Title" 
@@ -118,11 +119,11 @@ const AMA = () => {
           value={newThreadCreator} 
           onChange={(e) => setNewThreadCreator(e.target.value)} 
         />
-        <button onClick={handleCreateThread}>Create Thread</button>
+        <button onClick={handleCreateThread}>Post</button>
       </div>
 
       {/* Display list of threads */}
-      <div>
+      <div className='Threads'>
         <h2>Existing Threads</h2>
         {threads.length > 0 ? (
           <ul>
@@ -141,7 +142,7 @@ const AMA = () => {
       {selectedThread && (
         <div>
           <h3>Messages in this Thread</h3>
-          <div>
+          <div className='Thread-messages'>
             {messages.map((message, index) => (
               <div key={index}>
                 <strong>{message.sender}:</strong> {message.text}

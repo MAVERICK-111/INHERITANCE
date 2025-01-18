@@ -1,6 +1,5 @@
-// In App.js
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Header from './components/Header';
 import Landingpage from './pages/LandingPage';
@@ -9,6 +8,7 @@ import Homepage from './pages/Homepage';
 import Home from './pages/Home';
 import AMA from './pages/AMA';
 import Hobbies from './pages/Hobbies';
+import Profile from './pages/Profile';
 import Alumni from './pages/Alumni';
 import Request from './pages/Request';
 import Messages from './pages/Messages';
@@ -21,6 +21,9 @@ const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com"; // Replace with your Auth0 d
 const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz"; // Replace with your actual Auth0 client ID
 
 function App() {
+  const location = useLocation();
+  const hideHeader = location.pathname === "/" || location.pathname === "/profile"; // Exclude header on Homepage and Landing Page
+
   return (
     <Auth0Provider
       domain={domain}
@@ -30,15 +33,17 @@ function App() {
       }}
     >
       <div>
-        <Header />
+        {!hideHeader && <Header />} 
         <Routes>
           {/* Public Route */}
           <Route path="/" element={<Landingpage />} />
-          <Route path="/login" element={<LoginPage />} />  {/* LoginPage should be public */}
+          <Route path="/login" element={<LoginPage />} />  
 
           {/* Protected Routes */}
           <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/homepage" element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+
           <Route path="/AMA" element={<ProtectedRoute><AMA /></ProtectedRoute>} />
           <Route path="/Hobbies" element={<ProtectedRoute><Hobbies /></ProtectedRoute>} />
           <Route path="/Alumni" element={<ProtectedRoute><Alumni /></ProtectedRoute>} />
@@ -53,4 +58,3 @@ function App() {
 }
 
 export default App;
-

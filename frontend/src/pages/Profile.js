@@ -4,8 +4,8 @@ const Profile = () => {
   return (
     <div className="main-container">
       <div className="box-container">
-        <div className="box1">Photo</div>
-        <div className="box2">Info</div>
+        <div className="box1"></div>
+        <div className="box2"></div>
       </div>
     </div>
   );
