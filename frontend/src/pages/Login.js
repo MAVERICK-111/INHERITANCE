@@ -1,59 +1,65 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./login.css"; 
+import React from "react";
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import "./login.css";
 
+// LoginButton Component
+const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+};
+
+// LogoutButton Component
+const LogoutButton = () => {
+  const { logout } = useAuth0();
+  return (
+    <button onClick={() => logout({ returnTo: window.location.origin })}>
+      Log Out
+    </button>
+  );
+};
+
+// Profile Component
+const Profile = () => {
+  const { user, isAuthenticated } = useAuth0();
+  return (
+    isAuthenticated && (
+      <div>
+        <h2>Welcome, {user.name}</h2>
+        <p>Email: {user.email}</p>
+      </div>
+    )
+  );
+};
+
+// LoginPage Component
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Initialize navigate
+  const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com"; // Replace with your actual Auth0 domain
+  const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz"; // Replace with your actual Auth0 client ID
+  const navigate = useNavigate(); // Navigate to another page after login
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const { isAuthenticated } = useAuth0();
 
-    if (username === "user" && password === "pass") {
-      setMessage("Login successful!");
-      setTimeout(() => {
-        navigate("/"); // Navigate to the LandingPage or Home after 1s
-      }, 1000);
-    } else {
-      setMessage("Invalid username or password!");
-    }
-  };
+  // If the user is authenticated, redirect to home page
+  if (isAuthenticated) {
+    navigate("/Homepage"); // Replace "/home" with your desired route
+  }
 
   return (
-    <div className="container">
-      <h2>Welcome</h2>
-      <form id="loginForm" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            maxLength="20"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-        <p id="message" style={{ color: message === "Login successful!" ? "green" : "red" }}>
-          {message}
-        </p>
-      </form>
-    </div>
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <div className="container">
+        <h1>Login with Auth0</h1>
+        <LoginButton />
+        <LogoutButton />
+        <Profile />
+      </div>
+    </Auth0Provider>
   );
 };
 
