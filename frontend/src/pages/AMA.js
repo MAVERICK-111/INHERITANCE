@@ -46,10 +46,11 @@ const AMA = () => {
       return;
     }
 
-    axios.post('http://localhost:5000/createThread', {
+    axios.post('http://localhost:5000/api/threads/createThread', {
       title: newThreadTitle,
       creator: newThreadCreator
     })
+    
       .then(response => {
         setThreads([...threads, response.data.thread]); // Add new thread to the list
         setNewThreadTitle('');
