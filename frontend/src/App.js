@@ -9,7 +9,7 @@ import Home from './pages/Home';
 import AMA from './pages/AMA';
 import Hobbies from './pages/Hobbies';
 import Profile from './pages/Profile';
-import Alumni from './pages/Alumni';
+import Alumni from './pages/Alumni'; // Import Alumni page
 import Request from './pages/Request';
 import Messages from './pages/Messages';
 import Noticeboard from './pages/Noticeboard';
@@ -46,7 +46,7 @@ function App() {
 
           <Route path="/AMA" element={<ProtectedRoute><AMA /></ProtectedRoute>} />
           <Route path="/Hobbies" element={<ProtectedRoute><Hobbies /></ProtectedRoute>} />
-          <Route path="/Alumni" element={<ProtectedRoute><Alumni /></ProtectedRoute>} />
+          <Route path="/Alumni" element={<ProtectedRoute><Alumni /></ProtectedRoute>} /> {/* Alumni Page */}
           <Route path="/Request" element={<ProtectedRoute><Request /></ProtectedRoute>} />
           <Route path="/Messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/Noticeboard" element={<ProtectedRoute><Noticeboard /></ProtectedRoute>} />
@@ -58,3 +58,4 @@ function App() {
 }
 
 export default App;
+

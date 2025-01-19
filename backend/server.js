@@ -123,7 +123,12 @@ app.post('/alumni', upload.single('photo'), async (req, res) => {
     });
 
     await newAlumni.save();
-    res.status(200).json({ success: true, message: 'Alumni data saved successfully!' });
+    res.status(200).json({
+      success: true,
+      message: 'Alumni data saved successfully!',
+      photo: `http://localhost:5000/${req.file.path}`  // Include the full URL to access the image
+    });
+    
   } catch (err) {
     console.error('Error saving alumni data:', err);
     res.status(500).json({ success: false, message: 'Error saving alumni data' });
