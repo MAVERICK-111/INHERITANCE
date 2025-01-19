@@ -1,5 +1,10 @@
 
 .landingpage {
+  background-image: url('landingpage3.gif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   display: flex;
   justify-content: flex-start;
   /* Align items at the top */
@@ -9,6 +14,7 @@
   background-color: #000;
   padding: 20px;
   text-align: center;
+  overflow: auto;
 }
 
 
