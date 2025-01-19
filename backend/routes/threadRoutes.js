@@ -1,27 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Thread = require('../models/thread');
+const threadController = require('../controllers/threadController');
 
-// Get all threads
-router.get('/', async (req, res) => {
-  try {
-    const threads = await Thread.find();
-    res.status(200).send({ success: true, threads });
-  } catch (err) {
-    res.status(500).send({ success: false, message: 'Failed to fetch threads' });
-  }
-});
+// Route for creating a new thread
+router.post('/createThread', threadController.createThread);
 
-// Create a new thread
-router.post('/', async (req, res) => {
-  const { name } = req.body;
-  try {
-    const newThread = new Thread({ name });
-    await newThread.save();
-    res.status(201).send({ success: true, thread: newThread });
-  } catch (err) {
-    res.status(500).send({ success: false, message: 'Failed to create thread' });
-  }
-});
+// Route for getting all threads
+router.get('/', threadController.getThreads);
+
+// Route for posting a message in a thread
+router.post('/sendMessage', threadController.sendMessage);
 
 module.exports = router;
