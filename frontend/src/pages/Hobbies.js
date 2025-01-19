@@ -30,39 +30,51 @@ const Hobbies = () => {
     };
 
     return (
-        <div className="Hobbies_container">
-            <div>LOGO</div>
-            <br />
-
-            {/* Input for new hobby */}
-            <div className="hobby-input-container">
-                <input 
-                    type="text" 
-                    value={newHobby} 
-                    onChange={handleInputChange} 
-                    placeholder="Enter a new hobby" 
-                    className="hobby-input"
-                />
-                <button onClick={addHobby} className="add-hobby-button">
-                    Add Hobby
-                </button>
-            </div>
-
-            {/* List of hobbies */}
-            <div className="hobbies-list">
-                {hobbies.map((hobby, index) => (
-                    <div 
-                        key={index} 
-                        className="hobby-box" 
-                        onClick={() => selectHobbyForChat(hobby)}
-                    >
-                        {hobby}
+        <div className="hobbies_container">
+            <div className="top">LOGO</div>
+            <div className="bottom">
+                <div className="left">
+                    {/* Input for new hobby */}
+                    <div className="hobby-input-container">
+                       <input 
+                            type="text" 
+                            value={newHobby} 
+                            onChange={handleInputChange} 
+                           placeholder="Enter a new hobby" 
+                            className="hobby-input"
+                            onKeyDown={(e) =>{
+                                if (e.key == "Enter"){
+                                    addHobby();
+                                }
+                            }}
+                        />
+                        <button onClick={addHobby} className="add-hobby-button">
+                            Add Hobby
+                        </button>
                     </div>
-                ))}
-            </div>
 
-            {/* Display the ChatSystem component when a hobby is selected */}
-            {selectedHobby && <ChatSystem selectedHobby={selectedHobby} />}
+                    {/* List of hobbies */}
+                    <div className="hobbies-list">
+                        {hobbies.map((hobby, index) => (
+                            <div 
+                                key={index} 
+                                className="hobby-box" 
+                                onClick={() => selectHobbyForChat(hobby)}
+                            >
+                                {hobby}
+                            </div>
+                        ))}
+                    </div>
+
+
+                </div>
+
+                <div className="right">
+                    {/* Display the ChatSystem component when a hobby is selected */}
+                    {selectedHobby && <ChatSystem selectedHobby={selectedHobby} />}
+                </div>
+            </div>           
+            
         </div>
     );
 };

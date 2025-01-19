@@ -67,7 +67,7 @@ const AlumniForm = () => {
 
   return (
     <div>
-      <h1>Alumni Form</h1>
+      <div className='aluminiheader'>Alumni</div>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Photo:</label>

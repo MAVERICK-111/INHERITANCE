@@ -24,10 +24,7 @@ const Homepage = () => {
 
             </div>
             
-            <div className="Request">
-              <Link to="/Request">Request</Link>
- 
-            </div>         
+                     
           </div>
         </div>
 

@@ -1,18 +1,4 @@
-.alumni-box-container {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .alumni-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 200px;
-    text-align: center;
-  }
-  
-  .alumni-box img {
-    border-radius: 50%;
-  }
+.alumni-main{
+  background-color: #fff;
+}
   
