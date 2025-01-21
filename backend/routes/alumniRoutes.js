@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const alumniController = require('../controllers/alumniController');
-const upload = require('../middlewares/upload');
+const upload = require('../utils/upload');
 
 // Route for creating a new alumni entry
 router.post('/', upload.single('photo'), alumniController.createAlumni);

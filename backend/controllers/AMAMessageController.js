@@ -2,13 +2,23 @@ const AMAMessage = require('../models/AMAMessage');
 
 // Create a new AMA message
 const sendAMAMessage = async (req, res) => {
+  const { threadId, sender, text } = req.body;
+
   try {
-    const { AMAthreadId, sender, text } = req.body;
-    const newMessage = new AMAMessage({ AMAthreadId, sender, text });
+    const newMessage = new AMAMessage({ thread: threadId, sender, text });
     await newMessage.save();
-    res.status(201).json({ AMAmessage: newMessage });
+    io.to(AMAthreadId).emit('AMAmessage', {
+      AMAthreadId,
+      sender,
+      text,
+    });
+    await AMAThread.findByIdAndUpdate(threadId, {
+      $push: { messages: newMessage._id },
+    });
+
+    res.status(200).json({ success: true, message: newMessage });
   } catch (err) {
-    res.status(400).json({ message: 'Error sending AMA message', error: err });
+    res.status(500).json({ success: false, message: 'Failed to send AMA message' });
   }
 };
 

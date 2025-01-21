@@ -1,8 +1,8 @@
 const express = require('express');
+const AMAMessageController = require('../controllers/AMAMessageController');
+
 const router = express.Router();
-const { sendAMAMessage, getAMAMessages } = require('../controllers/AMAMessageController');
 
-router.post('/sendAMAmessage', sendAMAMessage);
-router.get('/:AMAthreadId/messages', getAMAMessages);
-
+router.post('/sendAMAMessage', AMAMessageController.sendAMAMessage);
+router.get('/getAmaMessage', AMAMessageController.getAMAMessages)
 module.exports = router;

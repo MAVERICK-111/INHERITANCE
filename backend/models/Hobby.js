@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 
-// Define the Hobby schema
-const hobbySchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  createdAt: { type: Date, default: Date.now }
+const HobbySchema = new mongoose.Schema({
+  name: { type: String, required: true },
 });
 
-// Create the Hobby model
-const Hobby = mongoose.model('Hobby', hobbySchema);
-
-module.exports = Hobby;
+module.exports = mongoose.model('Hobby', HobbySchema);

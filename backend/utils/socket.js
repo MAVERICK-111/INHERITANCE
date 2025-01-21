@@ -1,37 +1,20 @@
-const socketIO = require('socket.io');
-const AMAmessages = require('../models/AMAmessage');
+const { sendAMAMessage } = require('../controllers/AMAMessageController');
 
-let io;
-
-const initSocket = (server) => {
-  io = socketIO(server);
-
+exports.setupSocket = (io) => {
   io.on('connection', (socket) => {
-    console.log('User connected');
+    console.log('User connected:', socket.id);
 
-    // Join an AMA thread
-    socket.on('joinAMAthread', async (AMAthreadId) => {
-      console.log(`User joined AMA thread: ${AMAthreadId}`);
-      socket.join(AMAthreadId);
+    socket.on('joinThread', (threadId) => {
+      socket.join(threadId);
     });
 
-    // Listen for new AMA message and broadcast to clients
-    socket.on('sendAMAmessage', async (data) => {
-      const { AMAthreadId, sender, text } = data;
-
-      try {
-        const newMessage = new AMAmessages({ AMAthreadId, sender, text });
-        await newMessage.save();
-        io.to(AMAthreadId).emit('AMAmessage', newMessage);
-      } catch (error) {
-        console.error('Error sending message:', error);
-      }
+    socket.on('sendMessage', async (data) => {
+      await sendAMAMessage(data, socket);
+      io.to(data.threadId).emit('message', data);
     });
 
     socket.on('disconnect', () => {
-      console.log('User disconnected');
+      console.log('User disconnected:', socket.id);
     });
   });
 };
-
-module.exports = { initSocket };

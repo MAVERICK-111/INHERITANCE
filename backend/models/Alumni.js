@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
-const alumniSchema = new mongoose.Schema({
-  photo: String,
-  info: String,
+const AlumniSchema = new mongoose.Schema({
+  photo: { type: String, required: true },
+  info: { type: String, required: true },
 });
 
-const Alumni = mongoose.model('Alumni', alumniSchema);
-
-module.exports = Alumni;
+module.exports = mongoose.model('Alumni', AlumniSchema);

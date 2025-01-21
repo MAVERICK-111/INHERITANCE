@@ -1,4 +1,4 @@
-const Alumni = require('../models/alumniModel');
+const Alumni = require('../models/Alumni');
 
 exports.createAlumni = async (req, res) => {
   try {
@@ -7,11 +7,7 @@ exports.createAlumni = async (req, res) => {
     }
 
     const { info } = req.body;
-    const newAlumni = new Alumni({
-      photo: req.file.path,
-      info,
-    });
-
+    const newAlumni = new Alumni({ photo: req.file.path, info });
     await newAlumni.save();
     res.status(200).json({
       success: true,
@@ -19,7 +15,6 @@ exports.createAlumni = async (req, res) => {
       photo: `http://localhost:5000/${req.file.path}`,
     });
   } catch (err) {
-    console.error('Error saving alumni data:', err);
     res.status(500).json({ success: false, message: 'Error saving alumni data' });
   }
 };
