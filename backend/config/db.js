@@ -1,24 +1,7 @@
-//const mongoose = require('mongoose');
-
-//const connectDB = async () => {
- //   try {
-   //     await mongoose.connect(process.env.MONGO_URI); // No need for `useNewUrlParser` and `useUnifiedTopology`
-     //   console.log('Database connected');
-    //} catch (err) {
-      //  console.error('Database connection failed:', err);
-        //process.exit(1); // Exit process with failure
-    //}
-//};
-
-//module.exports = connectDB;
-
-/**
-* Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-* See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-*/
 
 
-const uri = "mongodb+srv://harshogale04:Harsh%401234@cluster0.4y9k1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+const uri = process.env.MONGO_URI;
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
