@@ -1,46 +1,4 @@
-.Alumni_container {
-    padding: 20px;
-    text-align: center;
-}
-
-.alumni-form {
-    margin-bottom: 20px;
-}
-
-.alumni-form input {
-    margin: 0 10px;
-    padding: 8px;
-    font-size: 14px;
-}
-
-.alumni-form button {
-    padding: 8px 12px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.alumni-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    color: black;
-    /* Space between boxes */
-    justify-content: center;
-}
-
-.alumni-box {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border: 1px solid #ddd;
-    color:black;
-    border-radius: 5px;
-    width: 200px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    /* Space between name and info */
+.mainmost{
+    background-color: wheat;
+    height: 95vh;
 }

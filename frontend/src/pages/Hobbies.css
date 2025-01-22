@@ -13,7 +13,7 @@
     overflow: auto;
 }
 
-.top{
+.top-hobbies{
     margin-top: 10px;
     background-color: white;
     height: 50px;
@@ -23,11 +23,15 @@
     display: flex;
     flex-direction: row;
     gap:50px;
+    /* height: 100%; */
+    /* background-color: white; */
 }
 
 .left{
     display: flex;
     flex-direction: column;
+    height: 80vh;
+    background-color: white;
 }
 
 .hobbies-list{

@@ -5,7 +5,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -13,7 +13,7 @@
   padding: 20px;
   overflow: auto;
   
-  /* Ensures content can scroll */
+  
 }
 
 .new-thread {
@@ -38,10 +38,10 @@
   background-color: #eaeaeb;
   color:black
 }
-.heading{
+/* .heading{
   color:black;
   font-size: 30px;
-}
+} */
 .new-thread button {
   padding: 10px;
   font-size: 16px;
@@ -57,12 +57,55 @@
   background-color: #3291b8;
 }
 
+
+
+.threads-container{
+  display: flex;
+  flex-direction: row;
+  /* padding: 10px; */
+  gap:30px;
+  color: black;
+  
+  width: 75%;
+  
+
+}
+
+.headingdiv{
+  color: rgb(22, 80, 104);
+  font-size: 25px;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 .Threads {
   display: flex;
   flex-direction: column;
   gap: 10px;
   color: black;
-  width: 85%;
+  width: 25%;
+  margin-left: 0px;
+  height: dynamic;
+  
+  background-color: #f4f4f4;
+ 
+  border-right: 1px solid #ddd;
+ 
+  padding: 10px;
+  border-radius: 20px;
+  overflow-y: auto;
+}
+
+.Th-msg{
+  width: 75%;
+    /* Right column occupies 75% */
+    padding: 20px;
+    /* Padding inside the column */
+    overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap:30px;
+  background-color: #f3f3f3;
 }
 
 .Threads ul {
@@ -81,7 +124,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #3da6db;
+  background-color: #96c7df;
   width: 100%;
 }
 
@@ -89,15 +132,7 @@
   background-color: #3291b8;
 }
 
-.Thread-messages {
-  width: 85%;
-  background-color: #f1f1f1;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 5px;
-  max-height: 400px;
-  overflow-y: auto;
-}
+
 
 .Thread-messages div {
   margin-bottom: 10px;
@@ -108,21 +143,23 @@
 }
 
 textarea {
-  width: 85%;
+  width: 98%;
   padding: 10px;
   margin-top: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 25px;
   font-size: 16px;
   resize: vertical;
 }
 
 button {
+  align-items: center;
   padding: 10px;
+  width:100%;
   font-size: 16px;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 115px;
   cursor: pointer;
   background-color: #3da6db;
 }

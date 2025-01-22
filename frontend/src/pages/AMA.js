@@ -122,9 +122,10 @@ const AMA = () => {
         <button onClick={handleCreateThread}>Post</button>
       </div>
 
+      <div className='threads-container'>
       {/* Display list of threads */}
       <div className='Threads'>
-        <h2>Existing Threads</h2>
+        <div className='headingdiv'>Existing Threads</div>
         {threads.length > 0 ? (
           <ul>
             {threads.map(thread => (
@@ -138,7 +139,7 @@ const AMA = () => {
         )}
       </div>
 
-      {/* Messages section for the selected thread */}
+      <div className='Th-msg'>
       {selectedThread && (
         <div>
           <h3>Messages in this Thread</h3>
@@ -159,6 +160,8 @@ const AMA = () => {
           <button onClick={handleSendMessage}>Send Message</button>
         </div>
       )}
+      </div>
+      </div>
     </div>
   );
 };
