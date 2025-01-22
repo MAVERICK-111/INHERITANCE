@@ -13,6 +13,7 @@ import Alumni from './pages/Alumni'; // Import Alumni page
 import Messages from './pages/Messages';
 import Noticeboard from './pages/Noticeboard';
 import HobbyManager from './components/HobbyManager';
+// import LogoutPage from "./LogoutPage";
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -41,6 +42,7 @@ function App() {
           {/* Protected Routes */}
           <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/homepage" element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
           <Route path="/AMA" element={<ProtectedRoute><AMA /></ProtectedRoute>} />

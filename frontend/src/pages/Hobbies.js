@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Homepage.css';
+// import './Homepage.css';
 import './Hobbies.css';
 import ChatSystem from '../components/ChatSystem';  // Import the ChatSystem component
 
@@ -31,7 +31,7 @@ const Hobbies = () => {
 
     return (
         <div className="hobbies_container">
-            <div className="top">LOGO</div>
+            <div className="top-hobbies">LOGO</div>
             <div className="bottom">
                 <div className="left">
                     {/* Input for new hobby */}

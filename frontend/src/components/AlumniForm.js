@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./AlumniForm.css";
 
 const AlumniForm = () => {
   const [info, setInfo] = useState('');
