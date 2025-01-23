@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Message = require('../models/message');
+const Message = require('../models/MyMessage');
 
 // Get messages for a specific thread
 router.get('/:threadId', async (req, res) => {

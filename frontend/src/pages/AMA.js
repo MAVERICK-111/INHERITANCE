@@ -1,170 +1,172 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
-import './AMA.css'
+import './AMA.css';
 
 const socket = io('http://localhost:5000');  // Socket.io server URL
 
 const AMA = () => {
-  const [threads, setThreads] = useState([]);
-  const [newThreadTitle, setNewThreadTitle] = useState('');
-  const [newThreadCreator, setNewThreadCreator] = useState('');
-  const [selectedThread, setSelectedThread] = useState(null);
-  const [newMessage, setNewMessage] = useState('');
-  const [messages, setMessages] = useState([]);
-  
-  // Fetch existing threads from the backend
+  const [AMAthreads, setAMAthreads] = useState([]);
+  const [newAMAthreadTitle, setNewAMAthreadTitle] = useState('');
+  const [newAMAthreadCreator, setNewAMAthreadCreator] = useState('');
+  const [selectedAMAthread, setSelectedAMAthread] = useState(null);
+  const [newAMAMessage, setNewAMAMessage] = useState('');
+  const [AMAmessages, setAMAmessages] = useState([]);
+
+  // Fetch existing AMA threads from the backend
   useEffect(() => {
-    axios.get('http://localhost:5000/threads')
+    axios.get('http://localhost:5000/api/getAMAThreads')
       .then(response => {
-        setThreads(response.data.threads);
+        setAMAthreads(response.data.AMAthreads);
       })
       .catch(error => {
-        console.error('Error fetching threads:', error);
+        console.error('Error fetching AMA threads:', error);
       });
   }, []);
 
-  // Join a specific thread (Socket.IO)
-  const joinThread = (threadId) => {
-    socket.emit('joinRoom', threadId);
-    setSelectedThread(threadId);
-    
-    // Fetch existing messages for the thread
-    axios.get(`http://localhost:5000/messages/${threadId}`)
+  // Join a specific AMA thread (Socket.IO)
+  const joinAMAthread = (AMAthreadId) => {
+    socket.emit('joinAMAthread', AMAthreadId);
+    setSelectedAMAthread(AMAthreadId);
+
+    // Fetch existing AMA messages for the AMA thread
+    axios.get(`http://localhost:5000/api/getAMAMessages/${AMAthreadId}`)
       .then(response => {
-        setMessages(response.data.messages);
+        setAMAmessages(response.data.AMAmessages);
       })
       .catch(error => {
-        console.error('Error fetching messages:', error);
+        console.error('Error fetching AMA messages:', error);
       });
   };
 
-  // Handle the creation of a new thread
-  const handleCreateThread = () => {
-    if (!newThreadTitle || !newThreadCreator) {
+  // Handle the creation of a new AMA thread
+  const handleCreateAMAthread = async() => {
+    if (!newAMAthreadTitle || !newAMAthreadCreator) {
       alert('Please provide both title and creator name');
       return;
     }
 
-    axios.post('http://localhost:5000/createThread', {
-      title: newThreadTitle,
-      creator: newThreadCreator
+    axios.post('http://localhost:5000/api/createAMAThread', {
+      title: newAMAthreadTitle,
+      creator: newAMAthreadCreator
     })
       .then(response => {
-        setThreads([...threads, response.data.thread]); // Add new thread to the list
-        setNewThreadTitle('');
-        setNewThreadCreator('');
+        setAMAthreads([...AMAthreads, response.data.AMAthread]); // Add new thread to the list
+        setNewAMAthreadTitle('');
+        setNewAMAthreadCreator('');
       })
       .catch(error => {
         console.error('Error creating thread:', error);
       });
   };
 
-  // Handle sending a new message in the selected thread
-  const handleSendMessage = () => {
-    if (!newMessage) {
+  // Handle sending a new AMA message in the selected AMA thread
+  const handleSendAMAMessage = () => {
+    if (!newAMAMessage) {
       alert('Please enter a message');
       return;
     }
-  
-    const messageData = {
-      threadId: selectedThread,  // Ensure the correct threadId is used
+
+    const AMAMessageData = {
+      AMAthreadId: selectedAMAthread,
       sender: 'User',  // Replace with actual user info
-      text: newMessage
+      text: newAMAMessage
     };
-  
-    // Log the message data before sending to the backend
-    console.log(messageData);
-  
-    axios.post('http://localhost:5000/sendMessage', messageData)
+
+    // Optimistically add the message to the state before the server responds
+    setAMAmessages(prevMessages => [
+      ...prevMessages,
+      { sender: 'User', text: newAMAMessage, AMAthreadId: selectedAMAthread }
+    ]);
+
+    // Send the message to the backend
+    axios.post('http://localhost:5000/api/sendAMAmessage', AMAMessageData)
       .then(response => {
-        setMessages([...messages, response.data.message]);  // Add message to chat
-        setNewMessage('');
+        setNewAMAMessage('');  // Clear the input field after sending
       })
       .catch(error => {
-        console.error('Error sending message:', error);
+        console.error('Error sending AMA message:', error);
+        // Optionally handle errors (e.g., show a message or revert the optimistic update)
       });
+
+    // Emit the message to other clients via Socket.IO
+    socket.emit('sendAMAmessage', AMAMessageData);
   };
-  
-// e0f2fb
-  // Listen for new messages via Socket.IO
+
+  // Listen for new AMA messages via Socket.IO
   useEffect(() => {
-    socket.on('message', (data) => {
-      if (data.room === selectedThread) {
-        setMessages([...messages, data]);
+    socket.on('AMAmessage', (data) => {
+      if (data.AMAthreadId === selectedAMAthread) {
+        setAMAmessages(prevMessages => [...prevMessages, data]);
       }
     });
 
     return () => {
-      socket.off('message');
+      socket.off('AMAmessage');
     };
-  }, [messages, selectedThread]);
+  }, [selectedAMAthread]);  // Listen only when selected thread changes
 
   return (
     <div className='AMA-container'>
       <h1>AMA Threads</h1>
       
-      {/* Thread creation form */}
-      <div className='new-thread'>
+      {/* AMA thread creation form */}
+      <div className='new-AMAthread'>
         <div className='heading'>Ask Something!</div>
         <input 
           type="text" 
-          placeholder="Thread Title" 
-          value={newThreadTitle} 
-          onChange={(e) => setNewThreadTitle(e.target.value)} 
+          placeholder="AMA thread Title"
+          value={newAMAthreadTitle}
+          onChange={(e) => setNewAMAthreadTitle(e.target.value)}
         />
         <input 
           type="text" 
-          placeholder="Creator Name" 
-          value={newThreadCreator} 
-          onChange={(e) => setNewThreadCreator(e.target.value)} 
+          placeholder="Creator Name"
+          value={newAMAthreadCreator}
+          onChange={(e) => setNewAMAthreadCreator(e.target.value)}
         />
-        <button onClick={handleCreateThread}>Post</button>
+        <button onClick={handleCreateAMAthread}>Post</button>
       </div>
 
-      <div className='threads-container'>
-      {/* Display list of threads */}
-      <div className='Threads'>
-        <div className='headingdiv'>Existing Threads</div>
-        {threads.length > 0 ? (
+      {/* Display list of AMA threads */}
+      <div className='AMAthreads'>
+        <h2>Existing AMA threads</h2>
+        {AMAthreads.length > 0 ? (
           <ul>
-            {threads.map(thread => (
-              <li key={thread._id}>
-                <button onClick={() => joinThread(thread._id)}>{thread.title}</button>
+            {AMAthreads.map(AMAthread => (
+              <li key={AMAthread._id}>
+                <button onClick={() => joinAMAthread(AMAthread._id)}>{AMAthread.title}</button>
               </li>
             ))}
           </ul>
         ) : (
-          <p>No threads available</p>
+          <p>No AMA threads available</p>
         )}
       </div>
 
-      <div className='Th-msg'>
-      {selectedThread && (
+      {/* AMA messages section for the selected AMA thread */}
+      {selectedAMAthread && (
         <div>
-          <h3>Messages in this Thread</h3>
-          <div className='Thread-messages'>
-            {messages.map((message, index) => (
+          <h3>AMA messages in this AMA thread</h3>
+          <div className='AMAthread-messages'>
+            {AMAmessages.map((AMAmessage, index) => (
               <div key={index}>
-                <strong>{message.sender}:</strong> {message.text}
+                <strong>{AMAmessage.sender}:</strong> {AMAmessage.text}
               </div>
             ))}
           </div>
 
-          {/* Send a new message */}
+          {/* Send a new AMA message */}
           <textarea
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your message"
+            value={newAMAMessage}
+            onChange={(e) => setNewAMAMessage(e.target.value)}
+            placeholder="Type your AMA message"
           />
-          <button onClick={handleSendMessage}>Send Message</button>
+          <button onClick={handleSendAMAMessage}>Send AMA message</button>
         </div>
       )}
-      </div>
-      </div>
     </div>
   );
 };
 
 export default AMA;
-
