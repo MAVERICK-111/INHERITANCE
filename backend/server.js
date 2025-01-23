@@ -41,15 +41,15 @@ const AlumniRoutes = require("./routes/alumniRoutes");
 const AMAThreadRoutes = require("./routes/AMAThreadRoutes");
 const AMAMessageRoutes = require("./routes/AMAMessageRoute");
 const authRoutes = require("./routes/authRoutes");
-const HobbyRoutes = require("./routes/hobbyRoute");
-//const messageRoutes = require("./routes/messageRoutes");
+const HobbyRoutes = require("./routes/HobbyRoutes");
+const HobbyMessageRoutes = require("./routes/HobbyMessageRoute");
 //const threadRoutes = require('./routes/threadRoutes');
 const userRoutes = require("./routes/userRoutes");
 
 app.use('/api', AlumniRoutes);
 app.use('/api', AMAThreadRoutes);
 app.use('/api', AMAMessageRoutes);
-//app.use('/api/message', messageRoutes);
+app.use('/api', HobbyMessageRoutes);
 //app.use('/api/threads', threadRoutes);
 app.use('/api', authRoutes);
 app.use('/api', HobbyRoutes);

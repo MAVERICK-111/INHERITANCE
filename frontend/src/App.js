@@ -13,7 +13,7 @@ import Alumni from './pages/Alumni'; // Import Alumni page
 import Request from './pages/Request';
 import Messages from './pages/Messages';
 import Noticeboard from './pages/Noticeboard';
-import HobbyManager from './components/HobbyManager';
+import HobbyChat from './components/HobbyChat';
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -50,7 +50,7 @@ function App() {
           <Route path="/Request" element={<ProtectedRoute><Request /></ProtectedRoute>} />
           <Route path="/Messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
           <Route path="/Noticeboard" element={<ProtectedRoute><Noticeboard /></ProtectedRoute>} />
-          <Route path="/hobby-manager" element={<ProtectedRoute><HobbyManager /></ProtectedRoute>} />
+          <Route path="/hobby-chat" element={<ProtectedRoute><HobbyChat /></ProtectedRoute>} />
         </Routes>
       </div>
     </Auth0Provider>
