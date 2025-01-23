@@ -17,6 +17,9 @@ const io = require('socket.io')(server, {
     allowedHeaders: ['Content-Type'],
   },
 });
+const {setSocket} = require("./controllers/AMAMessageController")
+setupSocket(io);
+setSocket(io);
 module.exports = {io};
 
 // Middleware

@@ -15,7 +15,7 @@ const AMA = () => {
   
   // Fetch existing AMA threads from the backend
   useEffect(() => {
-    axios.get('http://localhost:5000/api/AMAThreadRoute/getAMAThreads')
+    axios.get('http://localhost:5000/api/getAMAThreads')
       .then(response => {
         setAMAthreads(response.data.AMAthreads);
       })
@@ -30,7 +30,7 @@ const AMA = () => {
     setSelectedAMAthread(AMAthreadId);
     
     // Fetch existing AMA messages for the AMA thread
-    axios.get(`http://localhost:5000/api/AMAMessageRoute/${AMAthreadId}/messages`)
+    axios.get(`http://localhost:5000/api/getAMAMessages/${AMAthreadId}`)
       .then(response => {
         setAMAmessages(response.data.AMAmessages);
       })
@@ -73,7 +73,7 @@ const AMA = () => {
       text: newAMAMessage
     };
   
-    axios.post('http://localhost:5000/api/AMAMessageRoute/sendAMAmessage', AMAMessageData)
+    axios.post('http://localhost:5000/api/sendAMAmessage', AMAMessageData)
       .then(response => {
         setAMAmessages([...AMAmessages, response.data.AMAmessage]);
         setNewAMAMessage('');
@@ -82,11 +82,7 @@ const AMA = () => {
         console.error('Error sending AMA message:', error);
       });
 
-    socket.emit('sendAMAmessage', {
-      AMAthreadId: selectedAMAthread,
-      sender: 'User',
-      text: newAMAMessage
-    });
+      socket.emit('sendAMAmessage', AMAMessageData);
   };
 
   // Listen for new AMA messages via Socket.IO

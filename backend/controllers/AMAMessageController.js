@@ -1,18 +1,22 @@
 const AMAMessage = require('../models/AMAMessage');
-
+const AMAThread = require('../models/AMAThread');
 // Create a new AMA message
+const setSocket = (socketIo) => {
+  op = socketIo;
+};
 const sendAMAMessage = async (req, res) => {
-  const { threadId, sender, text } = req.body;
+  const { AMAthreadId, sender, text } = req.body;
 
   try {
-    const newMessage = new AMAMessage({ thread: threadId, sender, text });
+    const newMessage = new AMAMessage({ AMAthread: AMAthreadId, sender, text });
     await newMessage.save();
-    io.to(AMAthreadId).emit('AMAmessage', {
-      AMAthreadId,
-      sender,
-      text,
-    });
-    await AMAThread.findByIdAndUpdate(threadId, {
+    
+    // Emit the message via Socket.IO
+    if (io) {
+      io.to(AMAthreadId).emit('AMAmessage', { ...newMessage._doc }); // Include `_id` and all fields
+    }
+
+    await AMAThread.findByIdAndUpdate(AMAthreadId, {
       $push: { messages: newMessage._id },
     });
 
@@ -25,11 +29,11 @@ const sendAMAMessage = async (req, res) => {
 // Get all AMA messages for a specific thread
 const getAMAMessages = async (req, res) => {
   try {
-    const messages = await AMAMessage.find({ AMAthreadId: req.params.AMAthreadId });
+    const messages = await AMAMessage.find({ AMAthread  : req.params.AMAthreadId });
     res.status(200).json({ AMAmessages: messages });
   } catch (err) {
     res.status(400).json({ message: 'Error fetching AMA messages', error: err });
   }
 };
 
-module.exports = { sendAMAMessage, getAMAMessages };
+module.exports = { sendAMAMessage, getAMAMessages, setSocket };

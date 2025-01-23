@@ -4,13 +4,12 @@ exports.setupSocket = (io) => {
   io.on('connection', (socket) => {
     console.log('User connected:', socket.id);
 
-    socket.on('joinThread', (threadId) => {
-      socket.join(threadId);
+    socket.on('joinAMAThread', (AMAthreadId) => {
+      socket.join(AMAthreadId);
     });
 
-    socket.on('sendMessage', async (data) => {
-      await sendAMAMessage(data, socket);
-      io.to(data.threadId).emit('message', data);
+    socket.on('sendAMAMessage', async (data) => {
+      io.to(data.AMAthreadId).emit('AMAmessage', data);
     });
 
     socket.on('disconnect', () => {
