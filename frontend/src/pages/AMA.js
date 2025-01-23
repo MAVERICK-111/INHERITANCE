@@ -12,7 +12,7 @@ const AMA = () => {
   const [selectedAMAthread, setSelectedAMAthread] = useState(null);
   const [newAMAMessage, setNewAMAMessage] = useState('');
   const [AMAmessages, setAMAmessages] = useState([]);
-  
+
   // Fetch existing AMA threads from the backend
   useEffect(() => {
     axios.get('http://localhost:5000/api/getAMAThreads')
@@ -28,7 +28,7 @@ const AMA = () => {
   const joinAMAthread = (AMAthreadId) => {
     socket.emit('joinAMAthread', AMAthreadId);
     setSelectedAMAthread(AMAthreadId);
-    
+
     // Fetch existing AMA messages for the AMA thread
     axios.get(`http://localhost:5000/api/getAMAMessages/${AMAthreadId}`)
       .then(response => {
@@ -66,23 +66,31 @@ const AMA = () => {
       alert('Please enter a message');
       return;
     }
-  
+
     const AMAMessageData = {
       AMAthreadId: selectedAMAthread,
       sender: 'User',  // Replace with actual user info
       text: newAMAMessage
     };
-  
+
+    // Optimistically add the message to the state before the server responds
+    setAMAmessages(prevMessages => [
+      ...prevMessages,
+      { sender: 'User', text: newAMAMessage, AMAthreadId: selectedAMAthread }
+    ]);
+
+    // Send the message to the backend
     axios.post('http://localhost:5000/api/sendAMAmessage', AMAMessageData)
       .then(response => {
-        setAMAmessages([...AMAmessages, response.data.AMAmessage]);
-        setNewAMAMessage('');
+        setNewAMAMessage('');  // Clear the input field after sending
       })
       .catch(error => {
         console.error('Error sending AMA message:', error);
+        // Optionally handle errors (e.g., show a message or revert the optimistic update)
       });
 
-      socket.emit('sendAMAmessage', AMAMessageData);
+    // Emit the message to other clients via Socket.IO
+    socket.emit('sendAMAmessage', AMAMessageData);
   };
 
   // Listen for new AMA messages via Socket.IO
@@ -92,12 +100,11 @@ const AMA = () => {
         setAMAmessages(prevMessages => [...prevMessages, data]);
       }
     });
-  
+
     return () => {
       socket.off('AMAmessage');
     };
   }, [selectedAMAthread]);  // Listen only when selected thread changes
-  
 
   return (
     <div className='AMA-container'>
