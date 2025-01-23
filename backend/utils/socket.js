@@ -1,38 +1,42 @@
-const { sendAMAMessage } = require('../controllers/AMAMessageController');
+const { saveAMAMessage } = require('../controllers/AMAMessageController');
+const { saveHobbyMessage } = require('../controllers/HobbyMessageController');
 
 exports.setupSocket = (io) => {
-  io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
-    //AMA
-    socket.on('joinAMAThread', (AMAthreadId) => {
-      socket.join(AMAthreadId);
-    });
+    io.on('connection', (socket) => {
+        console.log('User connected:', socket.id);
 
-    socket.on('sendAMAMessage', async (data) => {
-      io.to(data.AMAthreadId).emit('AMAmessage', data);
-    });
+        // AMA 
+        socket.on('joinAMARoom', (room) => {
+            socket.join(room);
+        });
 
-    socket.on('disconnect', () => {
-      console.log('User disconnected:', socket.id);
-    });
+        socket.on('sendAMAMessage', async (data) => {
+            try {
+                const newMessage = await saveAMAMessage(data);
+                io.to(data.room).emit('receiveAMAMessage', newMessage);
+            } catch (error) {
+                socket.emit('error', { message: 'Failed to send AMA message' });
+            }
+        });
 
-    //HOBBY
-    socket.on('joinHobbyRoom', (room) => {
-      socket.join(room);
-      console.log(`User ${socket.id} joined room: ${room}`);
-    });
+        // Hobby
+        socket.on('joinHobbyRoom', (room) => {
+            socket.join(room);
+        });
 
-    socket.on('sendHobbyMessage', async (data) => {
-      try {
-        const newMessage = await saveHobbyMessage(data);
-        io.to(data.room).emit('receiveHobbyMessage', newMessage); // Broadcast to room
-      } catch (err) {
-        socket.emit('error', { message: 'Failed to send message' });
-      }
-    });
+        socket.on('sendHobbyMessage', async (data) => {
+            try {
+                const newMessage = await saveHobbyMessage(data);
+                // Emit to the room to send the new message to all users in the room
+                io.to(data.room).emit('receiveHobbyMessage', newMessage);
+            } catch (error) {
+                socket.emit('error', { message: 'Failed to send hobby message' });
+            }
+        });
 
-    socket.on('disconnect', () => {
-      console.log('User disconnected:', socket.id);
+        // Disconnect logic
+        socket.on('disconnect', () => {
+            console.log('User disconnected:', socket.id);
+        });
     });
-  });
 };

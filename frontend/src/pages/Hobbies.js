@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import './Hobbies.css';
-import HobbyChat from '../components/HobbyChat'; // Import the HobbyChat component
+import HobbyChat from '../components/HobbyChat';
 
 const Hobbies = () => {
     const [hobbies, setHobbies] = useState([]);
@@ -26,8 +26,6 @@ const Hobbies = () => {
                     if (response.data.success) {
                         setHobbies([...hobbies, response.data.hobby.name]);
                         setNewHobby("");
-                    } else {
-                        console.error('Failed to add hobby:', response.data.message);
                     }
                 })
                 .catch((error) => console.error('Error adding hobby:', error));

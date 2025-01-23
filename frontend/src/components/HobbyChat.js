@@ -1,56 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import axios from "axios"; // Import Axios
-// import './HobbyChat.css';
+import axios from "axios";
 
-const socket = io('http://localhost:5000'); // Update with your server's URL
+const socket = io('http://localhost:5000');
 
 const HobbyChat = ({ selectedHobby }) => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
-    //const [username, setUsername] = useState("User" + Math.floor(Math.random() * 1000)); // Random username
 
     useEffect(() => {
         if (selectedHobby) {
-            // Join the selected hobby's chat room
             socket.emit('joinHobbyRoom', selectedHobby);
 
-            // Fetch previous messages for the hobby room
-            axios.get(`http://localhost:5000/api/hobbyChat/${selectedHobby}/messages`)
+            // Fetch previous messages
+            axios.get(`http://localhost:5000/api/hobbyChat/${selectedHobby}`)
                 .then((response) => {
                     if (response.data.success) {
                         setMessages(response.data.messages);
                     }
                 })
-                .catch((error) => console.error('Error fetching chat messages:', error));
+                .catch((error) => console.error('Error fetching messages:', error));
         }
 
         return () => {
-            socket.disconnect();
+            socket.emit('leaveHobbyRoom', selectedHobby);
+            socket.off('receiveHobbyMessage');
         };
     }, [selectedHobby]);
 
     useEffect(() => {
-        // Listen for incoming messages
         socket.on('receiveHobbyMessage', (message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
         });
-
-        return () => {
-            socket.off('receiveHobbyMessage');
-        };
     }, []);
 
     const handleSendMessage = () => {
         if (newMessage.trim() !== "") {
-            axios.post(`http://localhost:5000/api/hobbies/${selectedHobby}/messages`, { message: newMessage })
-                .then(response => {
-                    if (response.data.success) {
-                        setMessages([...messages, response.data.message]);
-                        setNewMessage("");
-                    }
-                })
-                .catch(error => console.error('Error sending message:', error));
+            const messageData = {
+                room: selectedHobby,
+                text: newMessage,
+                sender: "User", // Replace with dynamic user data if available
+                timestamp: new Date(),
+            };
+
+            socket.emit('sendHobbyMessage', messageData);
+            setNewMessage("");
         }
     };
 
