@@ -45,6 +45,8 @@ const HobbyRoutes = require("./routes/HobbyRoutes");
 const HobbyMessageRoutes = require("./routes/HobbyMessageRoute");
 //const threadRoutes = require('./routes/threadRoutes');
 const userRoutes = require("./routes/userRoutes");
+const noticeRoutes = require('./routes/noticeRoutes');
+
 
 app.use('/api/alumni', AlumniRoutes);
 app.use('/api', AMAThreadRoutes);
@@ -54,6 +56,9 @@ app.use('/api', HobbyMessageRoutes);
 app.use('/api', authRoutes);
 app.use('/api', HobbyRoutes);
 app.use('/api', userRoutes);
+app.use('/api/notices', noticeRoutes);
+
+
 
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
