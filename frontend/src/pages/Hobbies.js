@@ -34,6 +34,8 @@ const Hobbies = () => {
 
     return (
         <div className="hobbies-container">
+            <div className="top-hobbies">LOGO</div>
+            <div className="main-box-hob">
             <div className="hobbies-list">
                 <input
                     type="text"
@@ -55,6 +57,7 @@ const Hobbies = () => {
             </div>
             <div className="hobby-chat-container">
                 {selectedHobby && <HobbyChat selectedHobby={selectedHobby} />}
+            </div>
             </div>
         </div>
     );

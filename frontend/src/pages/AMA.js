@@ -111,7 +111,7 @@ const AMA = () => {
       <h1>AMA Threads</h1>
       
       {/* AMA thread creation form */}
-      <div className='new-AMAthread'>
+      <div className='new-thread'>
         <div className='heading'>Ask Something!</div>
         <input 
           type="text" 
@@ -129,42 +129,46 @@ const AMA = () => {
       </div>
 
       {/* Display list of AMA threads */}
-      <div className='AMAthreads'>
-        <h2>Existing AMA threads</h2>
-        {AMAthreads.length > 0 ? (
-          <ul>
-            {AMAthreads.map(AMAthread => (
-              <li key={AMAthread._id}>
-                <button onClick={() => joinAMAthread(AMAthread._id)}>{AMAthread.title}</button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No AMA threads available</p>
-        )}
-      </div>
-
-      {/* AMA messages section for the selected AMA thread */}
-      {selectedAMAthread && (
-        <div>
-          <h3>AMA messages in this AMA thread</h3>
-          <div className='AMAthread-messages'>
-            {AMAmessages.map((AMAmessage, index) => (
-              <div key={index}>
-                <strong>{AMAmessage.sender}:</strong> {AMAmessage.text}
-              </div>
-            ))}
-          </div>
-
-          {/* Send a new AMA message */}
-          <textarea
-            value={newAMAMessage}
-            onChange={(e) => setNewAMAMessage(e.target.value)}
-            placeholder="Type your AMA message"
-          />
-          <button onClick={handleSendAMAMessage}>Send AMA message</button>
+      <div className='threads-container'>
+        <div className='Threads'>
+          <div className='headingdiv'>Existing Threads</div>
+          {AMAthreads.length > 0 ? (
+            <ul>
+              {AMAthreads.map(AMAthread => (
+                <li key={AMAthread._id}>
+                  <button onClick={() => joinAMAthread(AMAthread._id)}>{AMAthread.title}</button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No threads available</p>
+          )}
         </div>
-      )}
+
+        <div className='Th-msg'>
+          {/* AMA messages section for the selected AMA thread */}
+          {selectedAMAthread && (
+            <div>
+              <h3>AMA messages in this AMA thread</h3>
+              <div className='Thread-messages'>
+                {AMAmessages.map((AMAmessage, index) => (
+                  <div key={index}>
+                    <strong>{AMAmessage.sender}:</strong> {AMAmessage.text}
+                  </div>
+                ))}
+              </div>
+
+              {/* Send a new AMA message */}
+              <textarea
+                value={newAMAMessage}
+                onChange={(e) => setNewAMAMessage(e.target.value)}
+                placeholder="Type your AMA message"
+              />
+              <button onClick={handleSendAMAMessage}>Send Message</button>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
