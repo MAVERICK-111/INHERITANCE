@@ -18,6 +18,16 @@ const Hobbies = () => {
       })
       .catch((error) => console.error('Error fetching hobbies:', error));
   }, []);
+  useEffect(() => {
+    // Fetch hobbies from the backend
+    axios.get('http://localhost:5000/api/hobbies')
+      .then((response) => {
+        if (response.data.success) {
+          setHobbies(response.data.hobbies.map(hobby => hobby.name));
+        }
+      })
+      .catch((error) => console.error('Error fetching hobbies:', error));
+  }, []);
 
   const handleAddHobby = () => {
     if (newHobby.trim() !== "") {
