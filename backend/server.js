@@ -46,7 +46,7 @@ const HobbyMessageRoutes = require("./routes/HobbyMessageRoute");
 //const threadRoutes = require('./routes/threadRoutes');
 const userRoutes = require("./routes/userRoutes");
 
-app.use('/api', AlumniRoutes);
+app.use('/api/alumni', AlumniRoutes);
 app.use('/api', AMAThreadRoutes);
 app.use('/api', AMAMessageRoutes);
 app.use('/api', HobbyMessageRoutes);

@@ -7,17 +7,20 @@ exports.createAlumni = async (req, res) => {
     }
 
     const { info } = req.body;
-    const newAlumni = new Alumni({ photo: req.file.path, info });
+    const newAlumni = new Alumni({ photo: `uploads/${req.file.filename}`, info });
+
     await newAlumni.save();
     res.status(200).json({
       success: true,
       message: 'Alumni data saved successfully!',
-      photo: `http://localhost:5000/${req.file.path}`,
+      photo: `http://localhost:5000/uploads/${req.file.filename}`,
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Error saving alumni data' });
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Error saving alumni data', error: err.message });
   }
 };
+
 
 exports.getAlumni = async (req, res) => {
   try {

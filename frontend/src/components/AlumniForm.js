@@ -27,7 +27,7 @@ const AlumniForm = () => {
     formData.append('photo', photo);
 
     try {
-      const response = await axios.post('http://localhost:5000/alumni', formData, {
+      const response = await axios.post('http://localhost:5000/api/alumni', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -35,7 +35,7 @@ const AlumniForm = () => {
 
       if (response.data.success) {
         setMessage('Alumni data saved successfully!');
-        setAlumniList([...alumniList, { photo: `http://localhost:5000${response.data.photo}`, info }]);
+        setAlumniList([...alumniList, { photo: response.data.photo, info }]);
         setInfo('');
         setPhoto(null);
       } else {
@@ -49,7 +49,7 @@ const AlumniForm = () => {
   useEffect(() => {
     const fetchAlumni = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/alumni');
+        const response = await axios.get('http://localhost:5000/api/alumni');
         console.log(response.data.alumni);  // Check the value of alumni
         if (response.data.success) {
           setAlumniList(response.data.alumni);
