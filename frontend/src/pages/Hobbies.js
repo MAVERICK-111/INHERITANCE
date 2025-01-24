@@ -33,34 +33,26 @@ const Hobbies = () => {
     };
 
     return (
-        <div className="hobbies-container">
-            <div className="top-hobbies">LOGO</div>
-            <div className="main-box-hob">
-            <div className="hobbies-list">
-                <input
-                    type="text"
-                    value={newHobby}
-                    onChange={(e) => setNewHobby(e.target.value)}
-                    placeholder="Enter a new hobby"
-                    className="hobby-input"
-                />
-                <button onClick={handleAddHobby} className="add-hobby-button">Add Hobby</button>
-                {hobbies.map((hobby, index) => (
-                    <div
-                        key={index}
-                        className={`hobby-item ${selectedHobby === hobby ? 'selected' : ''}`}
-                        onClick={() => setSelectedHobby(hobby)}
-                    >
-                        {hobby}
-                    </div>
-                ))}
-            </div>
-            <div className="hobby-chat-container">
-                {selectedHobby && <HobbyChat selectedHobby={selectedHobby} />}
-            </div>
-            </div>
-        </div>
-    );
+        <div className="hobbies-app">
+      <h1>Enter your favorite hobby</h1>
+      <div className="hobby-input">
+        <input
+          type="text"
+          placeholder="Enter hobby..."
+          value={hobby}
+          onChange={(e) => setHobby(e.target.value)}
+        />
+        <button onClick={handleAddHobby}>Add Hobby</button>
+      </div>
+      <div className="hobby-grid">
+        {hobbies.map((h, index) => (
+          <div key={index} className="hobby-block">
+            <div className="hobby-icon">🎨</div> {/* You can replace with any icon */}
+            <div className="hobby-name">{h}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
-
 export default Hobbies;
