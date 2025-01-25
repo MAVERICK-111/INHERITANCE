@@ -1,13 +1,16 @@
 import React from 'react';
-import './Timeline.css'; // Optional: Add CSS styling
+import './Timeline.css';
 
 const Timeline = ({ notices }) => {
     return (
-        <div className="timeline">
+        <div className="timeline-container">
             {notices.map((notice, index) => (
-                <div className="timeline-item" key={index}>
-                    <div className="timeline-date">{new Date(notice.date).toLocaleDateString()}</div>
+                <div
+                    className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
+                    key={index}
+                >
                     <div className="timeline-content">
+                        <div className="timeline-date">{new Date(notice.date).toLocaleDateString()}</div>
                         {notice.image && (
                             <img
                                 src={notice.image}
