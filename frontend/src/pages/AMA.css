@@ -1,5 +1,5 @@
 .AMA-container {
-  margin-top: 45px;
+  /* margin-top: 45px; */
   background-image: url('ama.gif');
   background-size: cover;
   background-position: center;
@@ -11,7 +11,23 @@
   flex-direction: column;
   padding: 20px;
   overflow: auto;
-  height:100vh;
+ font-family: 'Inter', sans-serif;
+}
+
+.ama-logo {
+ font-family: 'Inter', sans-serif;
+  font-size: 25px;
+  font-weight: 200;
+  /* Adjust font size to a reasonable value */
+  text-align: center;
+  /* Center the heading */
+  color: rgb(0, 0, 0);
+  /* Ensure text is visible if the background is dark */
+}
+
+.heading{
+  font-size: 20px;
+  padding: 5px;
 }
 
 .new-thread {
@@ -19,37 +35,62 @@
   flex-direction: column;
   align-items: center;
   font-size: 16px;
-  background-color: #fff;
-  width: 80%;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: #333;
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  width: 70%;
+  max-width: 1600px;
+  padding: 25px;
+  margin: 20px auto;
+  border-radius: 20px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.new-thread:hover {
+  box-shadow: 0 8px 120px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  background-color: #f8f8f8;
 }
 
 .new-thread input {
   width: 95%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 15px;
-  background-color: #eaeaeb;
-  color: black;
+  background-color: #f7f7f7;
+  color: #333;
+  font-size: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-thread input:focus {
+  background-color: #fff;
+  border-color: #3da6db;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
 .new-thread button {
-  padding: 10px;
+  padding: 12px 20px;
   font-size: 16px;
   color: white;
   border: none;
   border-radius: 45px;
   cursor: pointer;
   background-color: #3da6db;
-  width: 20%;
+  width: auto;
+  min-width: 120px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .new-thread button:hover {
   background-color: #3291b8;
+  transform: translateY(-3px);
+}
+
+.new-thread button:active {
+  transform: translateY(1px);
 }
 
 .threads-container {
@@ -57,37 +98,45 @@
   flex-direction: row;
   gap: 30px;
   color: black;
-  width: 75%;
+  width: 90%;
 }
 
 .headingdiv {
   color: rgb(22, 80, 104);
-  font-size: 25px;
+  font-size: 28px;
   text-align: center;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
 }
 
 .Threads {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   color: black;
-  width: 25%;
-  background-color: #f4f4f4;
+  width: 30%;
+  background-color: #f7f7f7;
   border-right: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
   border-radius: 20px;
   overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.Threads:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .Th-msg {
   width: 75%;
-  padding: 20px;
+  padding: 25px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
   background-color: #f3f3f3;
+  border-radius: 15px;
 }
 
 .Threads ul {
@@ -96,44 +145,55 @@
 }
 
 .Threads li {
-  margin: 5px 0;
+  margin: 10px 0;
+  font-size: 16px;
 }
 
 .Threads button {
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 45px;
   cursor: pointer;
   background-color: #96c7df;
   width: 100%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .Threads button:hover {
   background-color: #3291b8;
+  transform: translateY(-3px);
 }
 
 .Thread-messages div {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .Thread-messages strong {
   font-weight: bold;
+  color: #333;
 }
 
 textarea {
   width: 98%;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 12px;
+  margin-top: 12px;
   border: 1px solid #ccc;
   border-radius: 25px;
   font-size: 16px;
   resize: vertical;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #3da6db;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
 button {
-  padding: 10px;
+  padding: 12px;
   width: 100%;
   font-size: 16px;
   color: white;
@@ -141,8 +201,14 @@ button {
   border-radius: 115px;
   cursor: pointer;
   background-color: #3da6db;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
   background-color: #3291b8;
+  transform: translateY(-3px);
+}
+
+button:active {
+  transform: translateY(1px);
 }

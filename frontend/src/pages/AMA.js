@@ -108,7 +108,9 @@ const AMA = () => {
 
   return (
     <div className='AMA-container'>
-      <h1>AMA Threads</h1>
+      <div className="ama-logo">
+          <h1>Ask Me Anything</h1>
+      </div>
       
       {/* AMA thread creation form */}
       <div className='new-thread'>
@@ -149,7 +151,7 @@ const AMA = () => {
           {/* AMA messages section for the selected AMA thread */}
           {selectedAMAthread && (
             <div>
-              <h3>AMA messages in this AMA thread</h3>
+              <h3>{selectedAMAthread}</h3>
               <div className='Thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
                   <div key={index}>
@@ -162,7 +164,14 @@ const AMA = () => {
               <textarea
                 value={newAMAMessage}
                 onChange={(e) => setNewAMAMessage(e.target.value)}
-                placeholder="Type your AMA message"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSendAMAMessage();
+                  setNewAMAMessage('');
+                  }
+                }}
+                placeholder="Ask query..."
               />
               <button onClick={handleSendAMAMessage}>Send Message</button>
             </div>

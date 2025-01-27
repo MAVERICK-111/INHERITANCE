@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import './Homepage.css'; 
+import './Homepage.css';
+import AMAImage from './ama .jpeg';
+
 
 
 const Homepage = () => {
@@ -14,7 +16,10 @@ const Homepage = () => {
 
           <div className="Left_container">
             <div className="AMA">
-              <Link to="/AMA">AMA</Link>
+              <Link to="/AMA">
+              <img src={AMAImage} alt="AMA" className="image-class" />
+
+              </Link>
             </div>
             <div className="Hobbies">
               <Link to="/Hobbies">Hobbies</Link>
