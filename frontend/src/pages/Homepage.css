@@ -10,7 +10,7 @@
 }
 
 .Left_section, .Right_section{
-    margin-top: 45px;
+    /* margin-top: 45px; */
     top: 20px;
     background-color: #e0f2fb;
     width: 25%;
@@ -67,7 +67,7 @@
 
 
 .Center_section {
-    margin-top: 45px;
+    /* margin-top: 45px; */
     width: 50%;
     /* Make the center section take the remaining space */
     padding: 20px;

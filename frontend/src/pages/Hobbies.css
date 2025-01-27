@@ -1,86 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 .hobbies-container {
     display: flex;
-    flex-direction: column;
-    margin-top: 45px;
-    padding: 20px;
-    background-color: whitesmoke;
-    height: 100vh;
-    /* background-image: url('hobbies.gif'); */
+    background-image: url('hobbies.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* overflow: auto; */
+    font-family: 'Inter', sans-serif;
+    flex-direction: column;
+    padding: 30px;
+    background-color: #f7f7f3;
+    /* Light beige background */
+    height: dynamic;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Soft shadow for depth */
+    overflow: auto;
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+/* Cool font from Google Fonts */
+
+.heading {
+    text-align: center;
+}
+
+.heading-title {
+    font-size: 4rem;
+    /* Large size for impact */
+    color: #5d4f3b;
+    /* Rich brownish beige color */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+    /* Slight shadow for depth */
+    position: relative;
+}
+
+.heading-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 50%;
+    background: #d1b38b;
+    /* Warm beige underline */
+    border-radius: 15px;
+}
+
+.heading-subtitle {
+    margin-top: -50px;
+    font-size: 1.5rem;
+    color: #8e7f6d;
+    /* Muted beige */
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    /* margin-top: 15px; */
+    opacity: 0.85;
+    line-height: 1.6;
+    /* transition: opacity 0.3s ease; */
+}
+
+
 
 .top-hobbies {
     margin-top: 10px;
-    background-color: white;
-    height: 50px;
+    background-color: #f1e5d6;
+    /* Light beige with a warm tint */
+    border-radius: 10px;
+    padding: 10px;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
+    color: #5a4e45;
+    /* Darker beige text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Soft shadow effect */
 }
-.main-box-hob{
+
+.main-box-hob {
     padding: 20px;
     display: flex;
     flex-direction: row;
     gap: 20px;
+    width: 75%;
+    border-radius: 15px;
+    background-color: #e6dfcb;
+    /* Muted beige for the main box */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .hobbies-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 15px;
+    width: 45%;
+    min-width: 200px;
 }
 
 .hobby-input {
-    width: 50%;
-    padding: 10px;
-    background-color: lightgrey;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    background-color: #fff;
+    /* White background for input */
+    border: 1px solid #d3c6b0;
+    /* Soft beige border */
+    border-radius: 25px;
     font-size: 16px;
     margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.hobby-input:focus {
+    border-color: #d1b38b;
+    /* Medium beige on focus */
+    box-shadow: 0 0 5px rgba(209, 179, 139, 0.5);
 }
 
 .add-hobby-button {
-    padding: 10px 15px;
-    background-color: #007bff;
+    width: 100%;
+    max-width: 350px;
+    padding: 12px 20px;
+    background-color: #a5cb5f;
+    /* Medium beige for button */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 25px;
     cursor: pointer;
     font-size: 16px;
     margin-bottom: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .add-hobby-button:hover {
-    background-color: #0056b3;
+    background-color: #7db853;
+    /* Darker beige on hover */
+    transform: scale(1.05);
 }
 
 .hobby-item {
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    color: rgb(203, 197, 197);
+    padding: 12px;
+    background-color: #f1e5d6;
+    /* Soft warm beige for items */
+    border: 1px solid #d3c6b0;
+    border-radius: 25px;
+    color: #5a4e45;
+    /* Dark beige text color */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s ease;
 }
 
 .hobby-item:hover {
-    background-color: #f0f0f0;
+    background-color: #e6dfcb;
+    /* Slightly darker beige for hover effect */
+    transform: scale(1.05);
 }
 
 .hobby-item.selected {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #d1b38b;
+    /* Selected beige background */
+    color: white;
 }
 
 .hobby-chat-container {
     margin-top: 20px;
     padding: 20px;
-    background-color: rgb(255, 255, 255);
+    background-color: #fff;
     width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .main-box-hob {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hobbies-list {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .hobby-input,
+    .add-hobby-button {
+        max-width: 90%;
+    }
 }

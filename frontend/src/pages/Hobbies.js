@@ -44,7 +44,14 @@ const Hobbies = () => {
 
   return (
     <div className="hobbies-container">
-      <h1>Enter your favorite hobby</h1>
+      
+      <div class="heading-container">
+        <h1 class="heading-title">Hobbies</h1>
+        <p class="heading-subtitle">Dive into your passions and connect with like-minded people.</p>
+        
+      </div>
+
+        
       <div className="main-box-hob">
         <div className="hobbies-list">
           <input
@@ -61,7 +68,6 @@ const Hobbies = () => {
               className={`hobby-item ${selectedHobby === hobby ? 'selected' : ''}`}
               onClick={() => setSelectedHobby(hobby)}
             >
-              <div className="hobby-icon">🎨</div> {/* Icon for the hobby */}
               <div className="hobby-name">{hobby}</div>
             </div>
           ))}
