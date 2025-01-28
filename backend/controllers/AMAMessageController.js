@@ -5,7 +5,7 @@ const setSocket = (socketIo) => {
   op = socketIo;
 };
 const sendAMAMessage = async (req, res) => {
-  const { AMAthreadId, sender, text } = req.body;
+  const { AMAthreadId, sender, senderName, text } = req.body;
 
   try {
     const newMessage = new AMAMessage({ AMAthread: AMAthreadId, sender, text });

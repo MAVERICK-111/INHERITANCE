@@ -1,7 +1,7 @@
 const AMAThread = require('../models/AMAThread');
 
 exports.createAMAThread = async (req, res) => {
-  const { title, creator } = req.body;
+  const { title, creator, creatorName } = req.body;
 
   try {
     const newThread = new AMAThread({ title, creator });
