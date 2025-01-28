@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
 import './AMA.css';
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const socket = io('http://localhost:5000');  // Socket.io server URL
 
 const AMA = () => {
+  const { user } = useAuth0();
   const [AMAthreads, setAMAthreads] = useState([]);
   const [newAMAthreadTitle, setNewAMAthreadTitle] = useState('');
-  const [newAMAthreadCreator, setNewAMAthreadCreator] = useState('');
+  const [newAMAthreadCreator, setNewAMAthreadCreator] = useState(user?.name || 'Unknown');
   const [selectedAMAthread, setSelectedAMAthread] = useState(null);
   const [newAMAMessage, setNewAMAMessage] = useState('');
   const [AMAmessages, setAMAmessages] = useState([]);
@@ -41,8 +44,8 @@ const AMA = () => {
 
   // Handle the creation of a new AMA thread
   const handleCreateAMAthread = async() => {
-    if (!newAMAthreadTitle || !newAMAthreadCreator) {
-      alert('Please provide both title and creator name');
+    if (!newAMAthreadTitle) {
+      alert('Please ask a question!');
       return;
     }
 
@@ -69,14 +72,14 @@ const AMA = () => {
 
     const AMAMessageData = {
       AMAthreadId: selectedAMAthread,
-      sender: 'User',  // Replace with actual user info
+      sender: user?.name || 'Unknown',  // Replace with actual user info
       text: newAMAMessage
     };
 
     // Optimistically add the message to the state before the server responds
     setAMAmessages(prevMessages => [
       ...prevMessages,
-      { sender: 'User', text: newAMAMessage, AMAthreadId: selectedAMAthread }
+      { sender: user?.name || 'Unknown', text: newAMAMessage, AMAthreadId: selectedAMAthread }
     ]);
 
     // Send the message to the backend
@@ -117,16 +120,16 @@ const AMA = () => {
         <div className='heading'>Ask Something!</div>
         <input 
           type="text" 
-          placeholder="AMA thread Title"
+          placeholder="Your Query Please"
           value={newAMAthreadTitle}
           onChange={(e) => setNewAMAthreadTitle(e.target.value)}
         />
-        <input 
+        {/* <input 
           type="text" 
           placeholder="Creator Name"
           value={newAMAthreadCreator}
           onChange={(e) => setNewAMAthreadCreator(e.target.value)}
-        />
+        /> */}
         <button onClick={handleCreateAMAthread}>Post</button>
       </div>
 
@@ -151,7 +154,7 @@ const AMA = () => {
           {/* AMA messages section for the selected AMA thread */}
           {selectedAMAthread && (
             <div>
-              <h3>{selectedAMAthread}</h3>
+              <h3>{AMAthreads.find(thread => thread._id === selectedAMAthread)?.title} - {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creator}</h3>
               <div className='Thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
                   <div key={index}>
@@ -171,7 +174,7 @@ const AMA = () => {
                   setNewAMAMessage('');
                   }
                 }}
-                placeholder="Ask query..."
+                placeholder="Your Answer"
               />
               <button onClick={handleSendAMAMessage}>Send Message</button>
             </div>
