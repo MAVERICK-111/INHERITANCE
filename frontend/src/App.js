@@ -17,6 +17,7 @@ import HobbyChat from './components/HobbyChat';
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 
+//import { AuthButtons } from './components/AuthButtons';
 
 const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com"; // Replace with your Auth0 domain
 const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz"; // Replace with your actual Auth0 client ID
