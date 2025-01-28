@@ -8,6 +8,7 @@ const Homepage = () => {
   const [caption, setCaption] = useState('');
   const [image, setImage] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [showModal, setShowModal] = useState(false); // Modal visibility state
 
   // Fetch posts from the backend
   useEffect(() => {
@@ -19,9 +20,9 @@ const Homepage = () => {
         console.error('Error fetching posts:', error);
       }
     };
-    
+
     fetchPosts();
-  }, [posts]); // Re-fetch posts whenever a new one is uploaded
+  }, []); // Only fetch posts once when the component mounts
 
   // Handle image upload
   const handleImageChange = (e) => {
@@ -48,6 +49,7 @@ const Homepage = () => {
 
       setCaption('');
       setImage(null);
+      setShowModal(false); // Close the modal after submission
       alert('Post uploaded successfully!');
     } catch (error) {
       console.error('Error uploading post:', error);
@@ -55,15 +57,28 @@ const Homepage = () => {
     }
   };
 
+  // Close the modal when pressing the Esc key
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setShowModal(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div>
       <div className="Landing_page">
         <div className="Left_section">
           <div className="Left_container">
             <div className="AMA">
-              <Link to="/AMA">
-                <img src={AMAImage} alt="AMA" className="image-class" />
-              </Link>
+              <Link to="/AMA">AMA</Link>
             </div>
             <div className="Hobbies">
               <Link to="/Hobbies">Hobbies</Link>
@@ -78,8 +93,18 @@ const Homepage = () => {
         </div>
 
         <div className="Center_section">
-          {/* Post upload form */}
-          <div className="PostUploadForm">
+          {/* Query bar asking if the user wants to post */}
+          <div className="QueryBar">
+            <p>Create a post..</p>
+            <button onClick={() => setShowModal(true)}>+</button>
+          </div>
+          
+
+          {/* Modal for uploading post */}
+          {showModal && (
+        <div className="Modal">
+          <div className="ModalContent">
+            <button className="CloseButton" onClick={() => setShowModal(false)}>X</button>
             <h3>Create a Post</h3>
             <form onSubmit={handleSubmit}>
               <input
@@ -91,7 +116,11 @@ const Homepage = () => {
               <input type="file" onChange={handleImageChange} />
               <button type="submit">Upload Post</button>
             </form>
+            <button onClick={() => setShowModal(false)}>Cancel</button>
           </div>
+       </div>
+      )}
+
 
           {/* Display posts */}
           <div className="PostList">
