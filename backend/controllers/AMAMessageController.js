@@ -8,7 +8,7 @@ const sendAMAMessage = async (req, res) => {
   const { AMAthreadId, sender, senderName, text } = req.body;
 
   try {
-    const newMessage = new AMAMessage({ AMAthread: AMAthreadId, sender, text });
+    const newMessage = new AMAMessage({ AMAthread: AMAthreadId, sender,senderName, text });
     await newMessage.save();
     
     // Emit the message via Socket.IO

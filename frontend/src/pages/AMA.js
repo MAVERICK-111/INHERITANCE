@@ -11,7 +11,7 @@ const AMA = () => {
   const { user } = useAuth0();
   const [AMAthreads, setAMAthreads] = useState([]);
   const [newAMAthreadTitle, setNewAMAthreadTitle] = useState('');
-  const [newAMAthreadCreator, setNewAMAthreadCreator] = useState(user?.name || 'Unknown');
+  const [newAMAthreadCreator, setNewAMAthreadCreator] = useState(user?.sub || 'Unknown');
   const [selectedAMAthread, setSelectedAMAthread] = useState(null);
   const [newAMAMessage, setNewAMAMessage] = useState('');
   const [AMAmessages, setAMAmessages] = useState([]);
@@ -43,18 +43,22 @@ const AMA = () => {
   };
 
   // Handle the creation of a new AMA thread
-  const handleCreateAMAthread = async() => {
+  const handleCreateAMAthread = async () => {
     if (!newAMAthreadTitle) {
       alert('Please ask a question!');
       return;
     }
-
+  
+    // Use the user's name as the creatorName if available
+    const creatorName = user?.name || 'Unknown';
+  
     axios.post('http://localhost:5000/api/createAMAThread', {
       title: newAMAthreadTitle,
-      creator: newAMAthreadCreator
+      creator: newAMAthreadCreator,
+      creatorName: creatorName,  // Pass creatorName correctly
     })
       .then(response => {
-        setAMAthreads([...AMAthreads, response.data.AMAthread]); // Add new thread to the list
+        setAMAthreads([...AMAthreads, response.data.AMAthread]);
         setNewAMAthreadTitle('');
         setNewAMAthreadCreator('');
       })
@@ -62,6 +66,7 @@ const AMA = () => {
         console.error('Error creating thread:', error);
       });
   };
+  
 
   // Handle sending a new AMA message in the selected AMA thread
   const handleSendAMAMessage = () => {
@@ -72,14 +77,15 @@ const AMA = () => {
 
     const AMAMessageData = {
       AMAthreadId: selectedAMAthread,
-      sender: user?.name || 'Unknown',  // Replace with actual user info
+      sender: user?.sub,  // Replace with actual user info
+      senderName: user?.name,
       text: newAMAMessage
     };
 
     // Optimistically add the message to the state before the server responds
     setAMAmessages(prevMessages => [
       ...prevMessages,
-      { sender: user?.name || 'Unknown', text: newAMAMessage, AMAthreadId: selectedAMAthread }
+      { sender: user?.sub, senderName: user?.name, text: newAMAMessage, AMAthreadId: selectedAMAthread }
     ]);
 
     // Send the message to the backend
@@ -154,11 +160,11 @@ const AMA = () => {
           {/* AMA messages section for the selected AMA thread */}
           {selectedAMAthread && (
             <div>
-              <h3>{AMAthreads.find(thread => thread._id === selectedAMAthread)?.title} - {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creator}</h3>
+              <h3>{AMAthreads.find(thread => thread._id === selectedAMAthread)?.title} - {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creatorName}</h3>
               <div className='Thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
                   <div key={index}>
-                    <strong>{AMAmessage.sender}:</strong> {AMAmessage.text}
+                    <strong>{AMAmessage.senderName}:</strong> {AMAmessage.text}
                   </div>
                 ))}
               </div>

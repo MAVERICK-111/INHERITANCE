@@ -4,7 +4,7 @@ exports.createAMAThread = async (req, res) => {
   const { title, creator, creatorName } = req.body;
 
   try {
-    const newThread = new AMAThread({ title, creator });
+    const newThread = new AMAThread({ title, creator, creatorName });
     await newThread.save();
     res.status(201).json({ success: true, AMAthread: newThread });
   } catch (err) {
