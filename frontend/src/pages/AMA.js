@@ -67,6 +67,27 @@ const AMA = () => {
       });
   };
   
+  // Handle the delete AMA thread action
+  const handleDeleteAMAthread = (AMAthreadId, creator) => {
+    // Only the creator can delete the thread
+    if (user?.sub !== creator) {
+      alert("You are not authorized to delete this thread.");
+      return;
+    }
+
+    axios.delete(`http://localhost:5000/api/deleteAMAThread/${AMAthreadId}`, {
+      data: { userSub: user?.sub } // Send user's sub to verify
+    })
+    .then(response => {
+      // Remove the thread from the UI after successful deletion
+      setAMAthreads(prevThreads => prevThreads.filter(thread => thread._id !== AMAthreadId));
+      setSelectedAMAthread(null); // Clear selected thread
+    })
+    .catch(error => {
+      console.error('Error deleting AMA thread:', error);
+      alert('Failed to delete the thread');
+    });
+  };
 
   // Handle sending a new AMA message in the selected AMA thread
   const handleSendAMAMessage = () => {
@@ -161,6 +182,15 @@ const AMA = () => {
           {selectedAMAthread && (
             <div>
               <h3>{AMAthreads.find(thread => thread._id === selectedAMAthread)?.title} - {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creatorName}</h3>
+              {/* Render delete button only for the thread creator */}
+              {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creator === user?.sub && (
+                <button
+                  onClick={() => handleDeleteAMAthread(selectedAMAthread, AMAthreads.find(thread => thread._id === selectedAMAthread)?.creator)}
+                  style={{ color: 'red', marginBottom: '10px' }}
+                >
+                  Delete Thread
+                </button>
+              )}
               <div className='Thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
                   <div key={index}>
