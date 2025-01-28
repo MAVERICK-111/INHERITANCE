@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 
 function Header() {
+ 
   return (
     <header>
       <div className="Top_section">
@@ -14,6 +15,7 @@ function Header() {
         <div className="Username">
           <Link to="/profile">Profile</Link>
         </div>
+        
       </div>
     </header>
   );
