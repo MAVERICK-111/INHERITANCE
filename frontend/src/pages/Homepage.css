@@ -1,49 +1,36 @@
-.image-class{
-    height: 110px;
-}
-
-
+/* For the landing page layout */
 .Landing_page {
     display: flex;
     height: 100vh;
     flex-direction: row;
 }
 
-.Left_section, .Right_section{
-    /* margin-top: 45px; */
+.Left_section, .Right_section {
     top: 20px;
     background-color: #e0f2fb;
     width: 25%;
     padding: 20px;
-
 }
-.Left_container{
+
+.Left_container {
     display: flex;
     flex-direction: column;
     margin-top: 55px;
-    gap:15px;
+    gap: 15px;
 }
 
 .AMA, .Hobbies, .Alumni, .Request {
-    
     display: flex;
     align-items: center;
     background-color: #ffffff;
     height: 165px;
     width: 400px;
-    /* margin-top: 30px; */
-    justify-content: center;    
+    justify-content: center;
     text-align: center;
-    size: 50px; 
-    color: white;
     font-size: 20px;
+    color: white;
     border-radius: 15px;
 }
-
-
-
-
-
 
 .Right_container {
     display: flex;
@@ -51,66 +38,102 @@
     margin-top: 55px;
     gap: 30px;
 }
-.Messages, .Noticeboard{
+
+.Messages, .Noticeboard {
     display: flex;
     align-items: center;
     background-color: #ffffff;
     height: 275px;
-    justify-content: center;    
+    justify-content: center;
     text-align: center;
-    size: 50px; 
-    color: white;
     font-size: 20px;
+    color: white;
     border-radius: 20px;
-
 }
 
-
 .Center_section {
-    /* margin-top: 45px; */
     width: 50%;
-    /* Make the center section take the remaining space */
     padding: 20px;
     background-color: #e0f2fb;
     text-align: center;
 }
 
-.AMA_container{
-    margin-top: 75px;
+/* Styling for the post upload form */
+.PostUploadForm {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.PostUploadForm input[type="text"],
+.PostUploadForm input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.PostUploadForm button {
+    padding: 12px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.PostUploadForm button:hover {
+    background-color: #45a049;
+}
+
+/* Styling for displaying posts */
+.PostList {
+    margin-top: 20px;
+}
+
+.Post {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.PostImage {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.Post p {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Styling for other sections */
+.AMA_container, .contacts_container, .chats_container {
     display: flex;
     flex-direction: row;
-}
-.contacts_container{
-    display: flex;
-    flex-direction:column;
-
     margin-top: 35px;
-    margin-left: 10px;
-    top: 20px;
-    background-color: #c48a8a;
-    height: 100%;
-    width: 25%;
-    padding: 20px;
-    gap: 100px;
-}
-.chats_container{
-    margin-top: 35px;
-    margin-left: 10px;
-    background-color: #d9cac9;
-    width:75%;
 }
 
-
-.Hobbies_container,.Alumni_container {
+.Hobbies_container, .Alumni_container {
     margin-top: 95px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
-    padding: 20px;  
+    padding: 20px;
     background-color: #99e14b;
     height: 100vh;
 }
-.hobby-box,.alumni-box {
+
+.hobby-box, .alumni-box {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,7 +144,6 @@
     text-align: center;
 }
 
-
 .Person {
     padding: 10px;
     border: 1px solid #fff;
@@ -131,27 +153,9 @@
     border-radius: 5px;
 }
 
-.request_container{
+.request_container, .messages_container, .noticeboard_container {
     margin-top: 95px;
-    
-    height: 1000px;
-    text-align: center;
-    background-color: #e98484;
-}
-
-.messages_container {
-    margin-top: 95px;
-
     height: 1000px;
     text-align: center;
     background-color: #9fe5fe;
 }
-
-.noticeboard_container {
-    margin-top: 95px;
-
-    height: 1000px;
-    text-align: center;
-    background-color: #9fe5fe;
-}
-
