@@ -1,35 +1,39 @@
-const HobbyMessage = require('../models/HobbyMessageModel');
-let io;
-
-// Reusable setSocket function to set the socket instance
+const HobbyMessage = require('../models/HobbyMessage');
+const HobbyThread = require('../models/HobbyThread');
+// Create a new Hobby message
 const setSocket = (socketIo) => {
-  io = socketIo;
+  op = socketIo;
+};
+const sendHobbyMessage = async (req, res) => {
+  const { HobbythreadId, sender, senderName, text } = req.body;
+
+  try {
+    const newMessage = new HobbyMessage({ Hobbythread: HobbythreadId, sender,senderName, text });
+    await newMessage.save();
+    
+    // Emit the message via Socket.IO
+    if (io) {
+      io.to(HobbythreadId).emit('Hobbymessage', { ...newMessage._doc });
+    }
+
+    await HobbyThread.findByIdAndUpdate(HobbythreadId, {
+      $push: { messages: newMessage._id },
+    });
+
+    res.status(200).json({ success: true, message: newMessage });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to send Hobby message' });
+  }
 };
 
+// Get all Hobby messages for a specific thread
 const getHobbyMessages = async (req, res) => {
-    const { hobbyName } = req.params;
-    try {
-        const messages = await HobbyMessage.find({ room: hobbyName }).sort({ timestamp: 1 });
-        res.status(200).json({ success: true, messages });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Failed to fetch messages' });
-    }
+  try {
+    const messages = await HobbyMessage.find({ Hobbythread  : req.params.HobbythreadId });
+    res.status(200).json({ Hobbymessages: messages });
+  } catch (err) {
+    res.status(400).json({ message: 'Error fetching Hobby messages', error: err });
+  }
 };
 
-const saveHobbyMessage = async (data) => {
-    const { room, sender, text, timestamp } = data;
-    try {
-        const newMessage = new HobbyMessage({ room, sender, text, timestamp });
-        await newMessage.save();
-
-        if (io) {
-            io.to(room).emit('hobbyMessage', { ...newMessage._doc }); // Emit the new message to the specific room
-        }
-        return newMessage;
-    } catch (error) {
-        console.error('Failed to save message:', error);
-        throw error;
-    }
-};
-
-module.exports = { setSocket, getHobbyMessages, saveHobbyMessage };
+module.exports = { sendHobbyMessage, getHobbyMessages, setSocket };

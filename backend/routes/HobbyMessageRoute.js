@@ -1,8 +1,8 @@
 const express = require('express');
-const { getHobbyMessages } = require('../controllers/HobbyMessageController');
+const HobbyMessageController = require('../controllers/HobbyMessageController');
 
 const router = express.Router();
 
-router.get('/hobbyChat/:hobbyName', getHobbyMessages);
-
+router.post('/sendHobbyMessage', HobbyMessageController.sendHobbyMessage);
+router.get('/getHobbyMessages/:HobbythreadId', HobbyMessageController.getHobbyMessages)
 module.exports = router;
