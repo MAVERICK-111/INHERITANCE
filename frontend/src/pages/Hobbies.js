@@ -64,26 +64,6 @@ const Hobbies = () => {
         console.error('Error creating thread:', error);
       });
   };
-  
-  //delete Hobby thread
-  const handleDeleteHobbythread = (HobbythreadId, creator) => {
-    if (user?.sub !== creator) {
-      alert("You are not authorized to delete this thread.");
-      return;
-    }
-
-    axios.delete(`http://localhost:5000/api/deleteHobbyThread/${HobbythreadId}`, {
-      data: { userSub: user?.sub }
-    })
-    .then(response => {
-      setHobbythreads(prevThreads => prevThreads.filter(thread => thread._id !== HobbythreadId));
-      setSelectedHobbythread(null);
-    })
-    .catch(error => {
-      console.error('Error deleting Hobby thread:', error);
-      alert('Failed to delete the thread');
-    });
-  };
 
   //sending Hobby message in selected Hobby thread
   const handleSendHobbyMessage = () => {
@@ -175,16 +155,7 @@ const Hobbies = () => {
           {/*messages section for the selected Hobby thread */}
           {selectedHobbythread && (
             <div>
-              <h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title} - {Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creatorName}</h3>
-              {/*delete button only for the thread creator */}
-              {Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creator === user?.sub && (
-                <button
-                  onClick={() => handleDeleteHobbythread(selectedHobbythread, Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creator)}
-                  style={{ color: 'red', marginBottom: '10px' }}
-                >
-                  Delete Thread
-                </button>
-              )}
+              <h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title}{/* - {Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creatorName}*/}</h3>
               <div className='Thread-messages'>
                 {Hobbymessages.map((Hobbymessage, index) => (
                   <div key={index}>
