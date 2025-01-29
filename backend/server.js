@@ -28,10 +28,10 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB Connection
-const connectDB = require('./config/db');  // This imports the connectDB function
+const connectDB = require('./config/db');
 connectDB();
 
-// Ensure 'uploads' directory exists
+// Uploads
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
@@ -40,11 +40,8 @@ if (!fs.existsSync(uploadDir)) {
 const AlumniRoutes = require("./routes/alumniRoutes");
 const AMAThreadRoutes = require("./routes/AMAThreadRoutes");
 const AMAMessageRoutes = require("./routes/AMAMessageRoute");
-const authRoutes = require("./routes/authRoutes");
 const HobbyThreadRoutes = require("./routes/HobbyThreadRoutes");
 const HobbyMessageRoutes = require("./routes/HobbyMessageRoute");
-//const threadRoutes = require('./routes/threadRoutes');
-const userRoutes = require("./routes/userRoutes");
 const noticeRoutes = require('./routes/noticeRoutes');
 const postRoutes = require('./routes/postRoutes');
 
@@ -52,23 +49,16 @@ app.use('/api/alumni', AlumniRoutes);
 app.use('/api', AMAThreadRoutes);
 app.use('/api', AMAMessageRoutes);
 app.use('/api', HobbyMessageRoutes);
-//app.use('/api/threads', threadRoutes);
-app.use('/api', authRoutes);
 app.use('/api', HobbyThreadRoutes);
-app.use('/api', userRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/posts', postRoutes);
 
-
-// Serve static files
+//static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Error Handling Middleware
 const errorMiddleware = require("./middleware/errorHandler");
 app.use(errorMiddleware);
-
-// Server
-setupSocket(io);
 
 // Start the Server
 const PORT = process.env.PORT || 5000;

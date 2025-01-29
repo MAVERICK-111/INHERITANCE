@@ -1,6 +1,5 @@
 const AMAMessage = require('../models/AMAMessage');
 const AMAThread = require('../models/AMAThread');
-// Create a new AMA message
 const setSocket = (socketIo) => {
   op = socketIo;
 };
@@ -10,10 +9,8 @@ const sendAMAMessage = async (req, res) => {
   try {
     const newMessage = new AMAMessage({ AMAthread: AMAthreadId, sender,senderName, text });
     await newMessage.save();
-    
-    // Emit the message via Socket.IO
     if (io) {
-      io.to(AMAthreadId).emit('AMAmessage', { ...newMessage._doc }); // Include `_id` and all fields
+      io.to(AMAthreadId).emit('AMAmessage', { ...newMessage._doc });
     }
 
     await AMAThread.findByIdAndUpdate(AMAthreadId, {
@@ -25,8 +22,6 @@ const sendAMAMessage = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to send AMA message' });
   }
 };
-
-// Get all AMA messages for a specific thread
 const getAMAMessages = async (req, res) => {
   try {
     const messages = await AMAMessage.find({ AMAthread  : req.params.AMAthreadId });
