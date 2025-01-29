@@ -1,30 +1,62 @@
 const express = require("express");
 const User = require("../models/User");
-
 const router = express.Router();
 
-// Get user profile
-router.get("/:auth0Id", async (req, res) => {
+// Get User Profile or create a dummy one if it doesn't exist
+router.get("/getUser/:auth0Id", async (req, res) => {
   try {
-    const user = await User.findOne({ auth0Id: req.params.auth0Id });
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const userId = decodeURIComponent(req.params.auth0Id); // Decode the auth0Id
+   
+
+    if (!userId) {
+      return res.status(400).json({ error: "Invalid user ID" });
+    }
+
+    // Check if the user already exists
+    const user = await User.findOne({ auth0Id: userId });
+
+    if (!user) {
+      
+      
+      const dummyEmail = `abc123@example.com`; 
+      const dummyUser = new User({
+        auth0Id: userId,  
+        email: dummyEmail, 
+        username: "enter your username",
+        age: 25,
+        profilePicture: "https://picsum.photos/seed/picsum/200/300",
+      });
+
+      
+      if (dummyUser.auth0Id) {
+        await dummyUser.save();
+        
+        return res.json(dummyUser);
+      } else {
+        return res.status(400).json({ error: "Failed to create user: invalid auth0Id" });
+      }
+    }
+
+    
     res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error("Error fetching or creating user:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Update user profile
-router.put("/:auth0Id", async (req, res) => {
+
+// Update User Profile
+router.put("/updateUser/:auth0Id", async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate(
+    const updatedUser = await User.findOneAndUpdate(
       { auth0Id: req.params.auth0Id },
       req.body,
-      { new: true, upsert: true }
+      { new: true }
     );
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update user" });
   }
 });
 
