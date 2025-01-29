@@ -1,6 +1,5 @@
 const HobbyMessage = require('../models/HobbyMessage');
 const HobbyThread = require('../models/HobbyThread');
-// Create a new Hobby message
 const setSocket = (socketIo) => {
   op = socketIo;
 };
@@ -10,8 +9,6 @@ const sendHobbyMessage = async (req, res) => {
   try {
     const newMessage = new HobbyMessage({ Hobbythread: HobbythreadId, sender,senderName, text });
     await newMessage.save();
-    
-    // Emit the message via Socket.IO
     if (io) {
       io.to(HobbythreadId).emit('Hobbymessage', { ...newMessage._doc });
     }
@@ -25,8 +22,6 @@ const sendHobbyMessage = async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to send Hobby message' });
   }
 };
-
-// Get all Hobby messages for a specific thread
 const getHobbyMessages = async (req, res) => {
   try {
     const messages = await HobbyMessage.find({ Hobbythread  : req.params.HobbythreadId });

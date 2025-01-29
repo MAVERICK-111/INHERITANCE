@@ -5,7 +5,7 @@ import './Hobbies.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
 
-const socket = io('http://localhost:5000');  // Socket.io server URL
+const socket = io('http://localhost:5000');
 
 const Hobbies = () => {
   const { user } = useAuth0();
@@ -16,7 +16,7 @@ const Hobbies = () => {
   const [newHobbyMessage, setNewHobbyMessage] = useState('');
   const [Hobbymessages, setHobbymessages] = useState([]);
 
-  // Fetch existing Hobby threads from the backend
+  //get Hobby threads
   useEffect(() => {
     axios.get('http://localhost:5000/api/getHobbyThreads')
       .then(response => {
@@ -27,12 +27,12 @@ const Hobbies = () => {
       });
   }, []);
 
-  // Join a specific Hobby thread (Socket.IO)
+  // Join Hobby thread
   const joinHobbythread = (HobbythreadId) => {
     socket.emit('joinHobbythread', HobbythreadId);
     setSelectedHobbythread(HobbythreadId);
 
-    // Fetch existing Hobby messages for the Hobby thread
+    //get Hobby messages for the Hobby thread
     axios.get(`http://localhost:5000/api/getHobbyMessages/${HobbythreadId}`)
       .then(response => {
         setHobbymessages(response.data.Hobbymessages);
@@ -42,20 +42,18 @@ const Hobbies = () => {
       });
   };
 
-  // Handle the creation of a new Hobby thread
+  //create new Hobby thread
   const handleCreateHobbythread = async () => {
     if (!newHobbythreadTitle) {
       alert('Please ask a question!');
       return;
     }
-  
-    // Use the user's name as the creatorName if available
-    const creatorName = user?.name || 'Unknown';
+    const creatorName = user?.name;
   
     axios.post('http://localhost:5000/api/createHobbyThread', {
       title: newHobbythreadTitle,
       creator: newHobbythreadCreator,
-      creatorName: creatorName,  // Pass creatorName correctly
+      creatorName: creatorName,
     })
       .then(response => {
         setHobbythreads([...Hobbythreads, response.data.Hobbythread]);
@@ -67,21 +65,19 @@ const Hobbies = () => {
       });
   };
   
-  // Handle the delete Hobby thread action
+  //delete Hobby thread
   const handleDeleteHobbythread = (HobbythreadId, creator) => {
-    // Only the creator can delete the thread
     if (user?.sub !== creator) {
       alert("You are not authorized to delete this thread.");
       return;
     }
 
     axios.delete(`http://localhost:5000/api/deleteHobbyThread/${HobbythreadId}`, {
-      data: { userSub: user?.sub } // Send user's sub to verify
+      data: { userSub: user?.sub }
     })
     .then(response => {
-      // Remove the thread from the UI after successful deletion
       setHobbythreads(prevThreads => prevThreads.filter(thread => thread._id !== HobbythreadId));
-      setSelectedHobbythread(null); // Clear selected thread
+      setSelectedHobbythread(null);
     })
     .catch(error => {
       console.error('Error deleting Hobby thread:', error);
@@ -89,7 +85,7 @@ const Hobbies = () => {
     });
   };
 
-  // Handle sending a new Hobby message in the selected Hobby thread
+  //sending Hobby message in selected Hobby thread
   const handleSendHobbyMessage = () => {
     if (!newHobbyMessage) {
       alert('Please enter a message');
@@ -98,32 +94,30 @@ const Hobbies = () => {
 
     const HobbyMessageData = {
       HobbythreadId: selectedHobbythread,
-      sender: user?.sub,  // Replace with actual user info
+      sender: user?.sub,
       senderName: user?.name,
       text: newHobbyMessage
     };
 
-    // Optimistically add the message to the state before the server responds
     setHobbymessages(prevMessages => [
       ...prevMessages,
       { sender: user?.sub, senderName: user?.name, text: newHobbyMessage, HobbythreadId: selectedHobbythread }
     ]);
 
-    // Send the message to the backend
+    // Send message to backend
     axios.post('http://localhost:5000/api/sendHobbymessage', HobbyMessageData)
       .then(response => {
-        setNewHobbyMessage('');  // Clear the input field after sending
+        setNewHobbyMessage('');
       })
       .catch(error => {
         console.error('Error sending Hobby message:', error);
-        // Optionally handle errors (e.g., show a message or revert the optimistic update)
       });
 
-    // Emit the message to other clients via Socket.IO
+    //message refresh
     socket.emit('sendHobbymessage', HobbyMessageData);
   };
 
-  // Listen for new Hobby messages via Socket.IO
+  //notification
   useEffect(() => {
     socket.on('Hobbymessage', (data) => {
       if (data.HobbythreadId === selectedHobbythread) {
@@ -134,7 +128,7 @@ const Hobbies = () => {
     return () => {
       socket.off('Hobbymessage');
     };
-  }, [selectedHobbythread]);  // Listen only when selected thread changes
+  }, [selectedHobbythread]);
 
   return (
     <div className='Hobby-container'>
@@ -142,7 +136,7 @@ const Hobbies = () => {
           <h1>Ask Me Anything</h1>
       </div>
       
-      {/* Hobby thread creation form */}
+      {/*thread creation form */}
       <div className='new-thread'>
         <div className='heading'>Ask Something!</div>
         <input 
@@ -160,7 +154,7 @@ const Hobbies = () => {
         <button onClick={handleCreateHobbythread}>Post</button>
       </div>
 
-      {/* Display list of Hobby threads */}
+      {/*list of Hobby threads */}
       <div className='threads-container'>
         <div className='Threads'>
           <div className='headingdiv'>Existing Threads</div>
@@ -178,11 +172,11 @@ const Hobbies = () => {
         </div>
 
         <div className='Th-msg'>
-          {/* Hobby messages section for the selected Hobby thread */}
+          {/*messages section for the selected Hobby thread */}
           {selectedHobbythread && (
             <div>
               <h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title} - {Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creatorName}</h3>
-              {/* Render delete button only for the thread creator */}
+              {/*delete button only for the thread creator */}
               {Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creator === user?.sub && (
                 <button
                   onClick={() => handleDeleteHobbythread(selectedHobbythread, Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creator)}
