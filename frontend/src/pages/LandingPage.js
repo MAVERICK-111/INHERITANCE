@@ -6,7 +6,18 @@ import "./LandingPage.css";
 // LoginButton Component
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
-  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+
+  return (
+    <button
+      onClick={() =>
+        loginWithRedirect({
+          connection: "google-oauth2", // Forces Google login
+        })
+      }
+    >
+      Login
+    </button>
+  );
 };
 
 // LogoutButton Component
