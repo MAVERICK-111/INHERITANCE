@@ -1,35 +1,66 @@
-import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+  const [profile, setProfile] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [formData, setFormData] = useState({ username: "", age: "", profilePicture: "" });
 
-  // Loading state
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetch(`http://localhost:5000/api/users/${user.sub}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setProfile(data);
+          setFormData({ 
+            username: data.username || "", 
+            age: data.age || "", 
+            profilePicture: data.profilePicture || "" 
+          });
+        })
+        .catch(() => setProfile(null));
+    }
+  }, [user, isAuthenticated]);
 
-  // If the user is not authenticated
-  if (!isAuthenticated) {
-    return <div>Please log in to view your profile.</div>;
-  }
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  // Display user information
+  const handleSave = async () => {
+    const updatedProfile = { ...formData, email: user.email, auth0Id: user.sub };
+    const res = await fetch(`http://localhost:5000/api/users/${user.sub}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedProfile),
+    });
+    const data = await res.json();
+    setProfile(data);
+    setEditing(false);
+  };
+
+  if (!isAuthenticated) return <p>Please log in</p>;
+  if (!profile) return <p>Loading...</p>;
+
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h2>Welcome, {user.name}</h2>
-      <img
-        src={user.picture}
-        alt="Profile"
-        style={{
-          borderRadius: '50%',
-          width: '150px',
-          height: '150px',
-          marginBottom: '10px'
-        }}
-      />
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>User ID:</strong> {user.sub}</p> {/* User ID */}
+    <div>
+      {editing ? (
+        <div>
+          <input name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
+          <input name="age" type="number" value={formData.age} onChange={handleChange} placeholder="Age" />
+          <input name="profilePicture" value={formData.profilePicture} onChange={handleChange} placeholder="Profile Picture URL" />
+          <button onClick={handleSave}>Save</button>
+          <button onClick={() => setEditing(false)}>Cancel</button>
+        </div>
+      ) : (
+        <div>
+          <img src={profile.profilePicture || "default-avatar.png"} alt="Profile" width="100" />
+          <p>Email: {profile.email}</p>
+          <p>Username: {profile.username}</p>
+          <p>Age: {profile.age}</p>
+          <button onClick={() => setEditing(true)}>Edit Profile</button>
+        </div>
+      )}
     </div>
   );
 };
