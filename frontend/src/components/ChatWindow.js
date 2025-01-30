@@ -10,19 +10,27 @@ const ChatWindow = ({ selectedUser }) => {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
 
+  // Fetch messages on user or selectedUser change
   useEffect(() => {
+    if (user && selectedUser) {
+      axios
+        .get(`http://localhost:5000/api/messages/get/${user.sub}/${selectedUser.auth0Id}`)
+        .then((res) => setMessages(res.data))
+        .catch((error) => console.error("Error fetching messages:", error));
+    }
+
     if (user) {
       socket.emit("join", user.sub);
 
       socket.on("receiveMessage", (newMessage) => {
-        setMessages((prev) => [...prev, newMessage]);
+        setMessages((prev) => [...prev, newMessage]); // Add received message
       });
 
       return () => {
         socket.off("receiveMessage");
       };
     }
-  }, [user]);
+  }, [user, selectedUser]);
 
   const sendMessage = async () => {
     if (!messageText.trim()) return;
@@ -30,10 +38,11 @@ const ChatWindow = ({ selectedUser }) => {
     const newMessage = { senderId: user.sub, receiverId: selectedUser.auth0Id, message: messageText };
 
     try {
-      await axios.post("http://localhost:5000/api/messages/send", newMessage);
-      socket.emit("sendMessage", newMessage);
-      setMessages([...messages, newMessage]);
-      setMessageText("");
+      const { data } = await axios.post("http://localhost:5000/api/messages/send", newMessage); // Save message in DB
+      socket.emit("sendMessage", newMessage); // Emit to socket
+
+      setMessages([...messages, data]); // Update the UI with the new message
+      setMessageText(""); // Reset input field
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -49,7 +58,12 @@ const ChatWindow = ({ selectedUser }) => {
           </p>
         ))}
       </div>
-      <input type="text" value={messageText} onChange={(e) => setMessageText(e.target.value)} placeholder="Type a message..." />
+      <input
+        type="text"
+        value={messageText}
+        onChange={(e) => setMessageText(e.target.value)}
+        placeholder="Type a message..."
+      />
       <button onClick={sendMessage}>Send</button>
     </div>
   );

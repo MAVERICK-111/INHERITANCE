@@ -9,9 +9,10 @@ exports.sendMessage = async (req, res) => {
     }
 
     const newMessage = new Message({ senderId, receiverId, message });
+
     await newMessage.save();
 
-    res.status(201).json(newMessage);
+    res.status(201).json(newMessage); // Send back the saved message
   } catch (error) {
     console.error("Error sending message:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -27,7 +28,7 @@ exports.getMessages = async (req, res) => {
         { senderId: user1, receiverId: user2 },
         { senderId: user2, receiverId: user1 },
       ],
-    }).sort({ timestamp: 1 });
+    }).sort({ timestamp: 1 }); // Sort by timestamp for chronological order
 
     res.json(messages);
   } catch (error) {
