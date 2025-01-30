@@ -43,6 +43,7 @@ const AMAMessageRoutes = require("./routes/AMAMessageRoute");
 const HobbyThreadRoutes = require("./routes/HobbyThreadRoutes");
 const HobbyMessageRoutes = require("./routes/HobbyMessageRoute");
 const UserRoutes = require("./routes/UserRoutes");
+const MessageRoutes = require("./routes/MessageRoutes");
 const noticeRoutes = require('./routes/noticeRoutes');
 const postRoutes = require('./routes/postRoutes');
 
@@ -52,6 +53,7 @@ app.use('/api', AMAMessageRoutes);
 app.use('/api', HobbyMessageRoutes);
 app.use('/api', HobbyThreadRoutes);
 app.use('/api/users',UserRoutes);
+app.use("/api/messages", MessageRoutes);
 app.use('/api/notices', noticeRoutes);
 app.use('/api/posts', postRoutes);
 
