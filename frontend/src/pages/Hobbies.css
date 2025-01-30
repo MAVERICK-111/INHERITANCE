@@ -244,6 +244,18 @@ li button:hover {
     /* Allow scrolling if the content exceeds the height */
 }
 
+.Thread-messages-hob::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar in Webkit browsers */
+}
+
+.Thread-messages-hob {
+    -ms-overflow-style: none;
+    /* Hide scrollbar in IE & Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar in Firefox */
+}
+
 .input-hob-msg {
     flex: 0 1 15%;
     width: 100%;

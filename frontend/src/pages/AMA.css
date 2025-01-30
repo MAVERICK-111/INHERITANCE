@@ -1,217 +1,249 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
-
-.AMA-container {
-  /* margin-top: 45px; */
+/* AMA Container */
+.ama-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f4f9fd;
+  height: 100vh-20px;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
   background-image: url('ama.gif');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-  padding: 20px;
-  overflow: auto;
- font-family: 'Inter', sans-serif;
+  overflow: hidden;
 }
 
-.ama-logo {
- font-family: 'Inter', sans-serif;
-  font-size: 25px;
-  font-weight: 200;
-  /* Adjust font size to a reasonable value */
+/* AMA Logo */
+.ama-logo-container {
+  margin-bottom: 20px;
   text-align: center;
-  /* Center the heading */
-  color: rgb(0, 0, 0);
-  /* Ensure text is visible if the background is dark */
 }
 
-.heading{
+.ama-logo-container h1 {
+  font-size: 36px;
+  color: #3f7dbf;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* AMA Thread Creation Section */
+.ama-create-thread {
+  background-color: #f1f9fc;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.ama-create-heading {
   font-size: 20px;
-  padding: 5px;
+  color: #3f7dbf;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-.new-thread {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.ama-create-thread input {
+  width: 98%;
+  padding: 10px;
+  border: 1px solid #c5d6e7;
+  border-radius: 8px;
   font-size: 16px;
-  color: #333;
-  background: linear-gradient(145deg, #f0f0f0, #ffffff);
-  width: 70%;
-  max-width: 1600px;
-  padding: 25px;
-  margin: 20px auto;
-  border-radius: 20px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-}
-
-.new-thread:hover {
-  box-shadow: 0 8px 120px rgba(0, 0, 0, 0.15);
-  transform: translateY(-5px);
-  background-color: #f8f8f8;
-}
-
-.new-thread input {
-  width: 95%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 15px;
-  background-color: #f7f7f7;
-  color: #333;
-  font-size: 16px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.new-thread input:focus {
-  background-color: #fff;
-  border-color: #3da6db;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
   outline: none;
+  background-color: #f9fafd;
 }
 
-.new-thread button {
-  padding: 12px 20px;
-  font-size: 16px;
+.ama-create-thread input:focus {
+  border-color: #3f7dbf;
+}
+
+.ama-create-thread button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3f7dbf;
   color: white;
   border: none;
-  border-radius: 45px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  background-color: #3da6db;
-  width: auto;
-  min-width: 120px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-.new-thread button:hover {
-  background-color: #3291b8;
-  transform: translateY(-3px);
+.ama-create-thread button:hover {
+  background-color: #1e5f8d;
 }
 
-.new-thread button:active {
-  transform: translateY(1px);
-}
-
-.threads-container {
+/* AMA Threads List */
+.ama-threads-container {
   display: flex;
-  flex-direction: row;
-  gap: 30px;
-  color: black;
-  width: 90%;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1300px;
+  margin-top: 30px;
+  gap: 20px;
+  flex: 1;
+}
+/* Hide scrollbar for WebKit browsers */
+.ama-existing-threads::-webkit-scrollbar {
+  display: none;
 }
 
-.headingdiv {
-  color: rgb(22, 80, 104);
-  font-size: 28px;
-  text-align: center;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-weight: 600;
+/* Hide scrollbar for Firefox */
+.ama-existing-threads {
+  scrollbar-width: none;
+  /* Firefox */
 }
 
-.Threads {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  color: black;
-  width: 30%;
-  background-color: #f7f7f7;
-  border-right: 1px solid #ddd;
-  padding: 15px;
+/* Hide scrollbar for IE */
+.ama-existing-threads {
+  -ms-overflow-style: none;
+  /* Internet Explorer */
+}
+
+
+
+/* Hide scrollbar for WebKit browsers */
+.ama-thread-messages::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.ama-thread-messages {
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for IE */
+.ama-thread-messages {
+  -ms-overflow-style: none;
+  /* Internet Explorer */
+}
+
+.ama-existing-threads {
+  width: 35%;
+  background-color: white;
+  padding: 20px;
   border-radius: 20px;
+  height: 550px;
+  /* Set a fixed height for the scrollable container */
   overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  /* Enable scrolling */
 }
 
-.Threads:hover {
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.ama-thread-heading {
+  font-size: 22px;
+  color: #3f7dbf;
+  margin-bottom: 10px;
 }
 
-.Th-msg {
-  width: 75%;
-  padding: 25px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  background-color: #f3f3f3;
-  border-radius: 15px;
-}
-
-.Threads ul {
+.ama-existing-threads ul {
   list-style-type: none;
   padding: 0;
 }
 
-.Threads li {
-  margin: 10px 0;
-  font-size: 16px;
+.ama-existing-threads li {
+  margin-bottom: 10px;
 }
 
-.Threads button {
-  padding: 12px;
-  font-size: 16px;
-  color: white;
-  border: none;
-  border-radius: 45px;
-  cursor: pointer;
-  background-color: #96c7df;
+.ama-existing-threads button {
   width: 100%;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 12px;
+  background-color: #e2f1ff;
+  color: #3f7dbf;
+  border: 1px solid #c5d6e7;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.Threads button:hover {
-  background-color: #3291b8;
-  transform: translateY(-3px);
+.ama-existing-threads button:hover {
+  background-color: #c1e1f3;
 }
 
-.Thread-messages div {
-  margin-bottom: 12px;
+/* AMA Chat Section */
+.ama-chat-section {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.Thread-messages strong {
-  font-weight: bold;
-  color: #333;
+.ama-chat-section h3 {
+  color: #3f7dbf;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.ama-thread-messages {
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: scroll;
+  border-bottom: 1px solid #c5d6e7;
+  padding-bottom: 10px;
+}
+
+.ama-thread-messages div {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.ama-thread-messages strong {
+  color: #3f7dbf;
 }
 
 textarea {
-  width: 98%;
-  padding: 12px;
-  margin-top: 12px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
+  width: 97%;
+  padding: 10px;
+  border: 1px solid #c5d6e7;
+  border-radius: 8px;
   font-size: 16px;
-  resize: vertical;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+  outline: none;
+  background-color: #f9fafd;
+  max-height: 100px;
+  resize: none;
 }
 
 textarea:focus {
-  border-color: #3da6db;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  outline: none;
+  border-color: #3f7dbf;
 }
 
 button {
-  padding: 12px;
   width: 100%;
-  font-size: 16px;
+  padding: 12px;
+  background-color: #3f7dbf;
   color: white;
   border: none;
-  border-radius: 115px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  background-color: #3da6db;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #3291b8;
-  transform: translateY(-3px);
+  background-color: #1e5f8d;
 }
 
-button:active {
-  transform: translateY(1px);
+button:focus {
+  outline: none;
+}
+
+/* Delete Thread Button */
+button[style*="color: red"] {
+  width: auto;
+  background-color: transparent;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  margin-bottom: 10px;
+}
+
+button[style*="color: red"]:hover {
+  background-color: #f5c6cb;
+  color: #c0392b;
 }

@@ -137,33 +137,27 @@ const AMA = () => {
   }, [selectedAMAthread]);  // Listen only when selected thread changes
 
   return (
-    <div className='AMA-container'>
-      <div className="ama-logo">
+    <div className='ama-container'>
+      <div className="ama-logo-container">
           <h1>Ask Me Anything</h1>
       </div>
       
       {/* AMA thread creation form */}
-      <div className='new-thread'>
-        <div className='heading'>Ask Something!</div>
+      <div className='ama-create-thread'>
+        <div className='ama-create-heading'>Ask Something!</div>
         <input 
           type="text" 
           placeholder="Your Query Please"
           value={newAMAthreadTitle}
           onChange={(e) => setNewAMAthreadTitle(e.target.value)}
         />
-        {/* <input 
-          type="text" 
-          placeholder="Creator Name"
-          value={newAMAthreadCreator}
-          onChange={(e) => setNewAMAthreadCreator(e.target.value)}
-        /> */}
         <button onClick={handleCreateAMAthread}>Post</button>
       </div>
 
       {/* Display list of AMA threads */}
-      <div className='threads-container'>
-        <div className='Threads'>
-          <div className='headingdiv'>Existing Threads</div>
+      <div className='ama-threads-container'>
+        <div className='ama-existing-threads'>
+          <div className='ama-thread-heading'>Questions...</div>
           {AMAthreads.length > 0 ? (
             <ul>
               {AMAthreads.map(AMAthread => (
@@ -177,10 +171,11 @@ const AMA = () => {
           )}
         </div>
 
-        <div className='Th-msg'>
+        <div className='ama-chat-section'>
           {/* AMA messages section for the selected AMA thread */}
+          
           {selectedAMAthread && (
-            <div>
+            <div className='msg-ama'>
               <h3>{AMAthreads.find(thread => thread._id === selectedAMAthread)?.title} - {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creatorName}</h3>
               {/* Render delete button only for the thread creator */}
               {AMAthreads.find(thread => thread._id === selectedAMAthread)?.creator === user?.sub && (
@@ -191,7 +186,7 @@ const AMA = () => {
                   Delete Thread
                 </button>
               )}
-              <div className='Thread-messages'>
+              <div className='ama-thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
                   <div key={index}>
                     <strong>{AMAmessage.senderName}:</strong> {AMAmessage.text}
@@ -210,7 +205,7 @@ const AMA = () => {
                   setNewAMAMessage('');
                   }
                 }}
-                placeholder="Your Answer"
+                placeholder="Your Answer..."
               />
               <button onClick={handleSendAMAMessage}>Send Message</button>
             </div>

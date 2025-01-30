@@ -5,13 +5,7 @@
     height: 100vh;
     flex-direction: row;
 }
-.image-class {
-    height: 120px;
-    width: 290px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 35px;
-}
+
 
 .Left_section, .Right_section {
     top: 20px;
@@ -37,6 +31,7 @@
 .QueryBar {
     position: relative;
     background-color: #f9f9f9;
+    margin-top: 55px;
     padding: 15px 25px;
     text-align: center;
     display: flex;
@@ -44,7 +39,7 @@
     align-items: center;
     font-size: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 .QueryBar p {
@@ -169,7 +164,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 55px;
-    gap: 15px;
+    gap: 55px;
 }
 
 .AMA,.Hobbies,.Alumni {
