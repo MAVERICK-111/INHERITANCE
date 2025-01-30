@@ -122,17 +122,18 @@ const Hobbies = () => {
           <div className='hobbies-list'>
             <input 
               type="text" 
-              placeholder="Your Query Please"
+              placeholder="New Hobby... "
               value={newHobbythreadTitle}
               onChange={(e) => setNewHobbythreadTitle(e.target.value)}
             />
-            <button onClick={handleCreateHobbythread}>Post</button>
+            <button onClick={handleCreateHobbythread}>+</button>
           </div>
+          
 
           {/* List of Hobby threads */}
           <div className='threads-container'>
             <div className='Threads'>
-              <div className='headingdiv'>Existing Threads</div>
+              <div className='headingdiv'>Hobby Groups</div>
               {Hobbythreads.length > 0 ? (
                 <ul>
                   {Hobbythreads.map(Hobbythread => (
@@ -152,29 +153,32 @@ const Hobbies = () => {
         <div className='right-hob'>
           {/* Messages section for the selected Hobby thread */}
           {selectedHobbythread && (
-            <div>
-              <h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title}</h3>
-              <div className='Thread-messages'>
+            <div className = 'sendhob'>
+              <div className ="hob-h3"><h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title}</h3></div>
+              <div className='Thread-messages-hob'>
                 {Hobbymessages.map((Hobbymessage, index) => (
                   <div key={index}>
                     <strong>{Hobbymessage.senderName}:</strong> {Hobbymessage.text}
                   </div>
                 ))}
-             </div>
-              {/* Send a new Hobby message */}
-               <textarea
-                value={newHobbyMessage}
-                onChange={(e) => setNewHobbyMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendHobbyMessage();
-                    setNewHobbyMessage('');
-                  }
-                }}
-                placeholder="Your Answer"
-              />
-              <button onClick={handleSendHobbyMessage}>Send Message</button>
+              </div>
+              <div className='input-hob-msg'>
+                {/* Send a new Hobby message */}
+                <textarea
+                  value={newHobbyMessage}
+                  onChange={(e) => setNewHobbyMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendHobbyMessage();
+                      setNewHobbyMessage('');
+                    }
+                  }}
+                  placeholder="Type something..."
+                />
+                <button onClick={handleSendHobbyMessage} className='hob-button'>Send Message</button>
+              </div>
+
             </div>
           )}
         </div>
