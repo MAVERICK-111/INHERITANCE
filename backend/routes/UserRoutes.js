@@ -6,20 +6,21 @@ const router = express.Router();
 router.get("/getUser/:auth0Id", async (req, res) => {
   try {
     const userId = decodeURIComponent(req.params.auth0Id); // Decode the auth0Id
-   
+    console.log("Received auth0Id:", userId); // Debugging
 
-    if (!userId) {
-      return res.status(400).json({ error: "Invalid user ID" });
+    if (!userId || userId === "null" || userId === "undefined") {
+      console.error("Error: Invalid auth0Id received:", userId);
+      return res.status(400).json({ error: "Invalid auth0Id" });
     }
 
     // Check if the user already exists
-    const user = await User.findOne({ auth0Id: userId });
+    let user = await User.findOne({ auth0Id: userId });
 
     if (!user) {
-      
-      
+      console.log("User not found. Creating a new one...");
+
       const dummyEmail = `abc123@example.com`; 
-      const dummyUser = new User({
+      user = new User({
         auth0Id: userId,  
         email: dummyEmail, 
         username: "enter your username",
@@ -27,17 +28,12 @@ router.get("/getUser/:auth0Id", async (req, res) => {
         profilePicture: "https://picsum.photos/seed/picsum/200/300",
       });
 
-      
-      if (dummyUser.auth0Id) {
-        await dummyUser.save();
-        
-        return res.json(dummyUser);
-      } else {
-        return res.status(400).json({ error: "Failed to create user: invalid auth0Id" });
-      }
+      await user.save();
+      console.log("User created successfully:", user);
+    } else {
+      console.log("User found:", user);
     }
 
-    
     res.json(user);
   } catch (error) {
     console.error("Error fetching or creating user:", error);

@@ -10,6 +10,7 @@ const Profile = () => {
   // Fetch the profile when the component mounts
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("Sending auth0Id to backend:", user.sub); // Debugging log
       // Fetch the profile data when the user is authenticated
       fetch(`http://localhost:5000/api/users/getUser/${user.sub}`)
         .then((res) => res.json())
