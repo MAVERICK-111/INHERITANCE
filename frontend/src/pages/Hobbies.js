@@ -4,7 +4,6 @@ import axios from 'axios';
 import './Hobbies.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
-
 const socket = io('http://localhost:5000');
 
 const Hobbies = () => {
@@ -16,7 +15,7 @@ const Hobbies = () => {
   const [newHobbyMessage, setNewHobbyMessage] = useState('');
   const [Hobbymessages, setHobbymessages] = useState([]);
 
-  //get Hobby threads
+  // Get Hobby threads
   useEffect(() => {
     axios.get('http://localhost:5000/api/getHobbyThreads')
       .then(response => {
@@ -32,7 +31,7 @@ const Hobbies = () => {
     socket.emit('joinHobbythread', HobbythreadId);
     setSelectedHobbythread(HobbythreadId);
 
-    //get Hobby messages for the Hobby thread
+    // Get Hobby messages for the selected thread
     axios.get(`http://localhost:5000/api/getHobbyMessages/${HobbythreadId}`)
       .then(response => {
         setHobbymessages(response.data.Hobbymessages);
@@ -42,7 +41,7 @@ const Hobbies = () => {
       });
   };
 
-  //create new Hobby thread
+  // Create new Hobby thread
   const handleCreateHobbythread = async () => {
     if (!newHobbythreadTitle) {
       alert('Please ask a question!');
@@ -65,7 +64,7 @@ const Hobbies = () => {
       });
   };
 
-  //sending Hobby message in selected Hobby thread
+  // Send Hobby message in selected Hobby thread
   const handleSendHobbyMessage = () => {
     if (!newHobbyMessage) {
       alert('Please enter a message');
@@ -93,11 +92,11 @@ const Hobbies = () => {
         console.error('Error sending Hobby message:', error);
       });
 
-    //message refresh
+    // Message refresh
     socket.emit('sendHobbymessage', HobbyMessageData);
   };
 
-  //notification
+  // Notification for new Hobby message
   useEffect(() => {
     socket.on('Hobbymessage', (data) => {
       if (data.HobbythreadId === selectedHobbythread) {
@@ -111,68 +110,66 @@ const Hobbies = () => {
   }, [selectedHobbythread]);
 
   return (
-    <div className='Hobby-container'>
-      <div className="Hobby-logo">
-          <h1>Ask Me Anything</h1>
-      </div>
-      
-      {/*thread creation form */}
-      <div className='new-thread'>
-        <div className='heading'>Ask Something!</div>
-        <input 
-          type="text" 
-          placeholder="Your Query Please"
-          value={newHobbythreadTitle}
-          onChange={(e) => setNewHobbythreadTitle(e.target.value)}
-        />
-        {/* <input 
-          type="text" 
-          placeholder="Creator Name"
-          value={newHobbythreadCreator}
-          onChange={(e) => setNewHobbythreadCreator(e.target.value)}
-        /> */}
-        <button onClick={handleCreateHobbythread}>Post</button>
+    <div className='hobbies-container'>
+      <div className="heading-container">
+        <h1 className="heading-title">Hobbies</h1>
+        <p className="heading-subtitle">Dive into your passions and connect with like-minded people.</p>
       </div>
 
-      {/*list of Hobby threads */}
-      <div className='threads-container'>
-        <div className='Threads'>
-          <div className='headingdiv'>Existing Threads</div>
-          {Hobbythreads.length > 0 ? (
-            <ul>
-              {Hobbythreads.map(Hobbythread => (
-                <li key={Hobbythread._id}>
-                  <button onClick={() => joinHobbythread(Hobbythread._id)}>{Hobbythread.title}</button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No threads available</p>
-          )}
+      {/* Thread creation form */}
+      <div className='main-box-hob'>
+        <div className='left-hob'>
+          <div className='hobbies-list'>
+            <input 
+              type="text" 
+              placeholder="Your Query Please"
+              value={newHobbythreadTitle}
+              onChange={(e) => setNewHobbythreadTitle(e.target.value)}
+            />
+            <button onClick={handleCreateHobbythread}>Post</button>
+          </div>
+
+          {/* List of Hobby threads */}
+          <div className='threads-container'>
+            <div className='Threads'>
+              <div className='headingdiv'>Existing Threads</div>
+              {Hobbythreads.length > 0 ? (
+                <ul>
+                  {Hobbythreads.map(Hobbythread => (
+                    <li key={Hobbythread._id}>
+                      <button onClick={() => joinHobbythread(Hobbythread._id)}>{Hobbythread.title}</button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No threads available</p>
+              )}
+            </div>
+          </div>
         </div>
+        
 
-        <div className='Th-msg'>
-          {/*messages section for the selected Hobby thread */}
+        <div className='right-hob'>
+          {/* Messages section for the selected Hobby thread */}
           {selectedHobbythread && (
             <div>
-              <h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title}{/* - {Hobbythreads.find(thread => thread._id === selectedHobbythread)?.creatorName}*/}</h3>
+              <h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title}</h3>
               <div className='Thread-messages'>
                 {Hobbymessages.map((Hobbymessage, index) => (
                   <div key={index}>
                     <strong>{Hobbymessage.senderName}:</strong> {Hobbymessage.text}
                   </div>
                 ))}
-              </div>
-
+             </div>
               {/* Send a new Hobby message */}
-              <textarea
+               <textarea
                 value={newHobbyMessage}
                 onChange={(e) => setNewHobbyMessage(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendHobbyMessage();
-                  setNewHobbyMessage('');
+                    e.preventDefault();
+                    handleSendHobbyMessage();
+                    setNewHobbyMessage('');
                   }
                 }}
                 placeholder="Your Answer"

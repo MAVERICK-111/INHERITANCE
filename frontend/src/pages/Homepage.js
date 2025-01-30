@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";  // To make API calls
 import './Homepage.css';
-import AMAImage from './ama .jpeg';
+import AMAImage from './amalogo.png';
+import AlumniImage from './alumnilogo.png';
+import HobbyImage from './hobbieslogo.png';
+
 
 const Homepage = () => {
   const [caption, setCaption] = useState('');
@@ -78,17 +81,24 @@ const Homepage = () => {
         <div className="Left_section">
           <div className="Left_container">
             <div className="AMA">
-              <Link to="/AMA">AMA</Link>
+              <Link to="/AMA">
+              {/* <img src={AMAImage} alt="AMA" className="image-class" /> */}
+              AMA
+              </Link>
             </div>
             <div className="Hobbies">
-              <Link to="/Hobbies">Hobbies</Link>
+              <Link to="/Hobbies">
+              {/* <img src={HobbyImage} alt="Hobbies" className="image-class" /> */}
+              Hobbies
+              </Link>
             </div>
             <div className="Alumni">
-              <Link to="/Alumni">Alumni</Link>
+              <Link to="/Alumni">
+              {/* <img src={AlumniImage} alt="alumni" className="image-class" /> */}
+              Alumni
+              </Link>
             </div>
-            <div className="Posts">
-              <Link to="/Posts">Posts</Link>
-            </div>
+            
           </div>
         </div>
 
