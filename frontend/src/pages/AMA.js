@@ -166,7 +166,7 @@ const AMA = () => {
           <div className='headingdiv'>Existing Threads</div>
           {AMAthreads.length > 0 ? (
             <ul>
-              {AMAthreads.map(AMAthread => (
+              {AMAthreads.reverse().map(AMAthread => (
                 <li key={AMAthread._id}>
                   <button onClick={() => joinAMAthread(AMAthread._id)}>{AMAthread.title}</button>
                 </li>
