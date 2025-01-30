@@ -1,4 +1,164 @@
-.mainmost{
-    background-color: wheat;
-    height: 95vh;
-}
+.alumni-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem 1rem;
+  }
+  
+  .content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .main-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .register-button {
+    background-color: white;
+    color: #667eea;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .register-button:hover {
+    transform: translateY(-2px);
+    background-color: #f8fafc;
+  }
+  
+  .form-card,
+  .search-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-input,
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+  }
+  
+  .form-input:focus,
+  .search-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .submit-button,
+  .cancel-button {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .submit-button {
+    background-color: #667eea;
+    color: white;
+  }
+  
+  .cancel-button {
+    background-color: #e2e8f0;
+    color: #4a5568;
+  }
+  
+  .submit-button:hover,
+  .cancel-button:hover {
+    transform: translateY(-1px);
+  }
+  
+  .alumni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+  }
+  
+  .alumni-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .alumni-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .alumni-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  
+  .alumni-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .alumni-details p {
+    color: #4a5568;
+    line-height: 1.5;
+  }
+  
+  .alumni-details span {
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  @media (max-width: 768px) {
+    .alumni-container {
+      padding: 1rem;
+    }
+  
+    .main-title {
+      font-size: 2rem;
+    }
+  
+    .alumni-grid {
+      grid-template-columns: 1fr;
+    }
+  }
