@@ -27,7 +27,7 @@ exports.createPost = async (req, res) => {
         try {
             const newPost = new Post({
                 caption,
-                imageUrl: `/uploads/${image.filename}`,
+                imageUrl: `http://localhost:5000/uploads/${image.filename}`,
             });
             await newPost.save();
             res.status(201).json({ message: 'Post created successfully', post: newPost });
