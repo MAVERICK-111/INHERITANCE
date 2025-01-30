@@ -5,8 +5,9 @@ import "./AlumniForm.css";
 const AlumniForm = () => {
   const [info, setInfo] = useState('');
   const [photo, setPhoto] = useState(null);
-  const [alumniList, setAlumniList] = useState([]);  // To store the list of alumni
-  const [message, setMessage] = useState('');  // For error or success messages
+  const [alumniList, setAlumniList] = useState([]);
+  const [message, setMessage] = useState('');
+  const [selectedAlumni, setSelectedAlumni] = useState(null); // For popup
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -28,9 +29,7 @@ const AlumniForm = () => {
 
     try {
       const response = await axios.post('http://localhost:5000/api/alumni', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       if (response.data.success) {
@@ -50,7 +49,6 @@ const AlumniForm = () => {
     const fetchAlumni = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/alumni');
-        console.log(response.data.alumni);  // Check the value of alumni
         if (response.data.success) {
           setAlumniList(response.data.alumni);
         } else {
@@ -60,11 +58,19 @@ const AlumniForm = () => {
         console.error('Error fetching alumni data:', error);
       }
     };
-  
+
     fetchAlumni();
   }, []);
-  
-  
+
+  // Function to open popup
+  const openPopup = (alumni) => {
+    setSelectedAlumni(alumni);
+  };
+
+  // Function to close popup
+  const closePopup = () => {
+    setSelectedAlumni(null);
+  };
 
   return (
     <div>
@@ -85,17 +91,23 @@ const AlumniForm = () => {
 
       <div className="alumni-box-container">
         {alumniList.map((alumni, index) => (
-          <div key={index} className="alumni-box">
-            <img
-              src={alumni.photo}  // This is the full URL now
-              alt="Alumni"
-              width="100"
-              height="100"
-            />
+          <div key={index} className="alumni-box" onClick={() => openPopup(alumni)}>
+            <img src={alumni.photo} alt="Alumni" />
             <p>{alumni.info}</p>
           </div>
         ))}
       </div>
+
+      {/* Popup Modal */}
+      {selectedAlumni && (
+        <div className="popup">
+          <div className="popup-content">
+            <span className="close" onClick={closePopup}>&times;</span>
+            <img src={selectedAlumni.photo} alt="Alumni" />
+            <p>{selectedAlumni.info}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
