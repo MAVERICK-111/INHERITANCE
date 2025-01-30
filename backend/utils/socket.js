@@ -2,6 +2,7 @@ const { saveAMAMessage } = require('../controllers/AMAMessageController');
 const { saveHobbyMessage } = require('../controllers/HobbyMessageController');
 
 exports.setupSocket = (io) => {
+    let users = {};
     io.on('connection', (socket) => {
         console.log('User connected:', socket.id);
 
@@ -30,6 +31,19 @@ exports.setupSocket = (io) => {
                 io.to(data.room).emit('receiveHobbyMessage', newMessage);
             } catch (error) {
                 socket.emit('error', { message: 'Failed to send hobby message' });
+            }
+        });
+        
+        // Chat
+        socket.on('join', (auth0Id) => {
+            users[auth0Id] = socket.id;
+            console.log(`User ${auth0Id} joined with socket ID: ${socket.id}`);
+        });
+
+        socket.on('sendMessage', ({ senderId, receiverId, message }) => {
+            const receiverSocket = users[receiverId];
+            if (receiverSocket) {
+                io.to(receiverSocket).emit('receiveMessage', { senderId, message });
             }
         });
 
