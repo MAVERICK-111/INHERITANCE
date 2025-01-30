@@ -7,7 +7,10 @@ exports.createAlumni = async (req, res) => {
     }
 
     const { info } = req.body;
-    const newAlumni = new Alumni({ photo: `uploads/${req.file.filename}`, info });
+    const newAlumni = new Alumni({
+      photo: `http://localhost:5000/uploads/${req.file.filename}`,
+      info,
+    });   
 
     await newAlumni.save();
     res.status(200).json({
