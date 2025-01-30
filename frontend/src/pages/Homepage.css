@@ -98,6 +98,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .ModalContent {
@@ -107,6 +108,7 @@
     position: relative;
     width: 400px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
 }
 
 .ModalContent h3 {
@@ -319,3 +321,35 @@
     text-align: center;
     background-color: #9fe5fe;
 }
+
+.heart {
+    font-size: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+    z-index: 10;
+}
+  
+.heart.liked {
+    color: red;
+    transform: scale(1.2);
+}
+  
+.heart:hover {
+    transform: scale(1.1); /* Slightly enlarge when hovered */
+}
+  
+.heart:active {
+    transform: scale(1.3); /* Slightly bigger when clicked */
+}
+  
+.LikeSection {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+  
+.LikeSection span {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #444;
+}  

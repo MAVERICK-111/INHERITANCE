@@ -16,12 +16,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 //import { AuthButtons } from './components/AuthButtons';
 
-const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com"; // Replace with your Auth0 domain
-const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz"; // Replace with your actual Auth0 client ID
+const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com";
+const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz";
 
 function App() {
   const location = useLocation();
-  const hideHeader = location.pathname === "/" || location.pathname === "/profile"; // Exclude header on Homepage and Landing Page
+  const hideHeader = location.pathname === "/"; // Exclude Landing Page
 
   return (
     <Auth0Provider
@@ -55,4 +55,3 @@ function App() {
 }
 
 export default App;
-
