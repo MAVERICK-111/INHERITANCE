@@ -142,11 +142,7 @@ const Homepage = () => {
         </div>
 
         <div className="Center_section">
-          {/* Query bar asking if the user wants to post */}
-          <div className="QueryBar">
-            <p>Create a post..</p>
-            <button onClick={() => setShowModal(true)}>+</button>
-          </div>
+          
 
           {/* Modal for uploading post */}
           {showModal && (
@@ -190,7 +186,6 @@ const Homepage = () => {
             ))}
           </div> */}
           <div className="PostList">
-            <h3>All Posts</h3>
             {posts.map((post) => (
               <div key={post._id} className="Post">
                 <div className="PostHeader">
@@ -230,6 +225,9 @@ const Homepage = () => {
                 Noticeboard
               </div>
             </Link>
+            <div className="Add-post" onClick={() => setShowModal(true)}>
+              Create a post + 
+            </div>
           </div>
         </div>
       </div>

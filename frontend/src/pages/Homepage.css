@@ -211,15 +211,18 @@ a:hover {
     display: none;
 }
 
-.Left_container {
+.Left_container, .Right_container {
     display: flex;
     flex-direction: column;
     margin-top: 55px;
     gap: 55px;
     margin-left: 1vw;
+    margin-right: 1vw;
 }
 
-.AMA,.Hobbies,.Alumni {
+.AMA,.Hobbies,.Alumni,.Messages,
+.Noticeboard,
+.Add-post {
     font-size: 3vw;
     font-family: 'Jockey One', sans-serif;
     display: flex;
@@ -229,55 +232,36 @@ a:hover {
     /* width: 400px; */
     justify-content: center;
     text-align: center;
-    color:navy;
+    color:rgb(61, 106, 163);;
     border-radius: 35px;
 }
 
-.Messages, .Noticeboard {
-    font-size: 3vw;
-        font-family: 'Jockey One', sans-serif;
-        display: flex;
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    height: 275px;
-    justify-content: center;
-    text-align: center;
-    color:navy;
-    border-radius: 20px;
-}
 
-.Messages a, .Noticeboard a, .AMA a, .Hobbies a, .Alumni a {
+.Messages a, .Noticeboard a, .AMA a, .Hobbies a, .Alumni a,.Add-post a {
     text-decoration: none;
-    color: rgb(61, 106, 163);
+    color: rgb(65, 109, 165);
 }
 
-.Messages:hover, .Noticeboard:hover, .AMA:hover, .Hobbies:hover, .Alumni:hover {
+.Messages:hover, .Noticeboard:hover, .AMA:hover, .Hobbies:hover, .Alumni:hover,.Add-post:hover {
     transform: scale(1.05);
     background-color: #99ccff;
 }
 
-.Messages:hover a, .Noticeboard:hover a, .AMA:hover a, .Hobbies:hover a, .Alumni:hover a {
+.Messages:hover , .Noticeboard:hover , .AMA:hover , .Hobbies:hover , .Alumni:hover ,.Add-post:hover {
     color: #ffffff;
 }
 
-.Messages:active, .Noticeboard:active, .AMA:active, .Hobbies:active, .Alumni:active {
+.Messages:active, .Noticeboard:active, .AMA:active, .Hobbies:active, .Alumni:active, .Add-post:active{
     transform: scale(0.98);
     background-color: #66a3cc;
 }
 
-.Right_container {
-    display: flex;
-    flex-direction: column;
-    margin-top: 55px;
-    margin-right: 1vw;
-    gap: 30px;
-}
+
 
 .Center_section {
     width: 50%;
     padding: 20px;
-        background-color: #9fcbe1;
+    background-color: #9fcbe1;
     text-align: center;
 }
 
@@ -317,7 +301,7 @@ a:hover {
 }
 
 .PostList {
-    margin-top: 100px;
+    margin-top: 40px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -415,6 +399,10 @@ a:hover {
     height: 1000px;
     text-align: center;
     background-color: #9fe5fe;
+}
+
+.Add-post {
+    cursor: pointer;
 }
 
 .heart {
