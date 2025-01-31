@@ -10,20 +10,22 @@
 .Left_section, .Right_section {
     top: 20px;
     background-color: #9fcbe1;
-    width: 25%;
+    width: 25vw;
     padding: 20px;
     
 }
 
 .Center_section {
     padding: 20px;
-    width: 50%;
+    width: 50vw;
     background-color: #9fcbe1;
     text-align: center;
     position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    
+
 }
 
 .Center_section::-webkit-scrollbar {
@@ -32,9 +34,7 @@
 
 /* Query bar style */
 .QueryBar {
-    position: relative;
     background-color: #f9f9f9;
-    margin-top: 55px;
     padding: 15px 25px;
     text-align: center;
     display: flex;
@@ -43,6 +43,13 @@
     font-size: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+    z-index: 1000;
+    position: fixed;
+    /* width:43vw; */
+    margin-left: 16vw;
+    /* margin-right: 5vw; */
+    /* width:40vw; */
+    height: 5vh;
 }
 
 .QueryBar p {
@@ -50,44 +57,35 @@
     font-size: 18px;
     color: #333;
 }
-
-.PostButton {
+.QueryBar button {
     font-size: 18px;
-    /* Smaller font size */
     background-color: #4CAF50;
     color: white;
     border: none;
-    width: 30px;
-    /* Reduced width */
-    height: 30px;
-    /* Reduced height */
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
     font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.PostButton:hover {
+.QueryBar button:hover {
+    background-color: #45a049;
     transform: translateY(-3px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    background-color: #45a049;
 }
 
-.PostButton:focus {
+.QueryBar button:focus {
     outline: none;
 }
 
-.PostButton:active {
+.QueryBar button:active {
     transform: translateY(2px);
 }
-
-
-
-
 
 /* Modal style */
 .Modal {
@@ -96,65 +94,102 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Dark background */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Slightly darker background for better contrast */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    transition: opacity 0.3s ease;
 }
 
+/* Modal Content */
 .ModalContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
     position: relative;
-    width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    /* Adjust max width for better responsiveness */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     z-index: 1001;
+    transform: translateY(-20px);
+    opacity: 0;
+    animation: fadeIn 0.4s ease-out forwards;
+    /* Animation for smooth entry */
 }
 
+/* Modal fade-in animation */
+@keyframes fadeIn {
+    0% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Modal Heading */
 .ModalContent h3 {
     text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    transition: color 0.3s ease;
 }
 
 .ModalContent form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
+/* Input and button styling */
 .ModalContent input,
 .ModalContent button {
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.CloseButton {
-    position: absolute;
-    /* Use absolute positioning to place the button in the top-left corner */
-    top: 10px;
-    left: 10px;
-    font-size: 40px;
-    /* Make the cross bigger */
-    background: transparent;
+.ModalContent input:focus,
+.ModalContent button:focus {
+    border-color: #4CAF50;
+    /* Focus border color */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    /* Focus shadow */
+}
+
+/* Button */
+.ModalContent button {
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    color: black;
     cursor: pointer;
-    transition: color 0.3s;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.CloseButton:hover {
-    color: #ff0000;
-    background-color: transparent;
-    margin-bottom: 200px;
+.ModalContent button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
 }
 
-
+.ModalContent button:active {
+    transform: translateY(1px);
+}
 
 .Center_section {
     padding: 20px;
-    width: 50%;
+    /* margin-top: 55px; */
+    width: 50vw;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -170,16 +205,17 @@
     flex-direction: column;
     margin-top: 55px;
     gap: 55px;
+    margin-left: 1vw;
 }
 
 .AMA,.Hobbies,.Alumni {
-    font-size: 60px;
+    font-size: 3vw;
     font-family: 'Jockey One', sans-serif;
     display: flex;
     align-items: center;
     background-color: #ffffff;
     height: 165px;
-    width: 400px;
+    /* width: 400px; */
     justify-content: center;
     text-align: center;
     color: white;
@@ -187,7 +223,7 @@
 }
 
 .Messages, .Noticeboard {
-    font-size: 60px;
+    font-size: 3vw;
         font-family: 'Jockey One', sans-serif;
         display: flex;
     display: flex;
@@ -223,6 +259,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 55px;
+    margin-right: 1vw;
     gap: 30px;
 }
 
@@ -269,7 +306,7 @@
 }
 
 .PostList {
-    margin-top: 20px;
+    margin-top: 100px;
     padding: 10px;
     display: flex;
     flex-direction: column;
