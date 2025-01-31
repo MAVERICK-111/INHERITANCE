@@ -16,6 +16,22 @@ const AMA = () => {
   const [newAMAMessage, setNewAMAMessage] = useState('');
   const [AMAmessages, setAMAmessages] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [username, setUsername] = useState('');
+
+  const getUsername = async (auth0Id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/users/getUsername/${auth0Id}`);
+      setUsername(response.data.username);
+    } catch (error) {
+      console.error('Error fetching username:', error);
+      setUsername('Unknown');
+    }
+  };
+  useEffect(() => {
+    if (user?.sub) {
+      getUsername(user.sub);
+    }
+  }, [user?.sub]);
 
   // Fetch existing AMA threads from the backend
   useEffect(() => {
@@ -51,7 +67,7 @@ const AMA = () => {
     }
   
     // Use the user's name as the creatorName if available
-    const creatorName = user?.name || 'Unknown';
+    const creatorName = username || 'Unknown';
   
     try {
       const response = await axios.post('http://localhost:5000/api/createAMAThread', {
@@ -97,18 +113,18 @@ const AMA = () => {
       alert('Please enter a message');
       return;
     }
-
+    const sendername = username || 'Unknown';
     const AMAMessageData = {
       AMAthreadId: selectedAMAthread,
       sender: user?.sub,  // Replace with actual user info
-      senderName: user?.name,
+      senderName: sendername,
       text: newAMAMessage
     };
 
     // Optimistically add the message to the state before the server responds
     setAMAmessages(prevMessages => [
       ...prevMessages,
-      { sender: user?.sub, senderName: user?.name, text: newAMAMessage, AMAthreadId: selectedAMAthread,timestamp: new Date() }
+      { sender: user?.sub, senderName: username, text: newAMAMessage, AMAthreadId: selectedAMAthread,timestamp: new Date() }
     ]);
 
     // Send the message to the backend

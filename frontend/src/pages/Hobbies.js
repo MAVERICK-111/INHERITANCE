@@ -15,6 +15,25 @@ const Hobbies = () => {
   const [newHobbyMessage, setNewHobbyMessage] = useState('');
   const [Hobbymessages, setHobbymessages] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [username, setUsername] = useState(null);
+
+  // Function to fetch username
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (user?.sub) {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/users/getUsername/${user.sub}`);
+          setUsername(response.data.username);  // Assuming the response has a 'username' field
+        } catch (error) {
+          console.error('Error fetching username:', error);
+        }
+      }
+    };
+  
+    if (user?.sub) {
+      fetchUsername();
+    }
+  }, [user?.sub]);
 
   // Get Hobby threads
   useEffect(() => {
@@ -48,7 +67,7 @@ const Hobbies = () => {
       alert('Please ask a question!');
       return;
     }
-    const creatorName = user?.name;
+    const creatorName = username || 'Unknown';
     try {
       const response = await axios.post('http://localhost:5000/api/createHobbyThread', {
         title: newHobbythreadTitle,
@@ -69,17 +88,17 @@ const Hobbies = () => {
       alert('Please enter a message');
       return;
     }
-
+    const sendername = username || 'Unknown';
     const HobbyMessageData = {
       HobbythreadId: selectedHobbythread,
       sender: user?.sub,
-      senderName: user?.name,
+      senderName: sendername,
       text: newHobbyMessage
     };
 
     setHobbymessages(prevMessages => [
       ...prevMessages,
-      { sender: user?.sub, senderName: user?.name, text: newHobbyMessage, HobbythreadId: selectedHobbythread }
+      { sender: user?.sub, senderName: username, text: newHobbyMessage, HobbythreadId: selectedHobbythread }
     ]);
 
     // Send message to backend
@@ -89,6 +108,9 @@ const Hobbies = () => {
       })
       .catch(error => {
         console.error('Error sending Hobby message:', error);
+      })
+      .finally(() => {
+        setNewHobbyMessage('');
       });
 
     // Message refresh
@@ -170,7 +192,8 @@ const Hobbies = () => {
               <div className='Thread-messages-hob'>
                 {Hobbymessages.map((Hobbymessage, index) => (
                   <div key={index}>
-                    <strong>{Hobbymessage.senderName}:</strong> {Hobbymessage.text}
+                    <p><strong>{Hobbymessage.senderName}</strong><span className="timestamp">({new Date(Hobbymessage.timestamp).toLocaleString()})</span></p>
+                    <p>{Hobbymessage.text}</p>
                   </div>
                 ))}
               </div>
