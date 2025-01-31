@@ -6,11 +6,12 @@
     width: 98%;
     gap:20px;
     padding: 10px;
+    background-color: #aac6f7;
 }
 
 .left-msg{
     margin-top: 45px;
-    width: 50%;
+    width: 25%;
     /* padding:20px; */
     /* background-color: black; */
 
