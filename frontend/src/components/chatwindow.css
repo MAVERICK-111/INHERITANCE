@@ -13,7 +13,6 @@
     right: 20px;
 }
 
-/* 💡 User List Container */
 .user-list {
     width: 100%;
     background: #cdddf8;
@@ -25,7 +24,6 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 📌 Heading */
 .user-list h2 {
     text-align: center;
     font-size: 20px;
@@ -34,14 +32,12 @@
     font-weight: 600;
 }
 
-/* 👥 User List */
 .user-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-/* 📌 Individual User Item */
 .user-list li {
     padding: 14px;
     margin-bottom: 10px;
@@ -55,7 +51,6 @@
     font-weight: 500;
 }
 
-/* ✨ Hover & Active State */
 .user-list li:hover {
     background: #e7f0ff;
     border-color: #c3dafe;
@@ -70,7 +65,6 @@
     border: none;
 }
 
-/* 💬 Chat Window Container */
 .chat-window {
     display: flex;
     flex-direction: column;
@@ -85,7 +79,6 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔵 Chat Header */
 .chat-window h2 {
     text-align: center;
     font-size: 20px;
@@ -97,7 +90,6 @@
     font-weight: 600;
 }
 
-/* 📝 Chat Messages Container */
 .msg-chat-container {
     flex: 1;
     overflow-y: auto;
@@ -108,7 +100,6 @@
     flex-direction: column;
 }
 
-/* ✉️ Message Styling */
 .msg-chat-container p {
     max-width: 75%;
     padding: 14px;
@@ -121,7 +112,6 @@
     position: relative;
 }
 
-/* 🔵 Sent Messages (User) */
 .msg-chat-container p.user-message {
     background: #edeff1;
     color: #00509e;
@@ -131,7 +121,6 @@
     box-shadow: 0px 2px 8px rgba(0, 80, 158, 0.15);
 }
 
-/* 🌙 Received Messages (Other User) */
 .msg-chat-container p.other-message {
     background: rgb(173, 210, 252);
     color: #333;
@@ -141,7 +130,6 @@
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 🎯 Message Input Container */
 .msg-send-cont {
     display: flex;
     padding: 12px;
@@ -151,7 +139,6 @@
     align-items: center;
 }
 
-/* ⌨️ Input Field */
 .msg-send-cont input {
     flex: 1;
     padding: 12px;
@@ -170,7 +157,6 @@
     box-shadow: 0 0 8px rgba(102, 163, 255, 0.3);
 }
 
-/* 🚀 Send Button */
 .msg-send-cont button {
     margin-left: 10px;
     padding: 12px 18px;
@@ -188,7 +174,6 @@
     background: #4d94ff;
 }
 
-/* 🎛️ Scrollbar Customization */
 .msg-chat-container::-webkit-scrollbar {
     width: 6px;
 }

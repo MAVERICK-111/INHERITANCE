@@ -2,9 +2,7 @@
 .noticeboard-container {
     padding: 20px;
     background-color: #1f1f1f;
-    /* Dark background for the container */
     color: #e0e0e0;
-    /* Light text color */
     min-height: 95vh;
     display: flex;
     flex-direction: column;
@@ -18,23 +16,18 @@
     overflow: auto;
 }
 
-/* Logo styling */
 .logo-img {
     height: 20vh;
 }
 
-/* Title styling */
 .noticeboard-title {
     text-align: center;
     font-size: 2rem;
     color: #f4f6f9;
-    /* Light color for the title */
     margin-bottom: 20px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-    /* Slight shadow for emphasis */
 }
 
-/* Add Notice button */
 .add-notice-button {
     background-color: #4CAF50;
     color: white;
@@ -51,7 +44,6 @@
     background-color: #45a049;
 }
 
-/* Modal overlay */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -59,7 +51,6 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Dark overlay */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,17 +58,17 @@
     animation: fadeIn 0.3s ease-out;
 }
 
-/* Modal container */
 .modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     background-color: white;
-    /* White background */
     padding: 30px;
     border-radius: 10px;
     width: 450px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    /* Light shadow */
     color: #333;
-    /* Dark text */
     animation: slideUp 0.3s ease-out;
     transform-origin: top;
 }
@@ -87,32 +78,27 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
 /* Input and textarea fields */
 .notice-form input[type="text"],
 .notice-form textarea {
-    width: 90%;
+    width: 100%;
     padding: 14px 18px;
     font-size: 1rem;
     border-radius: 8px;
     background-color: #f4f6f9;
-    /* Light gray background */
     color: #333;
-    /* Dark text color */
     border: 2px solid #d1d5db;
-    /* Light border */
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Focus effect on input and textarea */
 .notice-form input[type="text"]:focus,
 .notice-form textarea:focus {
     border-color: #3b82f6;
-    /* Blue border on focus */
     box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
-    /* Blue glow */
 }
 
 /* Textarea */
@@ -128,7 +114,6 @@
     font-size: 1.1rem;
     border-radius: 8px;
     background-color: #3b82f6;
-    /* Blue button */
     color: white;
     font-weight: bold;
     border: 2px solid #3b82f6;
@@ -139,21 +124,17 @@
 /* Button hover effect */
 .notice-form button:hover {
     background-color: #2563eb;
-    /* Darker blue */
     transform: translateY(-2px);
-    /* Slight lift effect */
 }
 
 /* Button active effect */
 .notice-form button:active {
     transform: translateY(0);
-    /* Button press effect */
 }
 
 /* Close modal button */
 .close-modal-button {
     background-color: #e74c3c;
-    /* Red background */
     color: white;
     padding: 12px;
     border: none;
@@ -167,7 +148,6 @@
 /* Hover effect for close button */
 .close-modal-button:hover {
     background-color: #c0392b;
-    /* Darker red */
 }
 
 /* Close button focus effect */
@@ -176,7 +156,6 @@
     box-shadow: 0 0 4px rgba(192, 57, 43, 0.7);
 }
 
-/* Animation for modal sliding in */
 @keyframes slideUp {
     from {
         opacity: 0;
