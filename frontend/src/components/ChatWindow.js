@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { io } from "socket.io-client";
 import axios from "axios";
+import "./chatwindow.css";
 
 const socket = io("http://localhost:5000");
 
@@ -49,15 +50,20 @@ const ChatWindow = ({ selectedUser }) => {
   };
 
   return (
-    <div>
+    <div className="chat-window">
       <h2>Chat with {selectedUser.username}</h2>
-      <div style={{ height: "300px", overflowY: "scroll", border: "1px solid #ccc" }}>
+      <div className="msg-chat-container">
         {messages.map((msg, index) => (
-          <p key={index} style={{ textAlign: msg.senderId === user.sub ? "right" : "left" }}>
-            <strong>{msg.senderId === user.sub ? "You" : selectedUser.username}:</strong> {msg.message}
+          <p 
+            key={index} 
+            className={msg.senderId === user.sub ? "user-message" : "other-message"}
+            >
+            {msg.message}
           </p>
         ))}
       </div>
+
+      <div className="msg-send-cont">
       <input
         type="text"
         value={messageText}
@@ -65,6 +71,7 @@ const ChatWindow = ({ selectedUser }) => {
         placeholder="Type a message..."
       />
       <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 };

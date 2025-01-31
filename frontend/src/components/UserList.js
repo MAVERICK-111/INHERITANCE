@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import "./chatwindow.css";
 
 const UserList = ({ onSelectUser }) => {
   const { user, isAuthenticated } = useAuth0();
@@ -17,7 +18,7 @@ const UserList = ({ onSelectUser }) => {
   if (!isAuthenticated) return <p>Please log in</p>;
 
   return (
-    <div>
+    <div className="user-list">
       <h2>Select a user to chat with:</h2>
       <ul>
         {users.map((u) => (

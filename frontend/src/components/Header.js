@@ -23,8 +23,8 @@ function Header() {
           </Link>
         </div>
         <div className="Username">
-          <Link to="/profile">Profile</Link>
           <Link to="/Homepage">Home</Link>
+          <Link to="/profile">Profile</Link>
           <LogoutButton />
         </div>
       </div>
