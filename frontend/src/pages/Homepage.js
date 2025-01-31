@@ -14,6 +14,7 @@ const Homepage = () => {
   const [image, setImage] = useState(null);
   const [posts, setPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [usernames, setUsernames] = useState({});
   const { user } = useAuth0();
 
   // Fetch posts from backend
@@ -22,11 +23,17 @@ const Homepage = () => {
       try {
         const response = await axios.get('http://localhost:5000/api/posts');
         setPosts(response.data);
+
+        const usernamesData = {};
+        for (const post of response.data) {
+          const usernameResponse = await axios.get(`http://localhost:5000/api/users/getUsername/${post.auth0Id}`);
+          usernamesData[post._id] = usernameResponse.data.username;
+        }
+        setUsernames(usernamesData);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
-
     fetchPosts();
   }, []);
 
@@ -47,13 +54,20 @@ const Homepage = () => {
     const formData = new FormData();
     formData.append('caption', caption);
     formData.append('image', image);
+    formData.append('auth0Id', user.sub);
   
     try {
-      await axios.post('http://localhost:5000/api/posts', formData, {
+      const response = await axios.post('http://localhost:5000/api/posts', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      const response = await axios.get('http://localhost:5000/api/posts');
-      setPosts(response.data);
+      const postsResponse = await axios.get('http://localhost:5000/api/posts');
+      setPosts(postsResponse.data);
+      const newPost = response.data.post;
+      const usernameResponse = await axios.get(`http://localhost:5000/api/users/getUsername/${newPost.auth0Id}`);
+      setUsernames((prevUsernames) => ({
+        ...prevUsernames,
+        [newPost._id]: usernameResponse.data.username,
+      }));
   
       setCaption('');
       setImage(null);
@@ -160,10 +174,11 @@ const Homepage = () => {
           )}
 
           {/* Display posts */}
-          <div className="PostList">
+          {/* <div className="PostList">
             <h3>All Posts</h3>
             {posts.map((post) => (
               <div key={post._id} className="Post">
+                <p>{usernames[post._id]}</p>
                 <img src={post.imageUrl} alt="Post" className="PostImage" />
                 <p>{post.caption}</p>
                 <div className="LikeSection">
@@ -174,6 +189,33 @@ const Homepage = () => {
                     {post.likedBy.includes(user.sub) ? <AiFillHeart /> : <AiOutlineHeart />}
                   </div>
                   <span>{post.likes} Likes</span>
+                </div>
+              </div>
+            ))}
+          </div> */}
+          <div className="PostList">
+            <h3>All Posts</h3>
+            {posts.map((post) => (
+              <div key={post._id} className="Post">
+                <div className="PostHeader">
+                  <p>By {usernames[post._id]}</p> {/* Display username */}
+                </div>
+                <div className="PostBody">
+                  <img src={post.imageUrl} alt="Post" className="PostImage" />
+                </div>
+                <div className="PostFooter">
+                  {/* Like section with heart and count */}
+                  <div className="LikeSection">
+                    <div
+                      className={`heart ${post.likedBy.includes(user.sub) ? "liked" : ""}`}
+                      onClick={() => handleLike(post._id)}
+                    >
+                      {post.likedBy.includes(user.sub) ? <AiFillHeart /> : <AiOutlineHeart />}
+                    </div>
+                    <span>{post.likes} Likes</span>
+                  </div>
+                  {/* Centered Caption */}
+                  <p className="Caption">{post.caption}</p>
                 </div>
               </div>
             ))}
