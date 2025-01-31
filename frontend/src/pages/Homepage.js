@@ -154,7 +154,7 @@ const Homepage = () => {
           {showModal && (
             <div className="Modal">
               <div className="ModalContent">
-                <button className="CloseButton" onClick={() => setShowModal(false)}>X</button>
+                
                 <h3>Create a Post</h3>
                 <form onSubmit={handleSubmit}>
                   <input
@@ -166,7 +166,7 @@ const Homepage = () => {
                   <input type="file" onChange={handleImageChange} />
                   <button type="submit">Upload Post</button>
                 </form>
-                <button onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="CancelButton" onClick={() => setShowModal(false)}>Cancel</button>
               </div>
             </div>
           )}
