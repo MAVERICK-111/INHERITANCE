@@ -5,8 +5,7 @@ import "./Alumni.css";
 function Alumni() {
   return (
     <div className="mainmost">
-      <h1>Alumni Page</h1>
-      <AlumniForm />  {/* Display the alumni form */}
+      <AlumniForm />  
     </div>
   );
 }
