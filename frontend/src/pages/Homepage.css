@@ -214,8 +214,8 @@ a:hover {
 .Left_container, .Right_container {
     display: flex;
     flex-direction: column;
-    margin-top: 55px;
-    gap: 55px;
+    margin-top: 75px;
+    gap: 40px;
     margin-left: 1vw;
     margin-right: 1vw;
 }
@@ -301,7 +301,7 @@ a:hover {
 }
 
 .PostList {
-    margin-top: 40px;
+    margin-top: 60px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -310,7 +310,7 @@ a:hover {
 
 .Post {
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 600px;
