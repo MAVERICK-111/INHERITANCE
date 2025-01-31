@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";  // To make API calls
+import axios from "axios";  
 import './Homepage.css';
 import AMAImage from './amalogo.png';
 import AlumniImage from './alumnilogo.png';
 import HobbyImage from './hobbieslogo.png';
+import { useAuth0 } from "@auth0/auth0-react";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 
 const Homepage = () => {
   const [caption, setCaption] = useState('');
   const [image, setImage] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [showModal, setShowModal] = useState(false); // Modal visibility state
+  const [showModal, setShowModal] = useState(false);
+  const { user } = useAuth0();
 
-  // Fetch posts from the backend
+  // Fetch posts from backend
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -25,38 +28,66 @@ const Homepage = () => {
     };
 
     fetchPosts();
-  }, []); // Only fetch posts once when the component mounts
+  }, []);
 
-  // Handle image upload
+  // image upload
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Handle post submission
+  // post submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!image || !caption) {
       alert('Please provide a caption and image.');
       return;
     }
-
+  
     const formData = new FormData();
     formData.append('caption', caption);
     formData.append('image', image);
-
+  
     try {
       await axios.post('http://localhost:5000/api/posts', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-
+      const response = await axios.get('http://localhost:5000/api/posts');
+      setPosts(response.data);
+  
       setCaption('');
       setImage(null);
-      setShowModal(false); // Close the modal after submission
+      setShowModal(false); 
       alert('Post uploaded successfully!');
     } catch (error) {
       console.error('Error uploading post:', error);
       alert('Failed to upload post.');
+    }
+  };  
+
+  // Handle Like
+  const handleLike = async (postId) => {
+    const auth0Id = user.sub;
+    const postIndex = posts.findIndex(post => post._id === postId);
+    const currentPost = posts[postIndex];
+    const updatedPost = { ...currentPost };
+    if (updatedPost.likedBy.includes(auth0Id)) {
+      updatedPost.likedBy = updatedPost.likedBy.filter(id => id !== auth0Id);
+      updatedPost.likes -= 1;
+    } else {
+      updatedPost.likedBy.push(auth0Id);
+      updatedPost.likes += 1;
+    }
+    setPosts((prevPosts) => {
+      const newPosts = [...prevPosts];
+      newPosts[postIndex] = updatedPost;
+      return newPosts;
+    });
+    try {
+      await axios.patch(`http://localhost:5000/api/posts/${postId}/like`, { auth0Id });
+    } catch (error) {
+      console.error('Error liking/unliking the post:', error);
+      alert('An error occurred while updating the like.');
     }
   };
 
@@ -82,7 +113,6 @@ const Homepage = () => {
           <div className="Left_container">
             <div className="AMA">
               <Link to="/AMA">
-              {/* <img src={AMAImage} alt="AMA" className="image-class" /> */}
               AMA
               </Link>
             </div>
@@ -98,7 +128,6 @@ const Homepage = () => {
               Alumni
               </Link>
             </div>
-            
           </div>
         </div>
 
@@ -108,29 +137,27 @@ const Homepage = () => {
             <p>Create a post..</p>
             <button onClick={() => setShowModal(true)}>+</button>
           </div>
-          
 
           {/* Modal for uploading post */}
           {showModal && (
-        <div className="Modal">
-          <div className="ModalContent">
-            <button className="CloseButton" onClick={() => setShowModal(false)}>X</button>
-            <h3>Create a Post</h3>
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Write a caption"
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-              />
-              <input type="file" onChange={handleImageChange} />
-              <button type="submit">Upload Post</button>
-            </form>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-          </div>
-       </div>
-      )}
-
+            <div className="Modal">
+              <div className="ModalContent">
+                <button className="CloseButton" onClick={() => setShowModal(false)}>X</button>
+                <h3>Create a Post</h3>
+                <form onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Write a caption"
+                    value={caption}
+                    onChange={(e) => setCaption(e.target.value)}
+                  />
+                  <input type="file" onChange={handleImageChange} />
+                  <button type="submit">Upload Post</button>
+                </form>
+                <button onClick={() => setShowModal(false)}>Cancel</button>
+              </div>
+            </div>
+          )}
 
           {/* Display posts */}
           <div className="PostList">
@@ -139,6 +166,15 @@ const Homepage = () => {
               <div key={post._id} className="Post">
                 <img src={post.imageUrl} alt="Post" className="PostImage" />
                 <p>{post.caption}</p>
+                <div className="LikeSection">
+                  <div
+                    className={`heart ${post.likedBy.includes(user.sub) ? "liked" : ""}`}
+                    onClick={() => handleLike(post._id)}
+                  >
+                    {post.likedBy.includes(user.sub) ? <AiFillHeart /> : <AiOutlineHeart />}
+                  </div>
+                  <span>{post.likes} Likes</span>
+                </div>
               </div>
             ))}
           </div>

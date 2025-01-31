@@ -1,17 +1,48 @@
 .Top_section {
-
     display: flex;
-    flex-direction: row;
-    gap: 1335px;
-    background-color: transparent;
+    justify-content: space-between;
+    align-items: center;
     color: white;
-    font-size: 20px;
-    height: 45px;
-    padding: 10px 20px;
+    font-size: 18px;
+    height: 60px;
+    padding: 0 20px;
     position: fixed;
     top: 0;
-    right: 0;
     left: 0;
+    right: 0;
     z-index: 1000;
-    text-align: center;
-}
+  }
+  
+  .Logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-image {
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .logo-image:hover {
+    transform: scale(1.1);
+  }
+  
+  .Username {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .Username a {
+    color:navy;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .Username a:hover {
+    color:forestgreen;
+  }
+  
