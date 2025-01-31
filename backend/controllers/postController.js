@@ -20,16 +20,21 @@ exports.createPost = async (req, res) => {
         if (err) {
             return res.status(500).json({ message: 'Error uploading image', error: err });
         }
-        const { caption } = req.body;
+
+        const { caption, auth0Id } = req.body;
         const image = req.file;
-        if (!caption || !image) {
-            return res.status(400).json({ message: 'Please provide both caption and image.' });
+
+        if (!caption || !image || !auth0Id) {
+            return res.status(400).json({ message: 'Please provide caption, image, and auth0Id.' });
         }
+
         try {
             const newPost = new Post({
                 caption,
                 imageUrl: `http://localhost:5000/uploads/${image.filename}`,
+                auth0Id,
             });
+
             await newPost.save();
             res.status(201).json({ message: 'Post created successfully', post: newPost });
         } catch (error) {

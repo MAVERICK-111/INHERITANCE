@@ -61,3 +61,17 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.getUsernameByAuth0Id = async (req, res) => {
+  const { auth0Id } = req.params;  // Extract auth0Id from request parameters
+  try {
+      const user = await User.findOne({ auth0Id });
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.status(200).json({ username: user.username });
+  } catch (error) {
+      console.error('Error fetching username:', error);
+      res.status(500).json({ message: 'Server error', error });
+  }
+};
