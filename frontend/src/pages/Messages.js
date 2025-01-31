@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './Homepage.css';
+import './messages.css';
 import UserList from "../components/UserList";
 import ChatWindow from "../components/ChatWindow";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -40,14 +40,14 @@ const Messages = () => {
   //if (!selectedUser) return <p>Select a user to chat with</p>;
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="main-msg-container" >
       {/* User List on the left side */}
-      <div style={{ width: "30%", borderRight: "1px solid #ccc", padding: "10px" }}>
+      <div className="left-msg">
         <UserList onSelectUser={setSelectedUser} />
       </div>
 
       {/* Chat Window on the right side */}
-      <div style={{ width: "70%", padding: "10px" }}>
+      <div className="right-msg-container" >
         {selectedUser ? (
           <ChatWindow 
             selectedUser={selectedUser}

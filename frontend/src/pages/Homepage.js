@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";  
 import './Homepage.css';
-import AMAImage from './amalogo.png';
-import AlumniImage from './alumnilogo.png';
-import HobbyImage from './hobbieslogo.png';
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
