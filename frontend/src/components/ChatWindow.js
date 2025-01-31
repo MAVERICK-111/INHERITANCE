@@ -49,14 +49,6 @@ const ChatWindow = ({ selectedUser }) => {
     }
   };
 
-  // Handle Enter key press to send message
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { // If Enter is pressed and Shift is not held down (to prevent newline)
-      e.preventDefault(); // Prevent default behavior (new line)
-      sendMessage(); // Send the message
-    }
-  };
-
   return (
     <div className="chat-window">
       <h2>Chat with {selectedUser.username}</h2>
@@ -65,21 +57,20 @@ const ChatWindow = ({ selectedUser }) => {
           <p 
             key={index} 
             className={msg.senderId === user.sub ? "user-message" : "other-message"}
-          >
+            >
             {msg.message}
           </p>
         ))}
       </div>
 
       <div className="msg-send-cont">
-        <input
-          type="text"
-          value={messageText}
-          onChange={(e) => setMessageText(e.target.value)}
-          onKeyDown={handleKeyDown} // Listen for Enter key press
-          placeholder="Type a message..."
-        />
-        <button onClick={sendMessage}>Send</button>
+      <input
+        type="text"
+        value={messageText}
+        onChange={(e) => setMessageText(e.target.value)}
+        placeholder="Type a message..."
+      />
+      <button onClick={sendMessage}>Send</button>
       </div>
     </div>
   );

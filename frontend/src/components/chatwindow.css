@@ -1,4 +1,17 @@
-/* 💬 Chat App - Aesthetic Light Theme */
+
+
+.emoji-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.emoji-picker-react {
+    position: absolute;
+    bottom: 60px;
+    right: 20px;
+}
 
 /* 💡 User List Container */
 .user-list {
@@ -7,7 +20,7 @@
     border-right: 2px solid #e0e4eb;
     /* padding: 20px; */
     height: 100%;
-    min-height: 80vh;
+    max-height: 88vh;
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -65,6 +78,7 @@
     height: 100%;
     background: #fefefe;
     border-radius: 10px;
+    max-height: 88vh;
     /* padding: 20px; */
     color: #333;
     font-family: "Inter", sans-serif;
