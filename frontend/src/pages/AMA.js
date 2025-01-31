@@ -15,6 +15,7 @@ const AMA = () => {
   const [selectedAMAthread, setSelectedAMAthread] = useState(null);
   const [newAMAMessage, setNewAMAMessage] = useState('');
   const [AMAmessages, setAMAmessages] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Fetch existing AMA threads from the backend
   useEffect(() => {
@@ -52,19 +53,20 @@ const AMA = () => {
     // Use the user's name as the creatorName if available
     const creatorName = user?.name || 'Unknown';
   
-    axios.post('http://localhost:5000/api/createAMAThread', {
-      title: newAMAthreadTitle,
-      creator: newAMAthreadCreator,
-      creatorName: creatorName,  // Pass creatorName correctly
-    })
-      .then(response => {
-        setAMAthreads([...AMAthreads, response.data.AMAthread]);
-        setNewAMAthreadTitle('');
-        setNewAMAthreadCreator('');
-      })
-      .catch(error => {
-        console.error('Error creating thread:', error);
+    try {
+      const response = await axios.post('http://localhost:5000/api/createAMAThread', {
+        title: newAMAthreadTitle,
+        creator: newAMAthreadCreator,
+        creatorName: creatorName,  // Pass creatorName correctly
       });
+  
+      // Add the new thread to the top of the list without refreshing
+      setAMAthreads([response.data.AMAthread, ...AMAthreads]);
+      setNewAMAthreadTitle('');
+      setNewAMAthreadCreator('');
+    } catch (error) {
+      console.error('Error creating thread:', error);
+    }
   };
   
   // Handle the delete AMA thread action
@@ -106,7 +108,7 @@ const AMA = () => {
     // Optimistically add the message to the state before the server responds
     setAMAmessages(prevMessages => [
       ...prevMessages,
-      { sender: user?.sub, senderName: user?.name, text: newAMAMessage, AMAthreadId: selectedAMAthread }
+      { sender: user?.sub, senderName: user?.name, text: newAMAMessage, AMAthreadId: selectedAMAthread,timestamp: new Date() }
     ]);
 
     // Send the message to the backend
@@ -117,11 +119,17 @@ const AMA = () => {
       .catch(error => {
         console.error('Error sending AMA message:', error);
         // Optionally handle errors (e.g., show a message or revert the optimistic update)
+      })
+      .finally(() => {
+        setNewAMAMessage('');
       });
-
     // Emit the message to other clients via Socket.IO
     socket.emit('sendAMAmessage', AMAMessageData);
   };
+
+  const filteredAMAthreads = AMAthreads.filter(thread =>
+    thread.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Listen for new AMA messages via Socket.IO
   useEffect(() => {
@@ -135,6 +143,14 @@ const AMA = () => {
       socket.off('AMAmessage');
     };
   }, [selectedAMAthread]);  // Listen only when selected thread changes
+  
+  // Automatically scroll to the bottom of the message list
+  useEffect(() => {
+    const messagesContainer = document.querySelector('.ama-thread-messages');
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  }, [AMAmessages, selectedAMAthread]);
 
   return (
     <div className='ama-container'>
@@ -158,9 +174,18 @@ const AMA = () => {
       <div className='ama-threads-container'>
         <div className='ama-existing-threads'>
           <div className='ama-thread-heading'>Questions...</div>
-          {AMAthreads.length > 0 ? (
+          {/* Search bar for filtering threads */}
+          <div className='ama-search-bar'>
+            <input 
+              type="text" 
+              placeholder="Revisit To.."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          {filteredAMAthreads.length > 0 ? (
             <ul>
-              {AMAthreads.reverse().map(AMAthread => (
+              {filteredAMAthreads.map(AMAthread => (
                 <li key={AMAthread._id}>
                   <button onClick={() => joinAMAthread(AMAthread._id)}>{AMAthread.title}</button>
                 </li>
@@ -189,7 +214,8 @@ const AMA = () => {
               <div className='ama-thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
                   <div key={index}>
-                    <strong>{AMAmessage.senderName}:</strong> {AMAmessage.text}
+                    <p><strong>{AMAmessage.senderName}</strong> <span className="timestamp">({new Date(AMAmessage.timestamp).toLocaleString()})</span></p>
+                    <p>{AMAmessage.text}</p>
                   </div>
                 ))}
               </div>

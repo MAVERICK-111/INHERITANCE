@@ -13,7 +13,7 @@ exports.createAMAThread = async (req, res) => {
 
 exports.getAMAThreads = async (req, res) => {
   try {
-    const AMAthreads = await AMAThread.find().populate('messages');
+    const AMAthreads = await AMAThread.find().populate('messages').sort({ createdAt: -1});
     res.status(200).json({ success: true, AMAthreads });
   } catch (err) {
     res.status(500).json({ success: false, AMAmessages: 'Failed to fetch AMA threads' });

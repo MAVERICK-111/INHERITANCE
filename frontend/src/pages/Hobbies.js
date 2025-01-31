@@ -14,6 +14,7 @@ const Hobbies = () => {
   const [selectedHobbythread, setSelectedHobbythread] = useState(null);
   const [newHobbyMessage, setNewHobbyMessage] = useState('');
   const [Hobbymessages, setHobbymessages] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Get Hobby threads
   useEffect(() => {
@@ -48,21 +49,19 @@ const Hobbies = () => {
       return;
     }
     const creatorName = user?.name;
-  
-    axios.post('http://localhost:5000/api/createHobbyThread', {
-      title: newHobbythreadTitle,
-      creator: newHobbythreadCreator,
-      creatorName: creatorName,
-    })
-      .then(response => {
-        setHobbythreads([...Hobbythreads, response.data.Hobbythread]);
-        setNewHobbythreadTitle('');
-        setNewHobbythreadCreator('');
-      })
-      .catch(error => {
-        console.error('Error creating thread:', error);
+    try {
+      const response = await axios.post('http://localhost:5000/api/createHobbyThread', {
+        title: newHobbythreadTitle,
+        creator: newHobbythreadCreator,
+        creatorName: creatorName,
       });
-  };
+      setHobbythreads([response.data.Hobbythread, ...Hobbythreads]);
+      setNewHobbythreadTitle('');
+      setNewHobbythreadCreator('');
+    } catch (error) {
+      console.error('Error creating thread:', error);
+    }
+  };  
 
   // Send Hobby message in selected Hobby thread
   const handleSendHobbyMessage = () => {
@@ -96,6 +95,10 @@ const Hobbies = () => {
     socket.emit('sendHobbymessage', HobbyMessageData);
   };
 
+  const filteredHobbythreads = Hobbythreads.filter(thread =>
+    thread.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
   // Notification for new Hobby message
   useEffect(() => {
     socket.on('Hobbymessage', (data) => {
@@ -134,9 +137,18 @@ const Hobbies = () => {
           <div className='threads-container'>
             <div className='Threads'>
               <div className='headingdiv'>Hobby Groups</div>
-              {Hobbythreads.length > 0 ? (
+              {/* Search bar for filtering threads */}
+              <div className='hobby-search-bar'>
+                <input 
+                  type="text" 
+                  placeholder="Find Your Hobby..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              {filteredHobbythreads.length > 0 ? (
                 <ul>
-                  {Hobbythreads.map(Hobbythread => (
+                  {filteredHobbythreads.map(Hobbythread => (
                     <li key={Hobbythread._id}>
                       <button onClick={() => joinHobbythread(Hobbythread._id)}>{Hobbythread.title}</button>
                     </li>

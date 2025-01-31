@@ -123,23 +123,21 @@ const Homepage = () => {
       <div className="Landing_page">
         <div className="Left_section">
           <div className="Left_container">
-            <div className="AMA">
-              <Link to="/AMA">
-              AMA
-              </Link>
-            </div>
-            <div className="Hobbies">
-              <Link to="/Hobbies">
-              {/* <img src={HobbyImage} alt="Hobbies" className="image-class" /> */}
-              Hobbies
-              </Link>
-            </div>
-            <div className="Alumni">
-              <Link to="/Alumni">
-              {/* <img src={AlumniImage} alt="alumni" className="image-class" /> */}
-              Alumni
-              </Link>
-            </div>
+            <Link to="/AMA" className="LinkWrapper">
+              <div className="AMA">
+                AMA
+              </div>
+            </Link>
+            <Link to="/Hobbies" className="LinkWrapper">
+              <div className="Hobbies">
+                Hobbies
+              </div>
+            </Link>
+            <Link to="/Alumni" className="LinkWrapper">
+              <div className="Alumni">
+                Alumni
+              </div>
+            </Link>
           </div>
         </div>
 
@@ -222,12 +220,16 @@ const Homepage = () => {
 
         <div className="Right_section">
           <div className="Right_container">
-            <div className="Messages">
-              <Link to="/Messages">Messages</Link>
-            </div>
-            <div className="Noticeboard">
-              <Link to="/Noticeboard">Noticeboard</Link>
-            </div>
+            <Link to="/Messages" className="LinkWrapper">
+              <div className="Messages">
+                Messages
+              </div>
+            </Link>
+            <Link to="/Noticeboard" className="LinkWrapper">
+              <div className="Noticeboard">
+                Noticeboard
+              </div>
+            </Link>
           </div>
         </div>
       </div>

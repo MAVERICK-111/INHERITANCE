@@ -92,6 +92,7 @@
     color: #4a4238;
     background-color: #fff;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .hobbies-list input:focus {
@@ -364,3 +365,31 @@ li button:hover {
     box-shadow: 0px 0px 5px 3px rgba(242, 182, 121, 0.5);
     /* Highlight when focused */
 }
+
+/* Search bar for filtering threads */
+.hobby-search-bar {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+  
+.hobby-search-bar input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+  
+/* Style for timestamp */
+.timestamp {
+    font-size: 0.8rem;
+    color: gray;
+    margin-left: 5px;
+}  

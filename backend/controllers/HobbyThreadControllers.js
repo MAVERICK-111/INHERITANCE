@@ -13,7 +13,7 @@ exports.createHobbyThread = async (req, res) => {
 
 exports.getHobbyThreads = async (req, res) => {
   try {
-    const Hobbythreads = await HobbyThread.find().populate('messages');
+    const Hobbythreads = await HobbyThread.find().populate('messages').sort({ createdAt: -1});
     res.status(200).json({ success: true, Hobbythreads });
   } catch (err) {
     res.status(500).json({ success: false, Hobbymessages: 'Failed to fetch Hobby threads' });

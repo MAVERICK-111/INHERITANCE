@@ -40,14 +40,14 @@ const Messages = () => {
   //if (!selectedUser) return <p>Select a user to chat with</p>;
 
   return (
-    <div className="main-msg-container" >
+    <div className="main-msg-container">
       {/* User List on the left side */}
       <div className="left-msg">
         <UserList onSelectUser={setSelectedUser} />
       </div>
 
       {/* Chat Window on the right side */}
-      <div className="right-msg-container" >
+      <div className="right-msg-container">
         {selectedUser ? (
           <ChatWindow 
             selectedUser={selectedUser}
