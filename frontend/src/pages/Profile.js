@@ -24,10 +24,7 @@ const Profile = () => {
             profilePicture: data.profilePicture || "",
           });
         })
-        .catch((error) => {
-          console.error(error);
-          setProfile(null);
-        });
+        .catch(() => setProfile(null));
     }
   }, [user, isAuthenticated]);
 
@@ -37,14 +34,11 @@ const Profile = () => {
 
   const handleSave = async () => {
     const updatedProfile = { ...formData, email: user.email, auth0Id: user.sub };
-    const res = await fetch(
-      `http://localhost:5000/api/users/updateUser/${user.sub}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProfile),
-      }
-    );
+    const res = await fetch(`http://localhost:5000/api/users/updateUser/${user.sub}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedProfile),
+    });
     const data = await res.json();
     setProfile(data);
     setEditing(false);
@@ -56,152 +50,25 @@ const Profile = () => {
   return (
     <div className="main-container">
       <div className="box-container">
-        <div className="box1" style={{ 
-          borderRadius: "20px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "20px",
-          backgroundColor: "white",
-          position: "relative",
-          height: "100%",
-          flex: "1",
-        }}>
-          <img
-            src={profile.profilePicture || "/api/placeholder/128/128"}
-            alt="Profile"
-            style={{
-              width: "100%", // Make the image take up 100% of the width of the container
-              height: "auto", // Automatically adjust height to maintain aspect ratio
-              maxWidth: "250px", // Set a maximum width to keep it contained within the box
-              maxHeight: "250px", // Set a maximum height to prevent it from becoming too large
-              borderRadius: "15px",
-              objectFit: "cover", // Ensure the image doesn't stretch or distort
-              marginBottom: "15px"
-            }}
-          />
-          <h2 style={{ 
-            color: "#333",
-            fontSize: "1.2rem",
-            fontWeight: "500",
-            marginTop: "5px",
-            marginBottom: "10px"
-          }}>
-            {profile.username || "Username not set"}
-          </h2>
+        <div className="box1">
+          <img src={profile.profilePicture || "/api/placeholder/128/128"} alt="Profile" />
+          <h2>{profile.username || "Username not set"}</h2>
         </div>
-
-        <div className="box2" style={{ 
-          borderRadius: "20px",
-          padding: "30px",
-          backgroundColor: "white",
-          flex: "1",
-          height: "100%",
-        }}>
+        <div className="box2">
           {editing ? (
             <div>
-              <div style={{ marginBottom: "20px" }}>
-                <input
-                  name="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  placeholder="Username"
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    border: "1px solid #ddd",
-                    marginBottom: "15px",
-                  }}
-                />
-                <input
-                  name="age"
-                  type="number"
-                  value={formData.age}
-                  onChange={handleChange}
-                  placeholder="Age"
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    border: "1px solid #ddd",
-                    marginBottom: "15px",
-                  }}
-                />
-                <input
-                  name="profilePicture"
-                  value={formData.profilePicture}
-                  onChange={handleChange}
-                  placeholder="Profile Picture URL"
-                  style={{
-                    width: "100%",
-                    padding: "8px",
-                    borderRadius: "4px",
-                    border: "1px solid #ddd",
-                  }}
-                />
-              </div>
-              <div style={{ display: "flex", gap: "10px" }}>
-                <button
-                  onClick={handleSave}
-                  style={{
-                    flex: "1",
-                    padding: "8px",
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Save Changes
-                </button>
-                <button
-                  onClick={() => setEditing(false)}
-                  style={{
-                    flex: "1",
-                    padding: "8px",
-                    backgroundColor: "#f0f0f0",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
+              <input name="username" value={formData.username} onChange={handleChange} placeholder="Username" />
+              <input name="age" type="number" value={formData.age} onChange={handleChange} placeholder="Age" />
+              <input name="profilePicture" value={formData.profilePicture} onChange={handleChange} placeholder="Profile Picture URL" />
+              <button onClick={handleSave}>Save Changes</button>
+              <button onClick={() => setEditing(false)}>Cancel</button>
             </div>
           ) : (
             <div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                <div>
-                  <p style={{ color: "#666", marginBottom: "5px", fontSize: "0.9rem" }}>Email</p>
-                  <p style={{ color: "#333" }}>{profile.email}</p>
-                </div>
-                <div>
-                  <p style={{ color: "#666", marginBottom: "5px", fontSize: "0.9rem" }}>Age</p>
-                  <p style={{ color: "#333" }}>{profile.age}</p>
-                </div>
-                <div>
-                  <p style={{ color: "#666", marginBottom: "5px", fontSize: "0.9rem" }}>Member Since</p>
-                  <p style={{ color: "#333" }}>{new Date().toLocaleDateString()}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setEditing(true)}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  backgroundColor: "#4CAF50",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  marginTop: "20px"
-                }}
-              >
-                Edit Profile
-              </button>
+              <p>Email: {profile.email}</p>
+              <p>Age: {profile.age}</p>
+              <p>Member Since: {new Date().toLocaleDateString()}</p>
+              <button onClick={() => setEditing(true)}>Edit Profile</button>
             </div>
           )}
         </div>
