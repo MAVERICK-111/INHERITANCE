@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
 
+a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color from the parent */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+/* Modify hover color of links */
+a:hover {
+    color: #4CAF50; /* Change link color on hover */
+}
+
 .Landing_page {
     display: flex;
     height: 100vh;
@@ -218,7 +229,7 @@
     /* width: 400px; */
     justify-content: center;
     text-align: center;
-    color: white;
+    color:navy;
     border-radius: 35px;
 }
 
@@ -232,7 +243,7 @@
     height: 275px;
     justify-content: center;
     text-align: center;
-    color: white;
+    color:navy;
     border-radius: 20px;
 }
 

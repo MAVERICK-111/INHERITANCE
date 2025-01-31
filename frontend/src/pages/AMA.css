@@ -247,3 +247,32 @@ button[style*="color: red"]:hover {
   background-color: #f5c6cb;
   color: #c0392b;
 }
+
+/* Search bar */
+.ama-search-bar {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.ama-search-bar input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  text-align: center;
+}
+
+.ama-search-bar input:focus {
+  border-color: #4A90E2;
+}
+@media (max-width: 768px) {
+  .ama-search-bar input {
+    width: 90%;
+  }
+}

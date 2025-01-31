@@ -6,6 +6,7 @@ import "./chatwindow.css";
 const UserList = ({ onSelectUser }) => {
   const { user, isAuthenticated } = useAuth0();
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -15,13 +16,27 @@ const UserList = ({ onSelectUser }) => {
     }
   }, [user, isAuthenticated]);
 
+  const filteredUsers = users.filter((u) => {
+    const userNameOrEmail = u.username || u.email;
+    return userNameOrEmail.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   if (!isAuthenticated) return <p>Please log in</p>;
 
   return (
     <div className="user-list">
       <h2>Select a user to chat with:</h2>
+      {/* Search bar for filtering threads */}
+      <div className='user-search-bar'>
+            <input 
+              type="text" 
+              placeholder="Connect With..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+      </div>
       <ul>
-        {users.map((u) => (
+        {filteredUsers.map((u) => (
           <li key={u.auth0Id} onClick={() => onSelectUser(u)} style={{ cursor: "pointer" }}>
             {u.username || u.email}
           </li>
