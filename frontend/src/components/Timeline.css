@@ -5,7 +5,7 @@
     min-height: 100vh; /* Full height of the viewport */
     margin: 0; /* Remove any default margin */
     padding: 20px 0;
-    background-color: #111827; /* Full-screen black background */
+    background-color: transparent; /* Full-screen black background */
     box-sizing: border-box; /* Include padding in the width and height */
 }
 
@@ -45,7 +45,7 @@
 
 /* Card Content */
 .timeline-item .timeline-content {
-    background: #1e293b;
+    background: #4d81d4;
     border: 1px solid #61dafb;
     border-radius: 8px;
     padding: 20px;
@@ -89,19 +89,35 @@
 
 /* Text styling */
 .timeline-title {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    /* Larger for emphasis */
     font-weight: bold;
     color: #61dafb;
+    font-family: 'Poppins', sans-serif;
+    /* Modern, clean, and stylish */
+    letter-spacing: 1px;
+    /* Slight spacing for better readability */
 }
 
 .timeline-date {
-    font-size: 0.9rem;
-    color: #9ca3af;
+    font-size: 1.8rem;
+    /* Makes date stand out */
+    color: #b9d3ff;
+    font-family: 'Montserrat', sans-serif;
+    /* Sleek and elegant */
+    font-weight: 400;
+    font-style: italic;
+    /* Adds a subtle touch of style */
 }
 
 .timeline-description {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    /* Slightly larger for better readability */
     color: #d1d5db;
+    font-family: 'Inter', sans-serif;
+    /* Clean and highly readable */
+    line-height: 1.5;
+    /* Better text spacing */
 }
 
 /* Responsive adjustments */
