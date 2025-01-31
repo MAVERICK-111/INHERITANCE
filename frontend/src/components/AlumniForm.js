@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import "./AlumniForm.css";
+import './AlumniForm.css';
 
 const AlumniForm = () => {
   const [info, setInfo] = useState('');
   const [photo, setPhoto] = useState(null);
   const [alumniList, setAlumniList] = useState([]);
   const [message, setMessage] = useState('');
-  const [selectedAlumni, setSelectedAlumni] = useState(null); // For popup
+  const [selectedAlumni, setSelectedAlumni] = useState(null);
+  const [showModal, setShowModal] = useState(false); // Modal visibility state
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -37,6 +38,7 @@ const AlumniForm = () => {
         setAlumniList([...alumniList, { photo: response.data.photo, info }]);
         setInfo('');
         setPhoto(null);
+        setShowModal(false); // Close modal after successful submission
       } else {
         setMessage('Error saving alumni data');
       }
@@ -63,42 +65,61 @@ const AlumniForm = () => {
   }, []);
 
   // Function to open popup
-  const openPopup = (alumni) => {
-    setSelectedAlumni(alumni);
-  };
+  // const openPopup = (alumni) => {
+  //   setSelectedAlumni(alumni);
+  // };
 
   // Function to close popup
-  const closePopup = () => {
-    setSelectedAlumni(null);
+  // const closePopup = () => {
+  //   setSelectedAlumni(null);
+  // };
+
+  // Function to toggle modal visibility
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   return (
-    <div>
-      <div className='aluminiheader'>Alumni</div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Photo:</label>
-          <input type="file" onChange={handleFileChange} required />
-        </div>
-        <div>
-          <label>Info:</label>
-          <textarea value={info} onChange={handleInfoChange} required />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
+    <div className="alumni-container">
+      <div className="alum-header">
+        Alumni
+      </div>
+      <div className='open-modal-btn'>
+        <button   onClick={toggleModal}>Add Alumni</button>
+      </div>
 
-      {message && <p>{message}</p>}
+      {/* Modal for form */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={toggleModal}>&times;</span>
+            <h2>Add Alumni</h2>
+            <form onSubmit={handleSubmit}>
+              <div>
+                <label>Photo:</label>
+                <input type="file" onChange={handleFileChange} required />
+              </div>
+              <div>
+                <label>Info:</label>
+                <textarea value={info} onChange={handleInfoChange} required />
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+            {message && <p>{message}</p>}
+          </div>
+        </div>
+      )}
 
       <div className="alumni-box-container">
         {alumniList.map((alumni, index) => (
-          <div key={index} className="alumni-box" onClick={() => openPopup(alumni)}>
+          <div key={index} className="alumni-box">
             <img src={alumni.photo} alt="Alumni" />
             <p>{alumni.info}</p>
           </div>
         ))}
       </div>
 
-      {/* Popup Modal */}
+      {/* Popup Modal
       {selectedAlumni && (
         <div className="popup">
           <div className="popup-content">
@@ -107,7 +128,7 @@ const AlumniForm = () => {
             <p>{selectedAlumni.info}</p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
