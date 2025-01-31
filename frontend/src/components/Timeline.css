@@ -1,11 +1,15 @@
 /* Timeline container */
 .timeline-container {
     position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100vw; /* Full width of the viewport */
+    min-height: 100vh; /* Full height of the viewport */
+    margin: 0; /* Remove any default margin */
     padding: 20px 0;
-    background-color: #111827;
+    background-color: #111827; /* Full-screen black background */
+    box-sizing: border-box; /* Include padding in the width and height */
 }
+
+
 
 .timeline-container::after {
     content: '';

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Timeline from '../components/Timeline';
+import './Noticeboard.css'; // Import the CSS file for styling
 
 const Noticeboard = () => {
     const [notices, setNotices] = useState([]);
@@ -21,16 +22,16 @@ const Noticeboard = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                setNotices((prev) => [data, ...prev]); // Add the new notice to the list
+                setNotices((prev) => [data, ...prev]);
                 setNewNotice({ title: '', description: '', image: '' });
             })
             .catch((err) => console.error(err));
     };
 
     return (
-        <div>
-            <h1>Noticeboard</h1>
-            <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+        <div className="noticeboard-container">
+            <h1 className="noticeboard-title">Noticeboard</h1>
+            <form onSubmit={handleSubmit} className="notice-form">
                 <input
                     type="text"
                     placeholder="Title"
@@ -43,7 +44,7 @@ const Noticeboard = () => {
                     value={newNotice.description}
                     onChange={(e) => setNewNotice({ ...newNotice, description: e.target.value })}
                     required
-                />
+                ></textarea>
                 <input
                     type="text"
                     placeholder="Image URL (optional)"
