@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import io from 'socket.io-client';
 import axios from 'axios';
 import './AMA.css';
@@ -229,8 +230,17 @@ const AMA = () => {
               )}
               <div className='ama-thread-messages'>
                 {AMAmessages.map((AMAmessage, index) => (
+                  // <div key={index}>
+                  //   <p><strong>{AMAmessage.senderName}</strong> <span className="timestamp">({new Date(AMAmessage.timestamp).toLocaleString()})</span></p>
+                  //   <p>{AMAmessage.text}</p>
+                  // </div>
                   <div key={index}>
-                    <p><strong>{AMAmessage.senderName}</strong> <span className="timestamp">({new Date(AMAmessage.timestamp).toLocaleString()})</span></p>
+                    <p>
+                      <Link to={`/viewprofile/${AMAmessage.sender}`}>
+                        <strong>{AMAmessage.senderName}</strong>
+                      </Link>
+                      <span className="timestamp">({new Date(AMAmessage.timestamp).toLocaleString()})</span>
+                    </p>
                     <p>{AMAmessage.text}</p>
                   </div>
                 ))}

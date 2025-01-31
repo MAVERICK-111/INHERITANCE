@@ -13,6 +13,7 @@ import Messages from './pages/Messages';
 import Noticeboard from './pages/Noticeboard';
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
+import ViewProfile from "./pages/ViewProfile";
 
 //import { AuthButtons } from './components/AuthButtons';
 
@@ -40,7 +41,7 @@ function App() {
           {/* Protected Routes */}
           <Route path="/Homepage" element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-
+          <Route path="/viewprofile/:userId" element={<ProtectedRoute><ViewProfile /></ProtectedRoute>} />
           <Route path="/AMA" element={<ProtectedRoute><AMA /></ProtectedRoute>} />
           <Route path="/Hobbies" element={<ProtectedRoute><Hobbies /></ProtectedRoute>} />
           <Route path="/Alumni" element={<ProtectedRoute><Alumni /></ProtectedRoute>} /> {/* Alumni Page */}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import io from 'socket.io-client';
 import axios from 'axios';
 import './Hobbies.css';
@@ -191,8 +192,17 @@ const Hobbies = () => {
               <div className ="hob-h3"><h3>{Hobbythreads.find(thread => thread._id === selectedHobbythread)?.title}</h3></div>
               <div className='Thread-messages-hob'>
                 {Hobbymessages.map((Hobbymessage, index) => (
+                  // <div key={index}>
+                  //   <p><strong>{Hobbymessage.senderName}</strong><span className="timestamp">({new Date(Hobbymessage.timestamp).toLocaleString()})</span></p>
+                  //   <p>{Hobbymessage.text}</p>
+                  // </div>
                   <div key={index}>
-                    <p><strong>{Hobbymessage.senderName}</strong><span className="timestamp">({new Date(Hobbymessage.timestamp).toLocaleString()})</span></p>
+                    <p>
+                      <Link to={`/viewprofile/${Hobbymessage.sender}`}>
+                        <strong>{Hobbymessage.senderName}</strong>
+                      </Link>
+                      <span className="timestamp">({new Date(Hobbymessage.timestamp).toLocaleString()})</span>
+                    </p>
                     <p>{Hobbymessage.text}</p>
                   </div>
                 ))}

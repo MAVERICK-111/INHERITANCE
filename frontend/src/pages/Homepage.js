@@ -193,8 +193,13 @@ const Homepage = () => {
             <h3>All Posts</h3>
             {posts.map((post) => (
               <div key={post._id} className="Post">
+                {/* <div className="PostHeader">
+                  <p>By {usernames[post._id]}</p>
+                </div> */}
                 <div className="PostHeader">
-                  <p>By {usernames[post._id]}</p> {/* Display username */}
+                  <Link to={`/viewprofile/${post.auth0Id}`}>
+                    <strong>By {usernames[post._id]}</strong>
+                  </Link>
                 </div>
                 <div className="PostBody">
                   <img src={post.imageUrl} alt="Post" className="PostImage" />
