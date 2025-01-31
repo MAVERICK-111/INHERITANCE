@@ -1,10 +1,21 @@
 const Post = require('../models/Post');
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('../config/cloudinary'); // Cloudinary configuration
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const User = require('../models/User');
 
+// Cloudinary Storage Configuration (for Cloudinary upload)
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'posts', // Folder in Cloudinary where images will be stored
+        allowedFormats: ['jpg', 'jpeg', 'png'],
+    },
+});
+const upload = multer({ storage: storage }).single('image');
 //Multer storage configuration
-const storage = multer.diskStorage({
+const localStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
     },
@@ -14,13 +25,37 @@ const storage = multer.diskStorage({
 });
 
 // Initialize Multer
-const upload = multer({ storage: storage }).single('image');
+const localUpload = multer({ storage: storage }).single('image');
+
 exports.createPost = async (req, res) => {
     upload(req, res, async (err) => {
-        if (err) {
-            return res.status(500).json({ message: 'Error uploading image', error: err });
-        }
+        if (err) { // fallback
+            console.log('Cloudinary upload failed, using local storage:', err);
+            return localUpload(req, res, async(localErr) => {
+                if(localErr) {
+                    return res.status(500).json({message: "Error uploading image", error:localErr});
+                }
+                const { caption, auth0Id } = req.body;
+                const image = req.file;
 
+                if (!caption || !image || !auth0Id) {
+                    return res.status(400).json({ message: 'Please provide caption, image, and auth0Id.' });
+                }
+
+                try {
+                    const newPost = new Post({
+                        caption,
+                        imageUrl: `http://localhost:5000/uploads/${image.filename}`,
+                        auth0Id,
+                    });
+
+                    await newPost.save();
+                    res.status(201).json({ message: 'Post created successfully', post: newPost });
+                } catch (error) {
+                    res.status(500).json({ message: 'Server error', error });
+                }
+            });
+        }
         const { caption, auth0Id } = req.body;
         const image = req.file;
 
@@ -31,7 +66,7 @@ exports.createPost = async (req, res) => {
         try {
             const newPost = new Post({
                 caption,
-                imageUrl: `http://localhost:5000/uploads/${image.filename}`,
+                imageUrl: image.path,
                 auth0Id,
             });
 
