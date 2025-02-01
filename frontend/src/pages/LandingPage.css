@@ -31,7 +31,8 @@
   margin-top: 20px;
   text-align: center;
   padding: 0;
-  background: none; /* Ensure no background */
+  background: none; 
+  color:white;
 }
 
 .landingheader a {
@@ -42,11 +43,11 @@
 }
 
 .landingheader a:hover {
-  text-decoration: underline; /* Optional, if you want to underline on hover */
+  color: #4893d8;
 }
 
 .landingheader a + a {
-  margin-left: 10px; /* Optional, to add spacing between "||" and the second link */
+  margin-left: 10px; 
 }
 
 .mainbox {
@@ -56,9 +57,15 @@
   width: 100%;
 }
 
-.logobox {
-  height: 200px;
+.logobox2345 {
+  /* height: 35vh; */
   width: 100%;
+}
+.tagline{
+  display: flex;
+  align-items: center;
+  color:rgb(145, 144, 144);
+
 }
 
 .loginbox {
@@ -68,30 +75,28 @@
   border-radius: 100px;
 }
 
-/* Horizontal Scrollable Image Container */
 .image-scroll-container {
   display: flex;
-  gap: 15px;
+  gap: 25px;
   width: 100%;
   overflow: hidden; /* Hide scrollbar */
 }
 
 .scroll-images {
   display: flex;
-  gap: 15px;
+  gap: 25px;
   width: max-content;
   flex-shrink: 0;
 }
 
 /* Scrollable Images */
 .scroll-image {
-  height: 150px;
+  height: 250px;
   width: auto;
   border-radius: 8px;
   flex-shrink: 0;
 }
 
-/* Remove scrollbar */
 .image-scroll-container::-webkit-scrollbar {
   display: none;
 }
@@ -117,4 +122,113 @@
   margin-top: 20px;
   font-size: 1.1rem;
   color: #333;
+}
+
+
+.contact-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  /* Slightly darker background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: #57bbe7 ;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: center;
+  animation: popIn 0.4s ease-out;
+}
+
+.modal1-content {
+  background: #57bbe7!important;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: center;
+  animation: popIn 0.4s ease-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: #ff6347;
+  /* Tomato red color for the close button */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #d9534f;
+  /* Darker red when hovered */
+}
+
+h2 {
+  font-family: 'Arial', sans-serif;
+  color: #ffffff;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  color: #ffffff;
+  font-size: 15px;
+  margin: 8px 0;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #dbdedb;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

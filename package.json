@@ -6,7 +6,7 @@
         "start": "concurrently \"npm run start-api\" \"npm run start-frontend\"",
         "start-api": "npm --prefix ./api start",
         "start-frontend": "npm --prefix ./frontend start",
-        "install-all": "npm install --prefix ./api && npm install --prefix ./frontend",
+        "install-all": "npm install && npm install --prefix ./api && npm install --prefix ./frontend",
         "dev": "concurrently \"npm run dev-api\" \"npm run dev-frontend\"",
         "dev-api": "npm --prefix ./api run dev",
         "dev-frontend": "npm --prefix ./frontend run dev"

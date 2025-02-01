@@ -57,11 +57,15 @@ const ContactUsModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="contact-modal">
-      <div className="modal-content">
+      <div className="modal1-content">
         <h2>Contact Us</h2>
-        <p><a href="https://github.com/yashogale30" target="_blank" rel="noopener noreferrer">YASH OGALE</a></p>
-        <p><a href="https://github.com/MAVERICK-111" target="_blank" rel="noopener noreferrer">PIYUSH PATIL</a></p>
-        <p><a href="https://github.com/harshogale04" target="_blank" rel="noopener noreferrer">HARSH OGALE</a></p>
+        
+        <a href="https://www.linkedin.com/in/yash-ogale-03a30b2aa/" target="_blank" rel="noopener noreferrer"><p>Yash Ogale</p></a>
+        <a href="https://www.linkedin.com/in/piyush-patil-1a7b64303/" target="_blank" rel="noopener noreferrer"><p>Piyush Patil</p></a>
+        <a href="https://www.linkedin.com/in/harshogale04/" target="_blank" rel="noopener noreferrer"><p>Harsh Ogale</p></a>
+        <a><p>Atharva Purushe</p></a>
+
+
         <button onClick={onClose}>Close</button>
       </div>
     </div>
@@ -86,22 +90,24 @@ const LandingPage = () => {
   // Handle mouse wheel scroll horizontally
   const handleWheel = (event) => {
     if (imageScrollContainerRef.current) {
-      const scrollAmount = event.deltaY > 0 ? 100 : -100; // Scroll right if wheel is scrolled down, left if up
-      imageScrollContainerRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
+      event.preventDefault(); // Prevent the default scrolling behavior
 
-      // Check if scroll reached the end or the beginning
-      const scrollLeft = imageScrollContainerRef.current.scrollLeft;
-      const maxScrollLeft = imageScrollContainerRef.current.scrollWidth - imageScrollContainerRef.current.clientWidth;
+      const scrollAmount = event.deltaY > 0 ? 100 : -100; // Scroll right for deltaY > 0, left otherwise
+      let scrollLeft = imageScrollContainerRef.current.scrollLeft;
+      scrollLeft += scrollAmount;
 
-      // Reset scroll position when reaching the end or beginning
-      if (scrollLeft >= maxScrollLeft) {
-        imageScrollContainerRef.current.scrollLeft = 0;
-      } else if (scrollLeft <= 0) {
-        imageScrollContainerRef.current.scrollLeft = maxScrollLeft;
-      }
+      // Animate the scrolling effect for smoother transition
+      const animateScroll = () => {
+        imageScrollContainerRef.current.scrollLeft = scrollLeft;
+        if (scrollLeft >= imageScrollContainerRef.current.scrollWidth) {
+          imageScrollContainerRef.current.scrollLeft = 0; // Loop back to start
+        } else if (scrollLeft <= 0) {
+          imageScrollContainerRef.current.scrollLeft = imageScrollContainerRef.current.scrollWidth; // Loop back to end
+        }
+      };
+
+      // Use requestAnimationFrame for smoother animation
+      requestAnimationFrame(animateScroll);
     }
   };
 
@@ -114,6 +120,9 @@ const LandingPage = () => {
     setContactModalOpen(false);
   };
 
+  // Images array for dynamic scrolling
+  const images = [one, two, three, four, five, six];
+
   return (
     <Auth0Provider
       domain={domain}
@@ -124,18 +133,19 @@ const LandingPage = () => {
     >
       <div className="landingpage">
         <div className="top">
-        <div className="landingheader">
-          <h2>
-            <a href="https://github.com/MAVERICK-111/INHERITANCE" target="_blank" rel="noopener noreferrer">
-              ABOUT US
-            </a> || 
-            <a href="#" onClick={handleContactUsClick}>
-              CONTACT US
-            </a>
-          </h2>
-        </div>
+          <div className="landingheader">
+            <h2>
+              <a href="https://github.com/MAVERICK-111/INHERITANCE" target="_blank" rel="noopener noreferrer">
+                ABOUT US
+              </a> | 
+              <a href="#" onClick={handleContactUsClick}>
+                CONTACT US
+              </a>
+            </h2>
+          </div>
           <div className="mainbox">
             <div className="logobox2345"><img src={logo1} alt="College Logo" className="scroll-image" /></div>
+            <div className="tagline"> <i>Connecting Students, Empowering Futures.</i></div>
             <div className="loginbox">
               {!isAuthenticated ? (
                 <LoginButton />
@@ -153,24 +163,19 @@ const LandingPage = () => {
             className="image-scroll-container"
             ref={imageScrollContainerRef}
             onWheel={handleWheel}
+            style={{ overflowX: "auto", display: "flex", scrollBehavior: "smooth" }}
           >
-            {/* Duplicating images to create the loop effect */}
+            {/* Dynamically create the scrollable images */}
             <div className="scroll-images">
-              <img src={one} alt="College Logo" className="scroll-image" />
-              <img src={two} alt="College Logo" className="scroll-image" />
-              <img src={three} alt="College Logo" className="scroll-image" />
-              <img src={four} alt="College Logo" className="scroll-image" />
-              <img src={five} alt="College Logo" className="scroll-image" />
-              <img src={six} alt="College Logo" className="scroll-image" />
+              {images.map((image, index) => (
+                <img key={index} src={image} alt={`College Logo ${index + 1}`} className="scroll-image" />
+              ))}
             </div>
             {/* Duplicating the same set to create the loop effect */}
             <div className="scroll-images">
-              <img src={one} alt="College Logo" className="scroll-image" />
-              <img src={two} alt="College Logo" className="scroll-image" />
-              <img src={three} alt="College Logo" className="scroll-image" />
-              <img src={four} alt="College Logo" className="scroll-image" />
-              <img src={five} alt="College Logo" className="scroll-image" />
-              <img src={six} alt="College Logo" className="scroll-image" />
+              {images.map((image, index) => (
+                <img key={index + 6} src={image} alt={`College Logo ${index + 1}`} className="scroll-image" />
+              ))}
             </div>
           </div>
         </div>
