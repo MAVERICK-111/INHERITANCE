@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css'; 
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import logo from './LOGO2.jpg';
+import logo from './logo-transparent.png';
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
