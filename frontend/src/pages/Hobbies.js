@@ -5,7 +5,7 @@ import axios from 'axios';
 import './Hobbies.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
-const socket = io('http://localhost:5000');
+const socket = io(`${process.env.REACT_APP_BACKEND_URL}`);
 
 const Hobbies = () => {
   const { user } = useAuth0();
@@ -23,7 +23,7 @@ const Hobbies = () => {
     const fetchUsername = async () => {
       if (user?.sub) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/users/getUsername/${user.sub}`);
+          const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/getUsername/${user.sub}`);
           setUsername(response.data.username);  // Assuming the response has a 'username' field
         } catch (error) {
           console.error('Error fetching username:', error);
@@ -38,7 +38,7 @@ const Hobbies = () => {
 
   // Get Hobby threads
   useEffect(() => {
-    axios.get('http://localhost:5000/api/getHobbyThreads')
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/getHobbyThreads`)
       .then(response => {
         setHobbythreads(response.data.Hobbythreads);
       })
@@ -53,7 +53,7 @@ const Hobbies = () => {
     setSelectedHobbythread(HobbythreadId);
 
     // Get Hobby messages for the selected thread
-    axios.get(`http://localhost:5000/api/getHobbyMessages/${HobbythreadId}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/getHobbyMessages/${HobbythreadId}`)
       .then(response => {
         setHobbymessages(response.data.Hobbymessages);
       })
@@ -70,7 +70,7 @@ const Hobbies = () => {
     }
     const creatorName = username || 'Unknown';
     try {
-      const response = await axios.post('http://localhost:5000/api/createHobbyThread', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/createHobbyThread`, {
         title: newHobbythreadTitle,
         creator: newHobbythreadCreator,
         creatorName: creatorName,
@@ -103,7 +103,7 @@ const Hobbies = () => {
     ]);
 
     // Send message to backend
-    axios.post('http://localhost:5000/api/sendHobbymessage', HobbyMessageData)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/sendHobbymessage`, HobbyMessageData)
       .then(response => {
         setNewHobbyMessage('');
       })

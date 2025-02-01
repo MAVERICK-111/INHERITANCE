@@ -6,7 +6,7 @@ import './AMA.css';
 import { useAuth0 } from "@auth0/auth0-react";
 
 
-const socket = io('http://localhost:5000');  // Socket.io server URL
+const socket = io(`${process.env.REACT_APP_BACKEND_URL}`);  // Socket.io server URL
 
 const AMA = () => {
   const { user } = useAuth0();
@@ -21,7 +21,7 @@ const AMA = () => {
 
   const getUsername = async (auth0Id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/users/getUsername/${auth0Id}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/getUsername/${auth0Id}`);
       setUsername(response.data.username);
     } catch (error) {
       console.error('Error fetching username:', error);
@@ -36,7 +36,7 @@ const AMA = () => {
 
   // Fetch existing AMA threads from the backend
   useEffect(() => {
-    axios.get('http://localhost:5000/api/getAMAThreads')
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/getAMAThreads`)
       .then(response => {
         setAMAthreads(response.data.AMAthreads);
       })
@@ -51,7 +51,7 @@ const AMA = () => {
     setSelectedAMAthread(AMAthreadId);
 
     // Fetch existing AMA messages for the AMA thread
-    axios.get(`http://localhost:5000/api/getAMAMessages/${AMAthreadId}`)
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/getAMAMessages/${AMAthreadId}`)
       .then(response => {
         setAMAmessages(response.data.AMAmessages);
       })
@@ -71,7 +71,7 @@ const AMA = () => {
     const creatorName = username || 'Unknown';
   
     try {
-      const response = await axios.post('http://localhost:5000/api/createAMAThread', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/createAMAThread`, {
         title: newAMAthreadTitle,
         creator: newAMAthreadCreator,
         creatorName: creatorName,  // Pass creatorName correctly
@@ -94,7 +94,7 @@ const AMA = () => {
       return;
     }
 
-    axios.delete(`http://localhost:5000/api/deleteAMAThread/${AMAthreadId}`, {
+    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/deleteAMAThread/${AMAthreadId}`, {
       data: { userSub: user?.sub } // Send user's sub to verify
     })
     .then(response => {
@@ -129,7 +129,7 @@ const AMA = () => {
     ]);
 
     // Send the message to the backend
-    axios.post('http://localhost:5000/api/sendAMAmessage', AMAMessageData)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/sendAMAmessage`, AMAMessageData)
       .then(response => {
         setNewAMAMessage('');  // Clear the input field after sending
       })

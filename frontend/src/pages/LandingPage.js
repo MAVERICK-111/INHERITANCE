@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
-import logo from "./vjti_logo.png";
+//import logo from "./vjti_logo.png";
 import logo1 from "./LOGO2.jpg";
 import one from "./1 (1).png";
 import two from "./1 (2).png";
@@ -59,10 +59,9 @@ const ContactUsModal = ({ isOpen, onClose }) => {
     <div className="contact-modal">
       <div className="modal-content">
         <h2>Contact Us</h2>
-        <p>YASH OGALE</p>
-        <p>PIYUSH PATIL</p>
-        <p>HARSH OGALE</p>
-        <p>ATHARVA PURUSHE</p>
+        <p><a href="https://github.com/yashogale30" target="_blank" rel="noopener noreferrer">YASH OGALE</a></p>
+        <p><a href="https://github.com/MAVERICK-111" target="_blank" rel="noopener noreferrer">PIYUSH PATIL</a></p>
+        <p><a href="https://github.com/harshogale04" target="_blank" rel="noopener noreferrer">HARSH OGALE</a></p>
         <button onClick={onClose}>Close</button>
       </div>
     </div>
@@ -70,8 +69,8 @@ const ContactUsModal = ({ isOpen, onClose }) => {
 };
 
 const LandingPage = () => {
-  const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com"; // Replace with your Auth0 domain
-  const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz"; // Replace with your actual Auth0 client ID
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const clientId = process.env.REACT_APP_AUTH0_CLIENTID;
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth0();
   const imageScrollContainerRef = useRef(null);

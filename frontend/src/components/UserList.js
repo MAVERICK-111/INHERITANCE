@@ -10,7 +10,7 @@ const UserList = ({ onSelectUser }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      axios.get(`http://localhost:5000/api/users/getAllUsers/${user.sub}`)
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/getAllUsers/${user.sub}`)
         .then((res) => setUsers(res.data))
         .catch((error) => console.error("Error fetching users:", error));
     }

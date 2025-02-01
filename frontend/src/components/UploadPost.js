@@ -23,7 +23,7 @@ const UploadPost = () => {
 
         try {
             // Assuming your backend accepts the image via a POST route
-            const response = await axios.post('http://localhost:5000/api/posts', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

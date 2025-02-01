@@ -14,7 +14,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetch(`http://localhost:5000/api/users/getUser/${user.sub}`)
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/getUser/${user.sub}`)
         .then((res) => res.json())
         .then((data) => {
           setProfile(data);
@@ -34,7 +34,7 @@ const Profile = () => {
 
   const handleSave = async () => {
     const updatedProfile = { ...formData, email: user.email, auth0Id: user.sub };
-    const res = await fetch(`http://localhost:5000/api/users/updateUser/${user.sub}`, {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/updateUser/${user.sub}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedProfile),

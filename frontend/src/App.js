@@ -17,8 +17,8 @@ import ViewProfile from "./pages/ViewProfile";
 
 //import { AuthButtons } from './components/AuthButtons';
 
-const domain = "dev-ucsp4ge1ss5vocyz.us.auth0.com";
-const clientId = "W1Rcqbhv7XDLggkVn8K6Po4aJUHTqVCz";
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId = process.env.REACT_APP_AUTH0_CLIENTID;
 
 function App() {
   const location = useLocation();

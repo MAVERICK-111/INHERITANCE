@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Timeline from '../components/Timeline';
-import './Noticeboard.css'; // Import the CSS file for styling
+import './Noticeboard.css';
 import logo from './vjti_logo.png';
 
 const Noticeboard = () => {
     const [notices, setNotices] = useState([]);
     const [newNotice, setNewNotice] = useState({ title: '', description: '', image: '' });
-    const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
     useEffect(() => {
-        fetch('http://localhost:5000/api/notices')
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/notices`)
             .then((res) => res.json())
             .then((data) => setNotices(data))
             .catch((err) => console.error(err));
@@ -17,7 +16,7 @@ const Noticeboard = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:5000/api/notices', {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/notices`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newNotice),
@@ -26,7 +25,7 @@ const Noticeboard = () => {
             .then((data) => {
                 setNotices((prev) => [data, ...prev]);
                 setNewNotice({ title: '', description: '', image: '' });
-                setIsModalOpen(false); // Close the modal after submission
+                setIsModalOpen(false);
             })
             .catch((err) => console.error(err));
     };
@@ -74,7 +73,6 @@ const Noticeboard = () => {
                     </div>
                 </div>
             )}
-
             <Timeline notices={notices} />
         </div>
     );

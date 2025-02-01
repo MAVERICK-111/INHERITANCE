@@ -7,8 +7,8 @@ const AlumniForm = () => {
   const [photo, setPhoto] = useState(null);
   const [alumniList, setAlumniList] = useState([]);
   const [message, setMessage] = useState('');
-  const [selectedAlumni, setSelectedAlumni] = useState(null);
-  const [showModal, setShowModal] = useState(false); // Modal visibility state
+  //const [selectedAlumni, setSelectedAlumni] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -29,7 +29,7 @@ const AlumniForm = () => {
     formData.append('photo', photo);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/alumni', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -38,7 +38,7 @@ const AlumniForm = () => {
         setAlumniList([...alumniList, { photo: response.data.photo, info }]);
         setInfo('');
         setPhoto(null);
-        setShowModal(false); // Close modal after successful submission
+        setShowModal(false);
       } else {
         setMessage('Error saving alumni data');
       }
@@ -50,7 +50,7 @@ const AlumniForm = () => {
   useEffect(() => {
     const fetchAlumni = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/alumni');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/alumni`);
         if (response.data.success) {
           setAlumniList(response.data.alumni);
         } else {

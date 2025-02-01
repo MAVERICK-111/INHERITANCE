@@ -13,7 +13,7 @@ const Messages = () => {
 
   useEffect(() => {
     if (isAuthenticated && selectedUser) {
-      axios.get(`http://localhost:5000/api/messages/get/${user.sub}/${selectedUser.auth0Id}`)
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/messages/get/${user.sub}/${selectedUser.auth0Id}`)
         .then((res) => setMessages(res.data))
         .catch((error) => console.error("Error fetching messages:", error));
     }
@@ -23,7 +23,7 @@ const Messages = () => {
     if (!messageText.trim()) return;
 
     try {
-      const { data } = await axios.post("http://localhost:5000/api/messages/send", {
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/messages/send`, {
         senderId: user.sub,
         receiverId: selectedUser.auth0Id,
         message: messageText,

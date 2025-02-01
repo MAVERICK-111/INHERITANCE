@@ -19,12 +19,12 @@ const Homepage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/posts');
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts`);
         setPosts(response.data);
 
         const usernamesData = {};
         for (const post of response.data) {
-          const usernameResponse = await axios.get(`http://localhost:5000/api/users/getUsername/${post.auth0Id}`);
+          const usernameResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/getUsername/${post.auth0Id}`);
           usernamesData[post._id] = usernameResponse.data.username;
         }
         setUsernames(usernamesData);
@@ -55,13 +55,13 @@ const Homepage = () => {
     formData.append('auth0Id', user.sub);
   
     try {
-      const response = await axios.post('http://localhost:5000/api/posts', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      const postsResponse = await axios.get('http://localhost:5000/api/posts');
+      const postsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts`);
       setPosts(postsResponse.data);
       const newPost = response.data.post;
-      const usernameResponse = await axios.get(`http://localhost:5000/api/users/getUsername/${newPost.auth0Id}`);
+      const usernameResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/getUsername/${newPost.auth0Id}`);
       setUsernames((prevUsernames) => ({
         ...prevUsernames,
         [newPost._id]: usernameResponse.data.username,
@@ -96,7 +96,7 @@ const Homepage = () => {
       return newPosts;
     });
     try {
-      await axios.patch(`http://localhost:5000/api/posts/${postId}/like`, { auth0Id });
+      await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${postId}/like`, { auth0Id });
     } catch (error) {
       console.error('Error liking/unliking the post:', error);
       alert('An error occurred while updating the like.');

@@ -5,12 +5,12 @@ import axios from 'axios';
 import './Profile.css';
 
 const ViewProfile = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const { userId } = useParams();
   const [profile, setProfile] = useState(null);
   useEffect(() => {
     if (isAuthenticated) {
-      axios.get(`http://localhost:5000/api/users/getUser/${userId}`)
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/users/getUser/${userId}`)
         .then((res) => {
           setProfile(res.data);
         })

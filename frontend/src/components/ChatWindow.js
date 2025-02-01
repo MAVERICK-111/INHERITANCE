@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import axios from "axios";
 import "./chatwindow.css";
 
-const socket = io("http://localhost:5000");
+const socket = io(`${process.env.REACT_APP_BACKEND_URL}`);
 
 const ChatWindow = ({ selectedUser }) => {
   const { user } = useAuth0();
@@ -15,7 +15,7 @@ const ChatWindow = ({ selectedUser }) => {
   useEffect(() => {
     if (user && selectedUser) {
       axios
-        .get(`http://localhost:5000/api/messages/get/${user.sub}/${selectedUser.auth0Id}`)
+        .get(`${process.env.REACT_APP_BACKEND_URL}/api/messages/get/${user.sub}/${selectedUser.auth0Id}`)
         .then((res) => setMessages(res.data))
         .catch((error) => console.error("Error fetching messages:", error));
     }
@@ -24,7 +24,7 @@ const ChatWindow = ({ selectedUser }) => {
       socket.emit("join", user.sub);
 
       socket.on("receiveMessage", (newMessage) => {
-        setMessages((prev) => [...prev, newMessage]); // Add received message
+        setMessages((prev) => [...prev, newMessage]);
       });
 
       return () => {
@@ -39,11 +39,11 @@ const ChatWindow = ({ selectedUser }) => {
     const newMessage = { senderId: user.sub, receiverId: selectedUser.auth0Id, message: messageText };
 
     try {
-      const { data } = await axios.post("http://localhost:5000/api/messages/send", newMessage); // Save message in DB
-      socket.emit("sendMessage", newMessage); // Emit to socket
+      const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/messages/send`, newMessage);
+      socket.emit("sendMessage", newMessage);
 
-      setMessages([...messages, data]); // Update the UI with the new message
-      setMessageText(""); // Reset input field
+      setMessages([...messages, data]);
+      setMessageText("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
