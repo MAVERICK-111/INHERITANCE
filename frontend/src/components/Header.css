@@ -19,7 +19,8 @@
   }
   
   .logo-image {
-    width: 50px;
+    margin-top: 2.5vw;
+    width: 16vh;
     height: auto;
     cursor: pointer;
     transition: transform 0.3s ease;
