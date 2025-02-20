@@ -1,11 +1,9 @@
 <h1 align="center">
-  <a href="https://github.com/CommunityOfCoders/Inheritance-2024">
-    <img src="./Untitled.png" alt="CoC Inheritance 2024" width="500" height="166">
-  </a>
-  <br>
-  <div style="display: inline-flex; align-items: center; gap: 10px;">
-    <img src="https://i.postimg.cc/GmvR1w0L/final-transparent-image.png" alt="VJTI QUADSPACE" width="100" height="100">
-  </div>
+  
+    
+  
+ 
+
   <span style="font-size: 32px; font-weight: bold;">VJTI QUADSPACE</span>
 </h1>
 
